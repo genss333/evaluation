@@ -1,3 +1,5 @@
+import { User } from "@/models/user";
+import { Role } from "@/models/user-role";
 import { JWTPayload, jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
@@ -30,6 +32,7 @@ export async function POST(req: NextRequest) {
       id: "1234",
       email: "user@example.com",
       name: "Test User",
+      role: Role.ESS,
     };
 
     const accessToken = await createToken(userPayload, "15m");
@@ -76,13 +79,15 @@ export async function PATCH() {
   }
 
   try {
-    const { payload } = await jwtVerify(refreshToken.value, secretKey);
+    const { payload } = await jwtVerify<User>(refreshToken.value, secretKey);
 
     const userPayload = {
       id: payload.id,
       email: payload.email,
       name: payload.name,
+      role: payload.role,
     };
+
     const newAccessToken = await createToken(userPayload, "15m");
 
     const newRefreshToken = await createToken({ id: userPayload.id }, "7d");

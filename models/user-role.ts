@@ -3,6 +3,6 @@ export interface UserRole {
 }
 
 export enum Role {
-  ESS = "ess",
-  MSS = "mss",
+  ESS = "ESS",
+  MSS = "MSS",
 }
