@@ -1,6 +1,6 @@
-import AppNavbar from "@/components/navbar/app-navbar";
 import { AppSidebar } from "@/components/sidebar/app-sidebar";
-import { SidebarProvider } from "@/components/ui/sidebar";
+import { SiteHeader } from "@/components/sidebar/site-header";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export default function HomeLayout({
   children,
@@ -8,15 +8,12 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider
-      defaultOpen
-      className="bg-gradient-to-r from-red-400 to-w-100"
-    >
+    <SidebarProvider defaultOpen>
       <AppSidebar />
-      <main>
-        <AppNavbar />
+      <SidebarInset className="bg-sidebar-gradient">
+        <SiteHeader />
         {children}
-      </main>
+      </SidebarInset>
     </SidebarProvider>
   );
 }

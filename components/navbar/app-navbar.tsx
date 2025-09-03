@@ -1,17 +1,11 @@
 import Flex from "../layout/flex";
-import { SidebarTrigger } from "../ui/sidebar";
 
 const AppNavbar = () => {
   return (
-    <div className="w-full">
-      <Flex justify="between" align="center">
-        <SidebarTrigger />
-        <Flex>
-          <div>item1</div>
-          <div>item2</div>
-        </Flex>
-      </Flex>
-    </div>
+    <Flex justify="between" align="center" gap={2} className="mr-10">
+      <div>item1</div>
+      <div>item2</div>
+    </Flex>
   );
 };
 
