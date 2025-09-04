@@ -1,6 +1,7 @@
 import Container from "@/components/layout/container";
 import Flex from "@/components/layout/flex";
 import { TextField } from "@/components/ui/input";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { Fragment, ReactNode } from "react";
 import ProbationStep from "./probation-setep";
@@ -149,6 +150,16 @@ const ProbationDetail = () => {
           </ProbationGroupCard>
         </div>
       </Container>
+      <Tabs defaultValue="kpi" className="mx-4 mb-4">
+        <TabsList className="bg-transparent">
+          <TabsTrigger value="kpi">KPI</TabsTrigger>
+          <TabsTrigger value="competency">Competency</TabsTrigger>
+        </TabsList>
+        <TabsContent value="kpi">
+          Make changes to your account here.
+        </TabsContent>
+        <TabsContent value="competency">Change your password here.</TabsContent>
+      </Tabs>
     </Container>
   );
 };
