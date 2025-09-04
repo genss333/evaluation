@@ -16,10 +16,10 @@ export interface ProbationGrade {
 }
 
 export interface ProbationStep {
-  title: string;
-  desc: string;
+  title?: string;
+  desc?: string;
   status: "1" | "P" | "LP" | "R" | "A";
-  dateTime: Date;
+  dateTime?: Date | null;
 }
 
 export interface ProbationModel {

@@ -16,7 +16,9 @@ const ProbationTitleItem = ({
 }: ProbationTitleItemProps) => {
   return (
     <Flex justify={"around"} align={"center"}>
-      <div className="font-body2 w-full lg:max-w-[200px]">{title}</div>
+      <div className="font-body2 text-semi-black w-full lg:max-w-[200px]">
+        {title}
+      </div>
       <TextField
         className="font-body3 text-button-grey bg-accent-grey h-8 rounded-[10px]"
         placeholder={value}
