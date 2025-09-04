@@ -13,7 +13,9 @@ const TitleStep = ({ title, desc }: TitleStepProps) => {
 };
 
 const ProbationStep = () => {
-  return <div></div>;
+  return <Flex direction={"col"}>
+    
+  </Flex>;
 };
 
 export default ProbationStep;

@@ -6,9 +6,14 @@ import { ChevronDown } from "lucide-react";
 interface ProbationTitleItemProps {
   title: string;
   value: string;
+  disabled?: boolean;
 }
 
-const ProbationTitleItem = ({ title, value }: ProbationTitleItemProps) => {
+const ProbationTitleItem = ({
+  title,
+  value,
+  disabled = true,
+}: ProbationTitleItemProps) => {
   return (
     <Flex justify={"around"} align={"center"}>
       <div className="font-body2 w-full lg:max-w-[200px]">{title}</div>
@@ -29,6 +34,7 @@ const ProbationTitle = () => {
         <ProbationTitleItem
           title="แบบฟอร์มการประเมิน"
           value="แบบประเมินหัวหน้างานประจำปี 2568"
+          disabled={false}
         />
         <ProbationTitleItem
           title="หัวหน้าผู้ประเมิน"
