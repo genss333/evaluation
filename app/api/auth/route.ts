@@ -1,4 +1,3 @@
-import { User } from "@/models/user";
 import { Role } from "@/models/user-role";
 import { JWTPayload, jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
@@ -46,7 +45,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 15,
+      maxAge: 60 * 1,
     });
 
     cookieStore.set("refresh_token", refreshToken, {
@@ -79,7 +78,7 @@ export async function PATCH() {
   }
 
   try {
-    const { payload } = await jwtVerify<User>(refreshToken.value, secretKey);
+    const { payload } = await jwtVerify(refreshToken.value, secretKey);
 
     const userPayload = {
       id: payload.id,
@@ -97,7 +96,7 @@ export async function PATCH() {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 15,
+      maxAge: 60 * 1,
     });
 
     cookieStore.set("refresh_token", newRefreshToken, {

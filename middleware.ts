@@ -1,12 +1,13 @@
 import { jwtVerify } from "jose";
 import { NextRequest, NextResponse } from "next/server";
+import { Method } from "./lib/api-client";
 
 // --- Configuration ---
 const setupConfig = {
   locales: ["en", "th"],
   defaultLocale: "en",
   secretKey: new TextEncoder().encode(process.env.JWT_SECRET_KEY),
-  protectedPaths: ["/home", "/probation"],
+  protectedPaths: ["/home"],
 };
 
 // --- Helper Functions ---
@@ -35,6 +36,30 @@ function handleLocaleRedirect(request: NextRequest): NextResponse | null {
   return null;
 }
 
+async function refreshToken(
+  request: NextRequest
+): Promise<NextResponse | null> {
+  try {
+    const response = await fetch(new URL("/api/auth", request.url), {
+      method: Method.PATCH,
+    });
+
+    if (response.ok) {
+      const newAccessToken = request.cookies.get("access_token")?.value;
+      if (newAccessToken) {
+        await jwtVerify(newAccessToken, setupConfig.secretKey);
+
+        const nextResponse = NextResponse.next();
+
+        return nextResponse;
+      }
+    }
+  } catch (refreshError) {
+    console.error("Token refresh failed:", refreshError);
+  }
+  return null;
+}
+
 async function handleSessionVerification(
   request: NextRequest
 ): Promise<NextResponse> {
@@ -55,6 +80,20 @@ async function handleSessionVerification(
       return NextResponse.next();
     } catch (error) {
       console.error("Access token verification failed:", error);
+
+      const isJwtExpiredError =
+        typeof error === "object" &&
+        error !== null &&
+        "code" in error &&
+        (error as { code?: string }).code === "ERR_JWT_EXPIRED";
+
+      if (isJwtExpiredError) {
+        const response = await refreshToken(request);
+        if (response) {
+          return response;
+        }
+      }
+
       return NextResponse.redirect(loginUrl);
     }
   }

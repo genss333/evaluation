@@ -10,7 +10,7 @@ export default function HomeLayout({
   return (
     <SidebarProvider defaultOpen>
       <AppSidebar />
-      <SidebarInset className="bg-sidebar-gradient">
+      <SidebarInset className="bg-background-secondary">
         <SiteHeader />
         {children}
       </SidebarInset>

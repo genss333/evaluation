@@ -1,3 +1,4 @@
+import ProbationLayout from "@/modules/probation/presentation/components/probation-layout";
 import { Metadata, ResolvingMetadata } from "next";
 
 export async function generateMetadata(
@@ -9,7 +10,7 @@ export async function generateMetadata(
 }
 
 const ProbationPage = async () => {
-  return <div></div>;
+  return <ProbationLayout />;
 };
 
 export default ProbationPage;

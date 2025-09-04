@@ -1,8 +1,5 @@
+import { getResponsiveClasses, ResponsiveValue } from "@/lib/responsive-helper";
 import React, { HTMLAttributes } from "react";
-import {
-  getResponsiveClasses,
-  ResponsiveValue,
-} from "@/lib/responsive-helper";
 
 // Tailwind class mappings
 const directionClasses = {
