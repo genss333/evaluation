@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
-import { createProbationSlice, ProbationStepState } from "./useprobation-step";
+import { createProbationSlice, ProbationStepState } from "./use-probation-step";
 
 type ProbationStore = ProbationStepState;
 

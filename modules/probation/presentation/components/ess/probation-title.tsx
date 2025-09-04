@@ -6,13 +6,13 @@ import { ChevronDown } from "lucide-react";
 interface ProbationTitleItemProps {
   title: string;
   value: string;
-  disabled?: boolean;
+  showSuffix?: boolean;
 }
 
 const ProbationTitleItem = ({
   title,
   value,
-  disabled = true,
+  showSuffix = true,
 }: ProbationTitleItemProps) => {
   return (
     <Flex justify={"around"} align={"center"}>
@@ -20,9 +20,11 @@ const ProbationTitleItem = ({
         {title}
       </div>
       <TextField
-        className="font-body3 text-button-grey bg-accent-grey h-8 rounded-[10px]"
+        className="font-body3 text-button-grey bg-[#F0F0F0] h-8 rounded-[10px]"
         placeholder={value}
-        suffixIcon={<ChevronDown className="text-button-grey" size={18} />}
+        suffixIcon={
+          showSuffix && <ChevronDown className="text-button-grey" size={18} />
+        }
         disabled
       />
     </Flex>
@@ -36,15 +38,17 @@ const ProbationTitle = () => {
         <ProbationTitleItem
           title="แบบฟอร์มการประเมิน"
           value="แบบประเมินหัวหน้างานประจำปี 2568"
-          disabled={false}
+          showSuffix={false}
         />
         <ProbationTitleItem
           title="หัวหน้าผู้ประเมิน"
           value="นางสาว ธิดาพร ชาวคูเวียง"
+          showSuffix={false}
         />
         <ProbationTitleItem
           title="ระยะเวลาการประเมิน"
           value="01/08/2568 - 31/08/2568"
+          showSuffix={false}
         />
       </Flex>
     </Container>

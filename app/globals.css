@@ -140,6 +140,14 @@
     );
   }
 
+  .font-title {
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: 0%;
+    vertical-align: middle;
+  }
+
   .font-body1 {
     font-size: 14px;
     font-weight: 600;
