@@ -9,7 +9,9 @@ export class ProbationDetailService<T> implements IProbationDetailService<T> {
 
   async call(): Promise<T> {
     try {
-      const response = await this.api.request("", { method: Method.GET });
+      const response = await this.api.request("api/health", {
+        method: Method.GET,
+      });
       return response as T;
     } catch (error) {
       throw error;

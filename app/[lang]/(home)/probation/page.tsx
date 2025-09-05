@@ -1,4 +1,7 @@
-import ProbationLayout from "@/modules/probation/presentation/components/probation-layout";
+import { getQueryClient } from "@/lib/get-query-client";
+import ESSLayout from "@/modules/probation/presentation/components/ess/ess-layout";
+import { prefetchProbation } from "@/modules/probation/presentation/hooks/fetch-probation";
+import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Metadata, ResolvingMetadata } from "next";
 
 export async function generateMetadata(
@@ -10,7 +13,15 @@ export async function generateMetadata(
 }
 
 const ProbationPage = async () => {
-  return <ProbationLayout />;
+  const queryClient = getQueryClient();
+  await queryClient.prefetchQuery(prefetchProbation());
+  const data = queryClient.getQueryData(prefetchProbation().queryKey);
+
+  return (
+    <HydrationBoundary state={dehydrate(queryClient)}>
+      <ESSLayout data={data ?? null} />;
+    </HydrationBoundary>
+  );
 };
 
 export default ProbationPage;
