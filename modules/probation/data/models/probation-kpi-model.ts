@@ -11,9 +11,3 @@ export interface Kpi {
 }
 
 export type KpiKey = keyof Kpi;
-
-export interface ProbationKpi {
-  title: string;
-  desc: string;
-  list: Kpi[];
-}

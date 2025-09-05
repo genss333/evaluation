@@ -1,5 +1,6 @@
 "use client";
 
+import ProbationDataTable from "@/components/custom/custom-data-table";
 import { TextField } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
 import {
@@ -8,16 +9,15 @@ import {
 } from "@/modules/probation/data/models/probation-kpi-model";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFetchKpi } from "../../../hooks/fetch-probation";
-import ProbationDataTable from "../probation-data-table";
 
 const KpiForm = () => {
   const { data, isLoading } = useQuery(useFetchKpi());
 
   const [tableData, setTableData] = useState<Kpi[]>();
 
-  React.useEffect(() => {
+  useEffect(() => {
     setTableData(data?.list || []);
   }, [data]);
 
@@ -143,7 +143,11 @@ const KpiForm = () => {
           <div className="font-body2 text-status-red">{data?.desc}</div>
         </div>
 
-        <ProbationDataTable columns={columns} data={tableData || []} />
+        <ProbationDataTable
+          hTextLeft={[1, 2]}
+          columns={columns}
+          data={tableData || []}
+        />
       </div>
     </TabsContent>
   );

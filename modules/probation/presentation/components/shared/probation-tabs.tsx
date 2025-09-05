@@ -1,4 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import CompetencyForm from "./forms/competency-form";
 import KpiForm from "./forms/kpi-form";
 
 const ProbationTabs = () => {
@@ -12,7 +13,7 @@ const ProbationTabs = () => {
         <TabsTrigger value="more">การประเมินเพิ่มเติม</TabsTrigger>
       </TabsList>
       <KpiForm />
-      <TabsContent value="competency"></TabsContent>
+      <CompetencyForm />
       <TabsContent value="timeAttendance"></TabsContent>
       <TabsContent value="devPlan"></TabsContent>
       <TabsContent value="more"></TabsContent>

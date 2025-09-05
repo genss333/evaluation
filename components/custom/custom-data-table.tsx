@@ -16,15 +16,17 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 
-interface ProbationDataTableProps<T> {
+interface CustomDataTableProps<T> {
   columns: ColumnDef<T>[];
   data: T[];
+  hTextLeft: number[];
 }
 
-const ProbationDataTable: React.FC<ProbationDataTableProps<any>> = ({
+const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
   columns,
   data,
-}: ProbationDataTableProps<any>) => {
+  hTextLeft,
+}: CustomDataTableProps<any>) => {
   const table = useReactTable({
     data,
     columns,
@@ -44,7 +46,7 @@ const ProbationDataTable: React.FC<ProbationDataTableProps<any>> = ({
                   key={header.id}
                   style={{ width: header.getSize() }}
                   className={cn(
-                    header.index == 1 || header.index == 2
+                    hTextLeft.includes(header.index)
                       ? "text-left"
                       : "text-center"
                   )}
@@ -85,4 +87,4 @@ const ProbationDataTable: React.FC<ProbationDataTableProps<any>> = ({
   );
 };
 
-export default ProbationDataTable;
+export default CustomDataTable;
