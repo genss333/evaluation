@@ -92,17 +92,17 @@ const KpiDataTable = ({ columns, data }: KpiDataTableProps) => {
 };
 
 const KpiForm = () => {
-  const { data: kpiData, isLoading } = useQuery(useFetchKpi());
+  const { data, isLoading } = useQuery(useFetchKpi());
 
-  const [tableData, setTableData] = useState<Kpi[]>([]);
+  const [tableData, setTableData] = useState<Kpi[]>();
 
   React.useEffect(() => {
-    setTableData(kpiData || []);
-  }, [kpiData]);
+    setTableData(data?.list || []);
+  }, [data]);
 
   const handleDataChange = (rowIndex: number, columnId: KpiKey, value: any) => {
     setTableData((prev) =>
-      prev.map((row, index) =>
+      prev?.map((row, index) =>
         index === rowIndex ? { ...row, [columnId]: value } : row
       )
     );
@@ -218,15 +218,11 @@ const KpiForm = () => {
     <TabsContent value="kpi" className="mt-4">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <div className="font-title text-semi-black">
-            ผู้ประเมินเพิ่มหัวข้อการประเมินของ KPI
-          </div>
-          <div className="font-body2 text-status-red">
-            กำหนดให้ส่วนที่ 3 = 60%
-          </div>
+          <div className="font-title text-semi-black">{data?.title}</div>
+          <div className="font-body2 text-status-red">{data?.desc}</div>
         </div>
 
-        <KpiDataTable columns={columns} data={tableData} />
+        <KpiDataTable columns={columns} data={tableData || []} />
       </div>
     </TabsContent>
   );

@@ -6,12 +6,12 @@ export interface IKpiRepository<T> {
   call: () => Promise<T>;
 }
 
-export class KpiRepository implements IKpiRepository<model.Kpi[]> {
+export class KpiRepository implements IKpiRepository<model.ProbationKpi> {
   constructor(private readonly service: IKpiService<NextResponse>) {}
-  async call(): Promise<model.Kpi[]> {
+  async call(): Promise<model.ProbationKpi> {
     try {
       const response = await this.service.call();
-      const data: model.Kpi[] = await response.json();
+      const data: model.ProbationKpi = await response.json();
       return data;
     } catch (error) {
       throw error;

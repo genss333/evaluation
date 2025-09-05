@@ -30,7 +30,7 @@ export const useFetchKpi = () => {
   const service = new KpiService<NextResponse>(api);
   const repo = new KpiRepository(service);
 
-  return queryOptions<kpiModel.Kpi[]>({
+  return queryOptions<kpiModel.ProbationKpi>({
     queryKey: kpiQueryKery,
     queryFn: async () => {
       const data = await repo.call();
