@@ -11,7 +11,7 @@ interface TitleStepProps {
 }
 
 interface ProbationStepProps {
-  steps: model.ProbationStep[];
+  steps: model.ProbationStep[] | null;
 }
 
 const TitleStep = ({ title, desc }: TitleStepProps) => {
@@ -89,6 +89,8 @@ const ProbationStep = ({ steps }: ProbationStepProps) => {
 
   useEffect(() => {
     function findActiveIndex() {
+      if (!steps) return null;
+
       const usecase = new GetCurrentStep();
       setActiveIndex(usecase.call(steps) ?? -1);
     }

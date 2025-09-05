@@ -4,14 +4,14 @@ import ProbationDetail from "../shared/probation-details";
 import ProbationTitle from "./probation-title";
 
 interface ESSLayoutProps {
-  data: ProbationModel | null;
+  data: ProbationModel;
 }
 
 const ESSLayout = ({ data }: ESSLayoutProps) => {
   return (
     <Flex direction={"col"} gap={4} className="m-[20px]">
-      <ProbationTitle />
-      <ProbationDetail />
+      <ProbationTitle items={data?.titles ?? []} />
+      <ProbationDetail data={data} />
     </Flex>
   );
 };

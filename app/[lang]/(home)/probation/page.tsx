@@ -19,7 +19,7 @@ const ProbationPage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <ESSLayout data={data ?? null} />;
+      <ESSLayout data={data ?? null} />
     </HydrationBoundary>
   );
 };

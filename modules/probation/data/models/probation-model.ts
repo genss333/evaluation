@@ -5,7 +5,8 @@ export interface ProbationTitleValue {
 
 export interface ProbationTitle {
   title: string;
-  value: ProbationTitleValue[];
+  values: ProbationTitleValue[];
+  disable: boolean;
 }
 
 export interface ProbationGroup {
@@ -27,19 +28,25 @@ export interface ProbationStep {
   dateTime?: Date | null;
 }
 
+export interface YearProbation {
+  id: number;
+  title: string;
+}
+
 export interface ProbationModel {
-  titles: Partial<ProbationTitle[]>;
+  titles: ProbationTitle[];
   count: number;
   code: string;
   empName: string;
   startDate: Date;
   startWork: Date;
   position: string;
-  Probation: Date;
+  years: YearProbation[];
+  month: YearProbation[];
   empLevel: string;
   workAge: number;
-  group: Partial<ProbationGroup>;
-  grade: Partial<ProbationGrade>;
-  steps: Partial<ProbationStep[]>;
+  group: ProbationGroup;
+  grade: ProbationGrade;
+  steps: ProbationStep[];
   multiform: boolean;
 }
