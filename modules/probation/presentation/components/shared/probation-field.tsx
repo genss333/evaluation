@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import * as model from "@/modules/probation/data/models/probation-model";
 import { ProbationTitleValue } from "@/modules/probation/data/models/probation-model";
 import { ChevronDown } from "lucide-react";
-import React, { Fragment, ReactNode, useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 interface ProbationFieldProps {
   title: string;
@@ -34,20 +34,18 @@ const CreateButtonTrigger = React.forwardRef<
       ref={ref}
       {...props}
       className={cn(
-        "flex items-center max-w-md px-4",
-        "font-body3 h-8 w-full justify-between rounded-[10px]",
+        "flex items-center min-w-[130px] max-w-md p-2",
+        "font-body3 min-h-8 w-full justify-between rounded-[10px]",
         disable ? "text-button-grey" : "text-semi-black",
         disable ? "bg-[#F0F0F0]" : "bg-background outline",
         disable ? "hover:text-button-grey" : "hover:bg-background",
         !disable && "hover:cursor-pointer"
       )}
     >
-      <Fragment>
-        <div>{selectedValue?.title}</div>
-        {(showSuffix && suffix) ?? (
-          <ChevronDown className="text-button-grey" size={18} />
-        )}
-      </Fragment>
+      <>{selectedValue?.title}</>
+      {(showSuffix && suffix) ?? (
+        <ChevronDown className="text-button-grey" size={18} />
+      )}
     </div>
   );
 });
@@ -66,7 +64,7 @@ const ProbationField = ({
   >(values[0]);
 
   return (
-    <div className="flex flex-col gap-2 items-start md:flex-row md:items-center word-break: break-all">
+    <div className="flex flex-col gap-2 items-start md:flex-row md:items-center">
       <div className="font-body2 text-semi-black whitespace-nowrap shrink-0 min-w-[160px]">
         {title}
       </div>
@@ -74,7 +72,7 @@ const ProbationField = ({
         <CreateButtonTrigger
           selectedValue={selectedValue}
           showSuffix={showSuffix}
-          suffix
+          suffix={suffix}
           disable={disable}
         />
       ) : (

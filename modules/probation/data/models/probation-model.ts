@@ -9,18 +9,6 @@ export interface ProbationTitle {
   disable: boolean;
 }
 
-export interface ProbationGroup {
-  timeAttandance: number;
-  kpi: number;
-  competency: number;
-  total: number;
-}
-
-export interface ProbationGrade {
-  grade: string;
-  period: string;
-}
-
 export interface ProbationStep {
   title?: string;
   desc?: string;
@@ -28,25 +16,21 @@ export interface ProbationStep {
   dateTime?: Date | null;
 }
 
-export interface YearProbation {
-  id: number;
-  title: string;
-}
-
 export interface ProbationModel {
   titles: ProbationTitle[];
-  count: number;
-  code: string;
-  empName: string;
-  startDate: Date;
-  startWork: Date;
-  position: string;
-  years: YearProbation[];
-  month: YearProbation[];
-  empLevel: string;
-  workAge: number;
-  group: ProbationGroup;
-  grade: ProbationGrade;
+  count: ProbationTitle;
+  code: ProbationTitle;
+  empName: ProbationTitle;
+  startDate: ProbationTitle;
+  startWork: ProbationTitle;
+  position: ProbationTitle;
+  years: ProbationTitle;
+  month: ProbationTitle;
+  empLevel: ProbationTitle;
+  workAge: ProbationTitle;
+  group: ProbationTitle[];
+  totalScore: ProbationTitle;
+  grade: ProbationTitle;
+  gradePeriod: string;
   steps: ProbationStep[];
-  multiform: boolean;
 }

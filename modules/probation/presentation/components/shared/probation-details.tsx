@@ -32,28 +32,98 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
       <div className="p-4">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
           <ProbationField
-            title="ครั้งที่"
-            values={[]}
-            showSuffix={false}
-            disable
+            title={data.count.title}
+            values={data.count.values}
+            showSuffix={data.count.values.length > 1}
+            disable={data.count.disable}
           />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mt-3">
-          <ProbationField title="รหัสการประเมิน" values={[]} />
-          <ProbationField title="ปีประเมิน" values={[]} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mt-3">
+          <ProbationField
+            title={data.code.title}
+            values={data.code.values}
+            showSuffix={data.code.values.length > 1}
+            disable={data.code.disable}
+          />
+          <ProbationField
+            title={data.years.title}
+            values={data.years.values}
+            showSuffix={data.years.values.length > 1}
+            disable={data.years.disable}
+          />
+          <ProbationField
+            title={data.month.title}
+            values={data.month.values}
+            showSuffix={data.month.values.length > 1}
+            disable={data.month.disable}
+          />
+          <ProbationField
+            title={data.empName.title}
+            values={data.empName.values}
+            showSuffix={data.empName.values.length > 1}
+            disable={data.empName.disable}
+          />
+          <ProbationField
+            title={data.position.title}
+            values={data.position.values}
+            showSuffix={data.position.values.length > 1}
+            disable={data.position.disable}
+          />
+          <ProbationField
+            title={data.empLevel.title}
+            values={data.empLevel.values}
+            showSuffix={data.empLevel.values.length > 1}
+            disable={data.empLevel.disable}
+          />
+          <ProbationField
+            title={data.startDate.title}
+            values={data.startDate.values}
+            showSuffix={data.startDate.values.length > 1}
+            disable={data.startDate.disable}
+          />
+          <ProbationField
+            title={data.startWork.title}
+            values={data.startWork.values}
+            showSuffix={data.startWork.values.length > 1}
+            disable={data.startWork.disable}
+          />
+          <ProbationField
+            title={data.workAge.title}
+            values={data.workAge.values}
+            showSuffix={data.workAge.values.length > 1}
+            disable={data.workAge.disable}
+          />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-4">
           <ProbationGroupCard>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-2.5 p-4">
+            <div className="grid grid-cols-1 2xl:grid-cols-2 gap-2.5 p-4">
+              {data.group.map((item) => (
+                <ProbationField
+                  key={item.title}
+                  title={item.title}
+                  values={item.values}
+                  disable={item.disable}
+                  suffix={
+                    <div
+                      key="time-prefix"
+                      className="font-body3 text-button-grey"
+                    >
+                      %
+                    </div>
+                  }
+                />
+              ))}
               <ProbationField
-                title="Time Attendance"
-                values={[]}
+                key={data.totalScore.title}
+                title={data.totalScore.title}
+                values={data.totalScore.values}
+                disable={data.totalScore.disable}
                 suffix={
                   <div
                     key="time-prefix"
                     className="font-body3 text-button-grey"
                   >
-                    %
+                    คะแนน
                   </div>
                 }
               />
@@ -63,8 +133,13 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
             <Flex direction={"col"} justify={"between"} className="p-4 h-full">
               <div className="font-title pt-2">เกรดรวม</div>
               <Flex gap={4} align={"center"}>
-                <ProbationField title="อายุงาน" values={[]} />
-                <div className="font-body3">ช่วงคะแนนประเมิน 0.00 - 50.00</div>
+                <ProbationField
+                  title={data.grade.title}
+                  values={data.grade.values}
+                  disable={data.grade.disable}
+                  showSuffix={data.grade.values.length > 1}
+                />
+                <div className="font-body3">{data.gradePeriod}</div>
               </Flex>
             </Flex>
           </ProbationGroupCard>

@@ -13,18 +13,6 @@ export interface ProbationTitle {
   disable: boolean;
 }
 
-export interface ProbationGroup {
-  timeAttandance: number;
-  kpi: number;
-  competency: number;
-  total: number;
-}
-
-export interface ProbationGrade {
-  grade: string;
-  period: string;
-}
-
 export interface ProbationStep {
   title?: string;
   desc?: string;
@@ -32,27 +20,21 @@ export interface ProbationStep {
   dateTime?: Date | null;
 }
 
-export interface YearProbation {
-  id: number;
-  title: string;
-}
-
 export interface ProbationModel {
   titles: ProbationTitle[];
-  count: number;
-  code: string;
-  empName: string;
-  startDate: Date;
-  startWork: Date;
-  position: string;
-  years: YearProbation[];
-  month: YearProbation[];
-  empLevel: string;
-  workAge: number;
-  group: ProbationGroup;
-  grade: ProbationGrade;
+  count: ProbationTitle;
+  code: ProbationTitle;
+  empName: ProbationTitle;
+  startDate: ProbationTitle;
+  startWork: ProbationTitle;
+  position: ProbationTitle;
+  years: ProbationTitle;
+  month: ProbationTitle;
+  empLevel: ProbationTitle;
+  workAge: ProbationTitle;
+  group: ProbationTitle[];
+  grade: ProbationTitle[];
   steps: ProbationStep[];
-  multiform: boolean;
 }
 */
 
@@ -66,7 +48,7 @@ export async function GET() {
           { id: 2, title: "การทำงานเป็นทีม" },
           { id: 3, title: "ความรับผิดชอบ" },
         ],
-        disable: false, // Added disable property
+        disable: false,
       },
       {
         title: "หัวข้อการประเมินตามหน้าที่",
@@ -74,46 +56,94 @@ export async function GET() {
           { id: 4, title: "ความรู้ในงาน" },
           { id: 5, title: "ทักษะการสื่อสาร" },
         ],
-        disable: true, // Added disable property
+        disable: true,
       },
     ],
-    count: 1,
-    code: "EMP007",
-    empName: "สมศรี มีสุข",
-    startDate: new Date("2025-06-01T09:00:00"),
-    startWork: new Date("2025-06-01T09:00:00"),
-    position: "Senior Frontend Developer",
-    years: [
-      { id: 2025, title: "2025" },
-      { id: 2024, title: "2024" },
-      { id: 2023, title: "2023" },
+    count: {
+      title: "ครั้งที่",
+      values: [{ id: 1, title: "1" }],
+      disable: true,
+    },
+    code: {
+      title: "รหัสพนักงาน",
+      values: [{ id: 1, title: "EMP007" }],
+      disable: true,
+    },
+    empName: {
+      title: "ชื่อ-สกุล",
+      values: [{ id: 1, title: "สมศรี มีสุข" }],
+      disable: true,
+    },
+    startDate: {
+      title: "วันที่เริ่มทดลองงาน",
+      values: [{ id: 1, title: "01/06/2025" }],
+      disable: true,
+    },
+    startWork: {
+      title: "วันที่เริ่มงาน",
+      values: [{ id: 1, title: "01/06/2025" }],
+      disable: true,
+    },
+    position: {
+      title: "ตำแหน่ง",
+      values: [{ id: 1, title: "Senior Frontend Developer" }],
+      disable: true,
+    },
+    years: {
+      title: "รอบการประเมินประจำปี",
+      values: [
+        { id: 2025, title: "2025" },
+        { id: 2024, title: "2024" },
+        { id: 2023, title: "2023" },
+      ],
+      disable: false,
+    },
+    month: {
+      title: "เดือน",
+      values: [
+        { id: 9, title: "กันยายน" },
+        { id: 10, title: "ตุลาคม" },
+      ],
+      disable: false,
+    },
+    empLevel: {
+      title: "ระดับพนักงาน",
+      values: [{ id: 1, title: "S3" }],
+      disable: true,
+    },
+    workAge: {
+      title: "อายุงาน",
+      values: [{ id: 1, title: "3 ปี 6 เดือน" }],
+      disable: true,
+    },
+    group: [
+      {
+        title: "เวลาทำงาน",
+        values: [{ id: 1, title: "10" }],
+        disable: true,
+      },
+      {
+        title: "ผลงาน (KPI)",
+        values: [{ id: 1, title: "50" }],
+        disable: true,
+      },
+      {
+        title: "ความสามารถ",
+        values: [{ id: 1, title: "40" }],
+        disable: true,
+      },
     ],
-    month: [
-      { id: 1, title: "มกราคม" },
-      { id: 2, title: "กุมภาพันธ์" },
-      { id: 3, title: "มีนาคม" },
-      { id: 4, title: "เมษายน" },
-      { id: 5, title: "พฤษภาคม" },
-      { id: 6, title: "มิถุนายน" },
-      { id: 7, title: "กรกฎาคม" },
-      { id: 8, title: "สิงหาคม" },
-      { id: 9, title: "กันยายน" },
-      { id: 10, title: "ตุลาคม" },
-      { id: 11, title: "พฤศจิกายน" },
-      { id: 12, title: "ธันวาคม" },
-    ],
-    empLevel: "S3",
-    workAge: 3.5,
-    group: {
-      timeAttandance: 10,
-      kpi: 50,
-      competency: 40,
-      total: 100,
+    totalScore: {
+      title: "คะแนนรวม",
+      values: [{ id: 1, title: "100" }],
+      disable: true,
     },
     grade: {
-      grade: "A",
-      period: "120 วัน",
+      title: "ผลการประเมิน",
+      values: [{ id: 1, title: "A" }],
+      disable: true,
     },
+    gradePeriod: "ช่วงคะแนนประเมิน 0.00 - 50.00",
     steps: [
       {
         title: "พนักงานประเมินตนเอง",
@@ -134,7 +164,6 @@ export async function GET() {
         dateTime: null,
       },
     ],
-    multiform: true,
   };
 
   return NextResponse.json(mockData);
