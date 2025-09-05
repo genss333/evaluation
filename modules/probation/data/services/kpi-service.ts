@@ -9,7 +9,10 @@ export class KpiService<T> implements IKpiService<T> {
 
   async call(): Promise<T> {
     try {
-      const response = await this.api.request("", { method: Method.GET });
+      const response = await this.api.request(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/mock/kpi`,
+        { method: Method.GET }
+      );
       return response as T;
     } catch (error) {
       throw error;

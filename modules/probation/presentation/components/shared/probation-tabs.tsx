@@ -1,0 +1,23 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import KpiForm from "./forms/kpi-form";
+
+const ProbationTabs = () => {
+  return (
+    <Tabs defaultValue="kpi" className="mx-4 mb-4 ">
+      <TabsList className="bg-transparent">
+        <TabsTrigger value="kpi">KPI</TabsTrigger>
+        <TabsTrigger value="competency">Competency</TabsTrigger>
+        <TabsTrigger value="timeAttendance">Time Attendance</TabsTrigger>
+        <TabsTrigger value="devPlan">Development Plan</TabsTrigger>
+        <TabsTrigger value="more">การประเมินเพิ่มเติม</TabsTrigger>
+      </TabsList>
+      <KpiForm />
+      <TabsContent value="competency"></TabsContent>
+      <TabsContent value="timeAttendance"></TabsContent>
+      <TabsContent value="devPlan"></TabsContent>
+      <TabsContent value="more"></TabsContent>
+    </Tabs>
+  );
+};
+
+export default ProbationTabs;

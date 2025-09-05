@@ -1,10 +1,10 @@
 import Flex from "@/components/layout/flex";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { ProbationModel } from "@/modules/probation/data/models/probation-model";
 import { ReactNode } from "react";
 import ProbationField from "./probation-field";
 import ProbationStep from "./probation-setep";
+import ProbationTabs from "./probation-tabs";
 
 interface ProbationDetailProps {
   data: ProbationModel;
@@ -25,6 +25,18 @@ const ProbationGroupCard = ({
 };
 
 const ProbationDetail = ({ data }: ProbationDetailProps) => {
+  const employeeInfoFields = [
+    data.code,
+    data.years,
+    data.month,
+    data.empName,
+    data.position,
+    data.empLevel,
+    data.startDate,
+    data.startWork,
+    data.workAge,
+  ];
+
   return (
     <div className="bg-background w-full rounded-[10px]">
       <ProbationStep steps={data.steps} />
@@ -39,60 +51,15 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
           />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-3">
-          <ProbationField
-            title={data.code.title}
-            values={data.code.values}
-            showSuffix={data.code.values.length > 1}
-            disable={data.code.disable}
-          />
-          <ProbationField
-            title={data.years.title}
-            values={data.years.values}
-            showSuffix={data.years.values.length > 1}
-            disable={data.years.disable}
-          />
-          <ProbationField
-            title={data.month.title}
-            values={data.month.values}
-            showSuffix={data.month.values.length > 1}
-            disable={data.month.disable}
-          />
-          <ProbationField
-            title={data.empName.title}
-            values={data.empName.values}
-            showSuffix={data.empName.values.length > 1}
-            disable={data.empName.disable}
-          />
-          <ProbationField
-            title={data.position.title}
-            values={data.position.values}
-            showSuffix={data.position.values.length > 1}
-            disable={data.position.disable}
-          />
-          <ProbationField
-            title={data.empLevel.title}
-            values={data.empLevel.values}
-            showSuffix={data.empLevel.values.length > 1}
-            disable={data.empLevel.disable}
-          />
-          <ProbationField
-            title={data.startDate.title}
-            values={data.startDate.values}
-            showSuffix={data.startDate.values.length > 1}
-            disable={data.startDate.disable}
-          />
-          <ProbationField
-            title={data.startWork.title}
-            values={data.startWork.values}
-            showSuffix={data.startWork.values.length > 1}
-            disable={data.startWork.disable}
-          />
-          <ProbationField
-            title={data.workAge.title}
-            values={data.workAge.values}
-            showSuffix={data.workAge.values.length > 1}
-            disable={data.workAge.disable}
-          />
+          {employeeInfoFields.map((field) => (
+            <ProbationField
+              key={field.title}
+              title={field.title}
+              values={field.values}
+              showSuffix={field.values.length > 1}
+              disable={field.disable}
+            />
+          ))}
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-4">
           <ProbationGroupCard>
@@ -145,20 +112,7 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
           </ProbationGroupCard>
         </div>
       </div>
-      <Tabs defaultValue="kpi" className="mx-4 mb-4 ">
-        <TabsList className="bg-transparent">
-          <TabsTrigger value="kpi">KPI</TabsTrigger>
-          <TabsTrigger value="competency">Competency</TabsTrigger>
-          <TabsTrigger value="timeAttendance">Time Attendance</TabsTrigger>
-          <TabsTrigger value="devPlan">Development Plan</TabsTrigger>
-          <TabsTrigger value="more">การประเมินเพิ่มเติม</TabsTrigger>
-        </TabsList>
-        <TabsContent value="kpi"></TabsContent>
-        <TabsContent value="competency"></TabsContent>
-        <TabsContent value="timeAttendance"></TabsContent>
-        <TabsContent value="devPlan"></TabsContent>
-        <TabsContent value="more"></TabsContent>
-      </Tabs>
+      <ProbationTabs />
     </div>
   );
 };
