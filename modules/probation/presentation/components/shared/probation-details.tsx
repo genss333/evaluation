@@ -3,7 +3,7 @@ import Flex from "@/components/layout/flex";
 import { TextField } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { Fragment, ReactNode } from "react";
+import { ReactNode } from "react";
 import ProbationStep from "./probation-setep";
 
 interface ProbationFieldmProps {
@@ -106,21 +106,15 @@ const ProbationDetail = () => {
           <ProbationField title="ครั้งที่" value="1" />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-3 mt-3">
-          <Fragment>
-            <ProbationField title="รหัสการประเมิน" value="TG001010" />
-            <ProbationField title="ปีประเมิน" value="2568" />
-            <ProbationField title="เดือนประเมิน" value="มกราคม" />
-          </Fragment>
-          <Fragment>
-            <ProbationField title="ชื่อพนักงาน" value="นาย ไบรอัน ตัน" />
-            <ProbationField title="ตำแหน่ง" value="ผู้จัดการ" />
-            <ProbationField title="ระดับพนักงาน" value="ผู้จัดการ" />
-          </Fragment>
-          <Fragment>
-            <ProbationField title="วันที่เริ่มงาน" value="01/08/2565" />
-            <ProbationField title="วันที่บรรจุ" value="01/11/2565" />
-            <ProbationField title="อายุงาน" value="2" />
-          </Fragment>
+          <ProbationField title="รหัสการประเมิน" value="TG001010" />
+          <ProbationField title="ปีประเมิน" value="2568" />
+          <ProbationField title="เดือนประเมิน" value="มกราคม" />
+          <ProbationField title="ชื่อพนักงาน" value="นาย ไบรอัน ตัน" />
+          <ProbationField title="ตำแหน่ง" value="ผู้จัดการ" />
+          <ProbationField title="ระดับพนักงาน" value="ผู้จัดการ" />
+          <ProbationField title="วันที่เริ่มงาน" value="01/08/2565" />
+          <ProbationField title="วันที่บรรจุ" value="01/11/2565" />
+          <ProbationField title="อายุงาน" value="2" />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-4">
           <ProbationGroupCard>
@@ -150,15 +144,19 @@ const ProbationDetail = () => {
           </ProbationGroupCard>
         </div>
       </Container>
-      <Tabs defaultValue="kpi" className="mx-4 mb-4">
+      <Tabs defaultValue="kpi" className="mx-4 mb-4 ">
         <TabsList className="bg-transparent">
           <TabsTrigger value="kpi">KPI</TabsTrigger>
           <TabsTrigger value="competency">Competency</TabsTrigger>
+          <TabsTrigger value="timeAttendance">Time Attendance</TabsTrigger>
+          <TabsTrigger value="devPlan">Development Plan</TabsTrigger>
+          <TabsTrigger value="more">การประเมินเพิ่มเติม</TabsTrigger>
         </TabsList>
-        <TabsContent value="kpi">
-          Make changes to your account here.
-        </TabsContent>
-        <TabsContent value="competency">Change your password here.</TabsContent>
+        <TabsContent value="kpi"></TabsContent>
+        <TabsContent value="competency"></TabsContent>
+        <TabsContent value="timeAttendance"></TabsContent>
+        <TabsContent value="devPlan"></TabsContent>
+        <TabsContent value="more"></TabsContent>
       </Tabs>
     </Container>
   );

@@ -1,6 +1,11 @@
+export interface ProbationTitleValue {
+  id: number;
+  title: string;
+}
+
 export interface ProbationTitle {
   title: string;
-  value: string;
+  value: ProbationTitleValue[];
 }
 
 export interface ProbationGroup {
