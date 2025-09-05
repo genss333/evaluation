@@ -43,7 +43,7 @@ function TabsTrigger({
       data-slot="tabs-trigger"
       className={cn(
         // Base layout and sizing
-        "inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center",
+        "inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center cursor-pointer",
         "gap-1.5 rounded-md border border-transparent px-2 py-1",
 
         // Typography and text color
