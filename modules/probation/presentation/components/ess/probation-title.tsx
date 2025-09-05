@@ -1,4 +1,3 @@
-import Container from "@/components/layout/container";
 import Flex from "@/components/layout/flex";
 import * as model from "@/modules/probation/data/models/probation-model";
 import ProbationField from "../shared/probation-field";
@@ -9,7 +8,7 @@ interface ProbationTitleProps {
 
 const ProbationTitle = ({ items }: ProbationTitleProps) => {
   return (
-    <Container className="bg-background w-full rounded-[10px] p-[10px]">
+    <div className="bg-background w-full rounded-[10px] p-[10px]">
       <Flex direction={"col"} gap={4}>
         {items &&
           items.map((item, idx) => (
@@ -22,7 +21,7 @@ const ProbationTitle = ({ items }: ProbationTitleProps) => {
             />
           ))}
       </Flex>
-    </Container>
+    </div>
   );
 };
 

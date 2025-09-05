@@ -46,6 +46,7 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
                   key={header.id}
                   style={{ width: header.getSize() }}
                   className={cn(
+                    "font-caption1 text-semi-black",
                     hTextLeft.includes(header.index)
                       ? "text-left"
                       : "text-center"
