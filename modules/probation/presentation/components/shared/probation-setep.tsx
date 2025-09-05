@@ -14,8 +14,6 @@ interface ProbationStepProps {
   steps: model.ProbationStep[];
 }
 
-interface LineProps {}
-
 const TitleStep = ({ title, desc }: TitleStepProps) => {
   return (
     <Flex direction={"col"} align={"center"} gap={2}>
