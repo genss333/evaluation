@@ -30,7 +30,7 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
       <ProbationStep steps={data.steps} />
       <hr className="my-4" />
       <div className="p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
           <ProbationField
             title={data.count.title}
             values={data.count.values}
@@ -38,7 +38,7 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
             disable={data.count.disable}
           />
         </div>
-        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3 mt-3">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-3">
           <ProbationField
             title={data.code.title}
             values={data.code.values}
@@ -132,7 +132,7 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
           <ProbationGroupCard>
             <Flex direction={"col"} justify={"between"} className="p-4 h-full">
               <div className="font-title pt-2">เกรดรวม</div>
-              <Flex gap={4} align={"center"}>
+              <div className="grid grid-cols-1 2xl:grid-cols-2 items-center gap-4">
                 <ProbationField
                   title={data.grade.title}
                   values={data.grade.values}
@@ -140,7 +140,7 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
                   showSuffix={data.grade.values.length > 1}
                 />
                 <div className="font-body3">{data.gradePeriod}</div>
-              </Flex>
+              </div>
             </Flex>
           </ProbationGroupCard>
         </div>

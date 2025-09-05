@@ -42,7 +42,7 @@ export async function GET() {
   const mockData = {
     titles: [
       {
-        title: "หัวข้อการประเมินหลัก",
+        title: "แบบฟอร์มการประเมิน",
         values: [
           { id: 1, title: "ความซื่อสัตย์และจริยธรรม" },
           { id: 2, title: "การทำงานเป็นทีม" },
@@ -51,11 +51,13 @@ export async function GET() {
         disable: false,
       },
       {
-        title: "หัวข้อการประเมินตามหน้าที่",
-        values: [
-          { id: 4, title: "ความรู้ในงาน" },
-          { id: 5, title: "ทักษะการสื่อสาร" },
-        ],
+        title: "หัวหน้าผู้ประเมิน",
+        values: [{ id: 4, title: "นางสาว ธิดาพร ชาวคูเวียง" }],
+        disable: true,
+      },
+      {
+        title: "ระยะเวลาการประเมิน",
+        values: [{ id: 1, title: "01/08/2568 - 31/08/2568" }],
         disable: true,
       },
     ],
@@ -146,20 +148,32 @@ export async function GET() {
     gradePeriod: "ช่วงคะแนนประเมิน 0.00 - 50.00",
     steps: [
       {
+        title: "ตั้งค่า KPI",
+        desc: "สิ้นสุด 31/07/2568",
+        status: "A",
+        dateTime: new Date("2025-09-01T10:15:00"),
+      },
+      {
         title: "พนักงานประเมินตนเอง",
         desc: "พนักงานดำเนินการประเมิน",
-        status: "1",
-        dateTime: new Date("2025-09-01T10:15:00"),
+        status: "P",
+        dateTime: null,
       },
       {
         title: "หัวหน้างานประเมิน",
         desc: "หัวหน้างานกำลังประเมินผล",
-        status: "A",
-        dateTime: new Date("2025-09-03T14:00:00"),
+        status: "P",
+        dateTime: null,
       },
       {
         title: "ฝ่ายบุคคลตรวจสอบ",
         desc: "รอฝ่ายบุคคลดำเนินการ",
+        status: "P",
+        dateTime: null,
+      },
+      {
+        title: "เสร็จสิ้น",
+        desc: "",
         status: "P",
         dateTime: null,
       },

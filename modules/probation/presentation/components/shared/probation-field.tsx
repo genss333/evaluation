@@ -91,6 +91,7 @@ const ProbationField = ({
                 <DropdownMenuItem
                   key={value.id}
                   onSelect={() => setSelectedValue(value)}
+                  className="font-body3 text-semi-black"
                 >
                   {value.title}
                 </DropdownMenuItem>
