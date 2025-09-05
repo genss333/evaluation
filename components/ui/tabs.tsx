@@ -47,7 +47,7 @@ function TabsTrigger({
         "gap-1.5 rounded-md border border-transparent px-2 py-1",
 
         // Typography and text color
-        "font-body3 text-foreground dark:text-muted-foreground whitespace-nowrap",
+        "font-body3 text-semi-black dark:text-muted-foreground whitespace-nowrap",
 
         // Transitions
         "transition-[color,box-shadow]",
@@ -55,7 +55,8 @@ function TabsTrigger({
         // State: Active
         "data-[state=active]:text-tiger-red",
         "dark:data-[state=active]:border-input dark:data-[state=active]:bg-input/30",
-        "dark:data-[state=active]:text-foreground",
+        "dark:data-[state=active]:text-semi-black",
+        "data-[state=active]:border-b-2 data-[state=active]:border-b-tiger-red rounded-none mx-1.5",
 
         // State: Focus
         "focus-visible:border-ring focus-visible:outline-1 focus-visible:outline-ring",
