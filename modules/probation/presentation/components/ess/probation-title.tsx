@@ -9,7 +9,7 @@ interface ProbationTitleProps {
 const ProbationTitle = ({ items }: ProbationTitleProps) => {
   return (
     <div className="bg-background w-full rounded-[10px] p-[10px]">
-      <Flex direction={"col"} gap={4} className="max-w-1/2">
+      <Flex direction={"col"} gap={4} className="lg:max-w-2/3 xl:max-w-1/2">
         {items &&
           items.map((item, idx) => (
             <ProbationField
