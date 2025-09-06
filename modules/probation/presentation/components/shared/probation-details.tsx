@@ -48,6 +48,7 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
             values={data.count.values}
             showSuffix={data.count.values.length > 1}
             disable={data.count.disable}
+            colSpan={[2, 3]}
           />
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-3">
@@ -58,6 +59,7 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
               values={field.values}
               showSuffix={field.values.length > 1}
               disable={field.disable}
+              colSpan={[2, 3]}
             />
           ))}
         </div>
@@ -78,6 +80,7 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
                       %
                     </div>
                   }
+                  colSpan={[1, 2]}
                 />
               ))}
               <ProbationField
@@ -93,6 +96,7 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
                     คะแนน
                   </div>
                 }
+                colSpan={[1, 2]}
               />
             </div>
           </ProbationGroupCard>
@@ -105,6 +109,7 @@ const ProbationDetail = ({ data }: ProbationDetailProps) => {
                   values={data.grade.values}
                   disable={data.grade.disable}
                   showSuffix={data.grade.values.length > 1}
+                  colSpan={[3, 1]}
                 />
                 <div className="font-body3">{data.gradePeriod}</div>
               </div>

@@ -143,7 +143,7 @@ const CompetencyForm = () => {
   if (isLoading) {
     return (
       <TabsContent value="competency" className="mt-4">
-        <div>Loading KPI data...</div>
+        <div>Loading Competency data...</div>
       </TabsContent>
     );
   }

@@ -1,6 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CompetencyForm from "./forms/competency-form";
 import KpiForm from "./forms/kpi-form";
+import TimeAttandanceForm from "./forms/time-attandance-form";
 
 const ProbationTabs = () => {
   return (
@@ -8,13 +9,13 @@ const ProbationTabs = () => {
       <TabsList className="bg-transparent">
         <TabsTrigger value="kpi">KPI</TabsTrigger>
         <TabsTrigger value="competency">Competency</TabsTrigger>
-        <TabsTrigger value="timeAttendance">Time Attendance</TabsTrigger>
+        <TabsTrigger value="time">Time Attendance</TabsTrigger>
         <TabsTrigger value="devPlan">Development Plan</TabsTrigger>
         <TabsTrigger value="more">การประเมินเพิ่มเติม</TabsTrigger>
       </TabsList>
       <KpiForm />
       <CompetencyForm />
-      <TabsContent value="timeAttendance"></TabsContent>
+      <TimeAttandanceForm />
       <TabsContent value="devPlan"></TabsContent>
       <TabsContent value="more"></TabsContent>
     </Tabs>
