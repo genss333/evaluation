@@ -1,7 +1,7 @@
 "use client";
 
 import ProbationDataTable from "@/components/custom/custom-data-table";
-import { TextField } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
 import {
   CompetencyKey,
@@ -102,13 +102,14 @@ const CompetencyForm = () => {
       minSize: 80,
       maxSize: 80,
       cell: ({ row }) => (
-        <TextField
+        <Input
           type="number"
+          min={0}
           defaultValue={row.original.score ?? ""}
           onChange={(e) =>
             handleDataChange(row.index, "score", e.target.valueAsNumber || null)
           }
-          className="text-center font-caption3 text-semi-black w-full"
+          className="text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]"
         />
       ),
     },
@@ -131,10 +132,10 @@ const CompetencyForm = () => {
       minSize: 100,
       maxSize: 260,
       cell: ({ row }) => (
-        <TextField
+        <Input
           defaultValue={row.original.memo ?? ""}
           onChange={(e) => handleDataChange(row.index, "memo", e.target.value)}
-          className="font-caption3 text-semi-black w-full"
+          className="font-caption3 text-semi-black w-full h-8 rounded-[10px]"
         />
       ),
     },

@@ -20,7 +20,7 @@ Date.prototype.formatInBuddhistCalendar = function ({
 
       dateTimeStirng = dateTimeStirng.replaceAll(
         this.getFullYear().toString(),
-        buddhistYear.toString(),
+        buddhistYear.toString()
       );
 
       dateTimeStirng.replaceAll("ค.ศ", "พ.ศ.");

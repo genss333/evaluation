@@ -90,11 +90,12 @@ const KpiForm = () => {
       cell: ({ row }) => (
         <Input
           type="number"
+          min={0}
           defaultValue={row.original.score ?? ""}
           onChange={(e) =>
             handleDataChange(row.index, "score", e.target.valueAsNumber || null)
           }
-          className="text-center font-caption3 text-semi-black w-full"
+          className="text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]"
         />
       ),
     },
@@ -108,7 +109,7 @@ const KpiForm = () => {
         <Input
           defaultValue={row.original.memo ?? ""}
           onChange={(e) => handleDataChange(row.index, "memo", e.target.value)}
-          className="font-caption3 text-semi-black w-full"
+          className="font-caption3 text-semi-black w-full h-8 rounded-[10px]"
         />
       ),
     },

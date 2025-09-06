@@ -1,6 +1,12 @@
 "use client";
 
+import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -10,7 +16,10 @@ import {
 } from "@/components/ui/select";
 import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { DateFormat } from "@/extensions/date-format";
+import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
+import { Calendar as CalendarIcon } from "lucide-react";
 import { useFetchDevplan } from "../../../hooks/fetch-probation";
 
 const DevplanForm = () => {
@@ -58,11 +67,15 @@ const DevplanForm = () => {
                   </div>
                   <Textarea
                     placeholder="Text"
-                    className="font-body text-semi-black min-h-[34px] "
+                    className="h-8 min-h-8 font-body3 rounded-[10px]"
+                    rows={1}
                   />
                 </div>
                 <Select>
-                  <SelectTrigger className="w-full max-w-[200px] min-h-8 col-span-full lg:col-span-2">
+                  <SelectTrigger
+                    className="w-full font-body3 text-semi-black col-span-full lg:col-span-2 [data-placeholder]:text-semi-black rounded-[10px]"
+                    size="sm"
+                  >
                     <SelectValue placeholder={item.priority?.name ?? ""} />
                   </SelectTrigger>
                   <SelectContent>
@@ -74,20 +87,42 @@ const DevplanForm = () => {
                       ))}
                   </SelectContent>
                 </Select>
-                <Select>
-                  <SelectTrigger className="w-full max-w-[200px] min-h-8 col-span-full lg:col-span-2">
-                    <SelectValue placeholder={item.priority?.name ?? ""} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {item.prioritys &&
-                      item.prioritys.map((p) => (
-                        <SelectItem key={p.id} value={`${p.id}`}>
-                          {p.name}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-                <Input className="col-span-full lg:col-span-3" />
+
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <div
+                      className={cn(
+                        "font-body3",
+                        "border rounded-[10px]",
+                        "w-full col-span-full lg:col-span-2 px-3"
+                      )}
+                    >
+                      <div className="flex justify-between items-center min-h-8 rounded-[10px]">
+                        <div className="flex-1">
+                          {item.dateTime &&
+                            DateFormat.shortDate({ date: item.dateTime })}
+                        </div>
+                        <CalendarIcon className="size-4 opacity-50 text-muted-foreground" />
+                      </div>
+                    </div>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-auto overflow-hidden p-0"
+                    align="start"
+                  >
+                    <Calendar
+                      mode="single"
+                      selected={item.dateTime ?? undefined}
+                      captionLayout="label"
+                      onSelect={(date) => {}}
+                    />
+                  </PopoverContent>
+                </Popover>
+
+                <Input
+                  defaultValue={item.remark ?? " "}
+                  className="col-span-full lg:col-span-3 h-8 min-h-8 font-body3 text-semi-black rounded-[10px]"
+                />
               </div>
             ))}
         </div>

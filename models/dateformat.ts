@@ -1,7 +1,7 @@
 import { Locale } from "date-fns";
 
 export interface IDateFormat {
-  date?: Date;
+  date?: Date | null;
   locale?: Locale;
   formattedDate?: string;
 }
