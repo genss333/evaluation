@@ -3,14 +3,17 @@ import * as model from "@/modules/probation/data/models/probation-kpi-model";
 import { queryOptions } from "@tanstack/react-query";
 import { NextResponse } from "next/server";
 import { CompetencyModel } from "../../data/models/probation-competency-model";
+import { DevplanModel } from "../../data/models/probation-devplan-model";
 import { ProbationModel } from "../../data/models/probation-model";
 import { ProbationTableModel } from "../../data/models/probation-table-model";
-import { ProbationTimeModel } from "../../data/models/time-attandance-model";
+import { TimeAttandanceModel } from "../../data/models/time-attandance-model";
 import { CompetencyService } from "../../data/services/competency-service";
+import { DevplanService } from "../../data/services/devplan-service";
 import { KpiService } from "../../data/services/kpi-service";
 import { ProbationDetailService } from "../../data/services/probation-detail-service";
 import { TimeAttService } from "../../data/services/time-att-service";
 import { CometencyRepository } from "../../domain/repositories/competency-repository";
+import { DevplanRepository } from "../../domain/repositories/devplan-repository";
 import { KpiRepository } from "../../domain/repositories/kpi-repository";
 import { ProbationDetailRepository } from "../../domain/repositories/probation-detail-repository";
 import { TimeAttandanceRepository } from "../../domain/repositories/time-attandance-repository";
@@ -19,6 +22,7 @@ export const probationQueryKery = ["probation"];
 export const kpiQueryKery = ["probation-kpi"];
 export const competencyQueryKery = ["probation-competency"];
 export const timeAttQueryKery = ["probation-time"];
+export const devplanQueryKery = ["probation-devplan"];
 
 export const prefetchProbation = () => {
   const api = new ApiClient();
@@ -65,10 +69,24 @@ export const useFetchCompetency = () => {
 export const useFetchProbationTime = () => {
   const api = new ApiClient();
   const service = new TimeAttService<NextResponse>(api);
-  const repo = new TimeAttandanceRepository<ProbationTimeModel>(service);
+  const repo = new TimeAttandanceRepository(service);
 
-  return queryOptions<ProbationTimeModel>({
+  return queryOptions<ProbationTableModel<TimeAttandanceModel>>({
     queryKey: timeAttQueryKery,
+    queryFn: async () => {
+      const data = await repo.call();
+      return data;
+    },
+  });
+};
+
+export const useFetchDevplan = () => {
+  const api = new ApiClient();
+  const service = new DevplanService<NextResponse>(api);
+  const repo = new DevplanRepository(service);
+
+  return queryOptions<ProbationTableModel<DevplanModel>>({
+    queryKey: devplanQueryKery,
     queryFn: async () => {
       const data = await repo.call();
       return data;

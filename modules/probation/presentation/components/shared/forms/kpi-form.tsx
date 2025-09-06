@@ -1,7 +1,7 @@
 "use client";
 
 import ProbationDataTable from "@/components/custom/custom-data-table";
-import { TextField } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
 import {
   Kpi,
@@ -88,7 +88,7 @@ const KpiForm = () => {
       minSize: 80,
       maxSize: 100,
       cell: ({ row }) => (
-        <TextField
+        <Input
           type="number"
           defaultValue={row.original.score ?? ""}
           onChange={(e) =>
@@ -105,7 +105,7 @@ const KpiForm = () => {
       minSize: 100,
       maxSize: 260,
       cell: ({ row }) => (
-        <TextField
+        <Input
           defaultValue={row.original.memo ?? ""}
           onChange={(e) => handleDataChange(row.index, "memo", e.target.value)}
           className="font-caption3 text-semi-black w-full"

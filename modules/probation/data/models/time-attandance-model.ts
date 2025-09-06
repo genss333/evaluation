@@ -4,9 +4,3 @@ export interface TimeAttandanceModel {
   value: string;
   disable: boolean;
 }
-
-export interface ProbationTimeModel {
-  title: String;
-  desc: string;
-  list: TimeAttandanceModel[];
-}
