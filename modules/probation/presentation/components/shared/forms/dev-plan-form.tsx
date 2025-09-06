@@ -24,7 +24,6 @@ import { useFetchDevplan } from "../../../hooks/fetch-probation";
 
 const DevplanForm = () => {
   const { data, isLoading } = useQuery(useFetchDevplan());
-  const gridCols = 12;
 
   if (isLoading) {
     return (

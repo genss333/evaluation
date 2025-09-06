@@ -2,6 +2,7 @@ import { ApiClient } from "@/lib/api-client";
 import * as model from "@/modules/probation/data/models/probation-kpi-model";
 import { queryOptions } from "@tanstack/react-query";
 import { NextResponse } from "next/server";
+import { MoreProbationModel } from "../../data/models/more-probation-model";
 import { CompetencyModel } from "../../data/models/probation-competency-model";
 import { DevplanModel } from "../../data/models/probation-devplan-model";
 import { ProbationModel } from "../../data/models/probation-model";
@@ -10,11 +11,13 @@ import { TimeAttandanceModel } from "../../data/models/time-attandance-model";
 import { CompetencyService } from "../../data/services/competency-service";
 import { DevplanService } from "../../data/services/devplan-service";
 import { KpiService } from "../../data/services/kpi-service";
+import { MoreProbationService } from "../../data/services/more-probation-service";
 import { ProbationDetailService } from "../../data/services/probation-detail-service";
 import { TimeAttService } from "../../data/services/time-att-service";
 import { CometencyRepository } from "../../domain/repositories/competency-repository";
 import { DevplanRepository } from "../../domain/repositories/devplan-repository";
 import { KpiRepository } from "../../domain/repositories/kpi-repository";
+import { MoreProbationRepository } from "../../domain/repositories/more-probation-repository";
 import { ProbationDetailRepository } from "../../domain/repositories/probation-detail-repository";
 import { TimeAttandanceRepository } from "../../domain/repositories/time-attandance-repository";
 
@@ -23,6 +26,7 @@ export const kpiQueryKery = ["probation-kpi"];
 export const competencyQueryKery = ["probation-competency"];
 export const timeAttQueryKery = ["probation-time"];
 export const devplanQueryKery = ["probation-devplan"];
+export const moreQueryKery = ["probation-more"];
 
 export const prefetchProbation = () => {
   const api = new ApiClient();
@@ -87,6 +91,20 @@ export const useFetchDevplan = () => {
 
   return queryOptions<ProbationTableModel<DevplanModel>>({
     queryKey: devplanQueryKery,
+    queryFn: async () => {
+      const data = await repo.call();
+      return data;
+    },
+  });
+};
+
+export const useFetchMoreProbation = () => {
+  const api = new ApiClient();
+  const service = new MoreProbationService<NextResponse>(api);
+  const repo = new MoreProbationRepository(service);
+
+  return queryOptions<ProbationTableModel<MoreProbationModel>>({
+    queryKey: moreQueryKery,
     queryFn: async () => {
       const data = await repo.call();
       return data;

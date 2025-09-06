@@ -1,7 +1,8 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import CompetencyForm from "./forms/competency-form";
 import DevplanForm from "./forms/dev-plan-form";
 import KpiForm from "./forms/kpi-form";
+import MoreProbationForm from "./forms/more-form";
 import TimeAttandanceForm from "./forms/time-attandance-form";
 
 const ProbationTabs = () => {
@@ -18,7 +19,7 @@ const ProbationTabs = () => {
       <CompetencyForm />
       <TimeAttandanceForm />
       <DevplanForm />
-      <TabsContent value="more"></TabsContent>
+      <MoreProbationForm />
     </Tabs>
   );
 };
