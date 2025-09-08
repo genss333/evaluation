@@ -36,7 +36,7 @@ const ProbationPage = async () => {
   const cookieStore = await cookies();
 
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(useFetchProbation({ cookieStore }));
+  await queryClient.prefetchQuery(useFetchProbation({ cookieStore}));
   const data = queryClient.getQueryData(
     useFetchProbation({ cookieStore }).queryKey
   );

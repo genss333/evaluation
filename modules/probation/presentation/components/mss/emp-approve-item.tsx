@@ -6,7 +6,7 @@ import * as model from "../../../data/models/probation-model";
 import { useProbationProps } from "../../hooks/use-probation-store";
 
 export const EmpList = ({ items }: { items: model.Employee[] }) => {
-  const { currentEmp, selectEmp } = useProbationProps();
+  const { currentEmp, selectEmp, setSelectedEmp } = useProbationProps();
 
   return (
     <ScrollArea className="h-full w-full">
@@ -22,7 +22,10 @@ export const EmpList = ({ items }: { items: model.Employee[] }) => {
                   currentEmp.personCode == item.personCode &&
                   "bg-primary text-white"
               )}
-              onClick={() => selectEmp(item)}
+              onClick={() => {
+                selectEmp(item);
+                setSelectedEmp();
+              }}
             >
               <div className="flex items-center gap-2">
                 {item.personCode}
