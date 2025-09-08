@@ -40,6 +40,13 @@ export interface ProbationModel {
 
 export async function GET() {
   const mockData = {
+    employee: [
+      {
+        personCode: "TG00132",
+        name: "test test",
+        percent: 54,
+      },
+    ],
     titles: [
       {
         title: "แบบฟอร์มการประเมิน",
@@ -48,18 +55,18 @@ export async function GET() {
           { id: 2, title: "การทำงานเป็นทีม" },
           { id: 3, title: "ความรับผิดชอบ" },
         ],
-        disable: false,
-      },
-      {
-        title: "หัวหน้าผู้ประเมิน",
-        values: [{ id: 4, title: "นางสาว ธิดาพร ชาวคูเวียง" }],
         disable: true,
       },
-      {
-        title: "ระยะเวลาการประเมิน",
-        values: [{ id: 1, title: "01/08/2568 - 31/08/2568" }],
-        disable: true,
-      },
+      // {
+      //   title: "หัวหน้าผู้ประเมิน",
+      //   values: [{ id: 4, title: "นางสาว ธิดาพร ชาวคูเวียง" }],
+      //   disable: true,
+      // },
+      // {
+      //   title: "ระยะเวลาการประเมิน",
+      //   values: [{ id: 1, title: "01/08/2568 - 31/08/2568" }],
+      //   disable: true,
+      // },
     ],
     count: {
       title: "ครั้งที่",

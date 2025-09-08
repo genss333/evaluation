@@ -21,7 +21,7 @@ interface ProbationFieldProps {
   colSpan?: number[];
 }
 
-const CreateButtonTrigger = React.forwardRef<
+export const ProbationFieldTrigger = React.forwardRef<
   HTMLDivElement,
   {
     selectedValue: model.ProbationTitleValue | undefined;
@@ -51,7 +51,7 @@ const CreateButtonTrigger = React.forwardRef<
   );
 });
 
-CreateButtonTrigger.displayName = "CreateButtonTrigger";
+ProbationFieldTrigger.displayName = "ProbationFieldTrigger";
 
 const ProbationField = ({
   title,
@@ -86,7 +86,7 @@ const ProbationField = ({
       </div>
       <div style={{ gridColumn: `span ${valueColSpan}` }}>
         {disable ? (
-          <CreateButtonTrigger
+          <ProbationFieldTrigger
             selectedValue={selectedValue}
             showSuffix={showSuffix}
             suffix={suffix}
@@ -95,7 +95,7 @@ const ProbationField = ({
         ) : (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <CreateButtonTrigger
+              <ProbationFieldTrigger
                 selectedValue={selectedValue}
                 showSuffix={showSuffix}
                 suffix={suffix}

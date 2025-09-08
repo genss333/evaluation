@@ -16,7 +16,14 @@ export interface ProbationStep {
   dateTime?: Date | null;
 }
 
+export interface Employee {
+  personCode: string;
+  name: string;
+  percent: number;
+}
+
 export interface ProbationModel {
+  employee?: Employee[] | null;
   titles: ProbationTitle[];
   count: ProbationTitle;
   code: ProbationTitle;
