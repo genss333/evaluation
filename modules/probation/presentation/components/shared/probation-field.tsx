@@ -36,7 +36,7 @@ export const ProbationFieldTrigger = React.forwardRef<
       {...props}
       className={cn(
         "flex items-center px-4 py-2",
-        "font-body3 min-h-8 w-full justify-between rounded-[10px]",
+        "font-body3 h-8 min-h-8 w-full justify-between rounded-[10px]",
         disable ? "text-button-grey" : "text-semi-black",
         disable ? "bg-[#F0F0F0]" : "bg-background outline",
         disable ? "hover:text-button-grey" : "hover:bg-background",

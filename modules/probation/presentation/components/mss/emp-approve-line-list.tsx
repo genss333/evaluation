@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Drawer,
   DrawerContent,
@@ -15,9 +17,11 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Filter, ListFilter } from "lucide-react";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import * as model from "../../../data/models/probation-model";
+import { useProbationProps } from "../../hooks/use-probation-store";
 import { ProbationFieldTrigger } from "../shared/probation-field";
+import { EmpList } from "./emp-approve-item";
 
 interface EmpApproveLineProps {
   employees: model.Employee[] | null;
@@ -39,31 +43,6 @@ const CardSection = ({
       )}
     >
       {children}
-    </div>
-  );
-};
-
-const EmpItem = ({ children }: { children: ReactNode }) => {
-  return (
-    <div className="h-[34px] text-xs font-normal text-foreground rounded-[10px] flex flex-col justify-center px-4">
-      {children}
-    </div>
-  );
-};
-
-const EmpList = ({ items }: { items: model.Employee[] }) => {
-  return (
-    <div className="space-y-2.5">
-      {items &&
-        items.map((item) => (
-          <EmpItem key={item.personCode}>
-            <div className="flex items-center gap-2">
-              {item.personCode}
-              <div className="flex-1"> {item.name}</div>
-              {item.percent} %
-            </div>
-          </EmpItem>
-        ))}
     </div>
   );
 };
@@ -90,6 +69,12 @@ const EmpDrawer = ({ items }: { items: model.Employee[] }) => {
 };
 
 const EmpApproveLine = ({ employees, form }: EmpApproveLineProps) => {
+  const { selectEmp } = useProbationProps();
+
+  useEffect(() => {
+    employees && selectEmp(employees[0]);
+  }, [employees]);
+
   return (
     <div className="space-y-2.5">
       <CardSection>

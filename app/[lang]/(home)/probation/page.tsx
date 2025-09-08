@@ -3,7 +3,7 @@ import { getQueryClient } from "@/lib/get-query-client";
 import { Role } from "@/models/user-role";
 import ESSLayout from "@/modules/probation/presentation/components/ess/ess-layout";
 import MSSLayout from "@/modules/probation/presentation/components/mss/mss-layout";
-import { prefetchProbation } from "@/modules/probation/presentation/hooks/fetch-probation";
+import { useFetchProbation } from "@/modules/probation/presentation/hooks/use-fetch-probation";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -11,15 +11,15 @@ import { cookies } from "next/headers";
 export async function generateMetadata(): Promise<Metadata> {
   const session = await getSession();
 
-  let title = "Probation Portal"; // Default title for guests
+  let title = "";
 
   if (session) {
     switch (session.role) {
       case Role.MSS:
-        title = "Manager View: Probations";
+        title = "MSS Probations";
         break;
       case Role.ESS:
-        title = "My Probation Details";
+        title = "ESS Probations";
         break;
       default:
         title = "Dashboard";
@@ -36,9 +36,9 @@ const ProbationPage = async () => {
   const cookieStore = await cookies();
 
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(prefetchProbation(cookieStore));
+  await queryClient.prefetchQuery(useFetchProbation({ cookieStore }));
   const data = queryClient.getQueryData(
-    prefetchProbation(cookieStore).queryKey
+    useFetchProbation({ cookieStore }).queryKey
   );
 
   const session = await getSession();

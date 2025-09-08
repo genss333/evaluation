@@ -10,7 +10,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
-import { useFetchKpi } from "../../../hooks/fetch-probation";
+import { useFetchKpi } from "../../../hooks/use-fetch-probation";
 
 const KpiForm = () => {
   const { data, isLoading } = useQuery(useFetchKpi());

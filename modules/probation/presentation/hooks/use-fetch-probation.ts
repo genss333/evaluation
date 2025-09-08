@@ -22,24 +22,28 @@ import { MoreProbationRepository } from "../../domain/repositories/more-probatio
 import { ProbationDetailRepository } from "../../domain/repositories/probation-detail-repository";
 import { TimeAttandanceRepository } from "../../domain/repositories/time-attandance-repository";
 
-export const probationQueryKery = ["probation"];
+export const probationQueryKery = "probation";
 export const kpiQueryKery = ["probation-kpi"];
 export const competencyQueryKery = ["probation-competency"];
 export const timeAttQueryKery = ["probation-time"];
 export const devplanQueryKery = ["probation-devplan"];
 export const moreQueryKery = ["probation-more"];
 
-export const prefetchProbation = (cookieStore: ReadonlyRequestCookies) => {
+export const useFetchProbation = ({
+  cookieStore,
+  personCode,
+}: {
+  cookieStore?: ReadonlyRequestCookies;
+  personCode?: string;
+}) => {
   const api = new ApiClient(cookieStore);
   const service = new ProbationDetailService<NextResponse>(api);
   const repo = new ProbationDetailRepository<ProbationModel>(service);
 
   return queryOptions<ProbationModel>({
-    queryKey: probationQueryKery,
-    queryFn: async () => {
-      const data = await repo.call();
-      return data;
-    },
+    queryKey: [probationQueryKery, personCode ?? ""],
+    queryFn: () => repo.call(personCode),
+    enabled: !!personCode,
   });
 };
 

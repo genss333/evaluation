@@ -10,7 +10,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import { useEffect, useState } from "react";
-import { useFetchCompetency } from "../../../hooks/fetch-probation";
+import { useFetchCompetency } from "../../../hooks/use-fetch-probation";
 
 const CompetencyForm = () => {
   const { data, isLoading } = useQuery(useFetchCompetency());

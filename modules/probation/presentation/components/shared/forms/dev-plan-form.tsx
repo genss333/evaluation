@@ -20,7 +20,7 @@ import { DateFormat } from "@/extensions/date-format";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { useFetchDevplan } from "../../../hooks/fetch-probation";
+import { useFetchDevplan } from "../../../hooks/use-fetch-probation";
 
 const DevplanForm = () => {
   const { data, isLoading } = useQuery(useFetchDevplan());

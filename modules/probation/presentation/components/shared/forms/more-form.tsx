@@ -2,7 +2,7 @@
 import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { useQuery } from "@tanstack/react-query";
-import { useFetchMoreProbation } from "../../../hooks/fetch-probation";
+import { useFetchMoreProbation } from "../../../hooks/use-fetch-probation";
 
 const MoreProbationForm = () => {
   const { data, isLoading } = useQuery(useFetchMoreProbation());

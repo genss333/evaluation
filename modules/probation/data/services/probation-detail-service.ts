@@ -1,16 +1,16 @@
 import { IApiClient, Method } from "@/lib/api-client";
 
 export interface IProbationDetailService<T> {
-  call: () => Promise<T>;
+  call: (personCode?: string) => Promise<T>;
 }
 
 export class ProbationDetailService<T> implements IProbationDetailService<T> {
   constructor(private readonly api: IApiClient) {}
 
-  async call(): Promise<T> {
+  async call(personCode?: string): Promise<T> {
     try {
       const response = await this.api.request(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/mock/probation`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/mock/probation?personCode=${personCode}`,
         {
           method: Method.GET,
           credentials: "include",

@@ -18,7 +18,7 @@ const MSSLayout = ({ data }: MSSLayoutProps) => {
         )}
       </div>
       <div className="col-span-3">
-        <ProbationDetail data={data} />
+        <ProbationDetail />
       </div>
     </div>
   );

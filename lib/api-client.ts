@@ -16,6 +16,7 @@ export class ApiClient implements IApiClient {
     }
   }
   async request<T>(url: string, options?: RequestInit): Promise<T> {
+    const isDevelopment = process.env.NODE_ENV === "development";
     try {
       const res = await fetch(url, {
         ...options,
@@ -26,6 +27,18 @@ export class ApiClient implements IApiClient {
         },
         cache: "no-store",
       });
+
+      if (isDevelopment) {
+        console.log(`\n--- 🚀 API Request ---`);
+        console.log(`[${options?.method || "GET"}] ${url}`);
+        if (options?.body) {
+          console.log(
+            "Body:",
+            JSON.stringify(JSON.parse(options.body as string), null, 2)
+          );
+        }
+        console.log(`-----------------------`);
+      }
 
       if (!res.ok) {
         throw new Error(`API Error: ${res.status}`);

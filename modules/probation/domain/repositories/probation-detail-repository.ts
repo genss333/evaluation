@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { IProbationDetailService } from "../../data/services/probation-detail-service";
 
 export interface IProbationDetailRepository<T> {
-  call: () => Promise<T>;
+  call: (personCode?: string) => Promise<T>;
 }
 
 export class ProbationDetailRepository<ProbationModel>
@@ -11,9 +11,9 @@ export class ProbationDetailRepository<ProbationModel>
   constructor(
     private readonly service: IProbationDetailService<NextResponse>
   ) {}
-  async call(): Promise<ProbationModel> {
+  async call(personCode?: string): Promise<ProbationModel> {
     try {
-      const response = await this.service.call();
+      const response = await this.service.call(personCode);
       const data: ProbationModel = await response.json();
 
       return data;
