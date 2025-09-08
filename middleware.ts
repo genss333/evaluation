@@ -7,7 +7,7 @@ const setupConfig = {
   locales: ["en", "th"],
   defaultLocale: "en",
   secretKey: new TextEncoder().encode(process.env.JWT_SECRET_KEY),
-  protectedPaths: ["/home"],
+  protectedPaths: ["/home", "/probation"],
 };
 
 // --- Helper Functions ---
