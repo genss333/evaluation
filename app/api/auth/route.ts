@@ -1,9 +1,28 @@
+import { User } from "@/models/user";
 import { Role } from "@/models/user-role";
 import { JWTPayload, jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY); // ควรเก็บ Secret Key ใน .env
+interface SessionPayload extends JWTPayload, User {}
+
+const usersDB: Array<User & { password: string }> = [
+  {
+    id: "1",
+    email: "user@gmail.com",
+    password: "0000",
+    name: "Test ESS",
+    role: Role.ESS,
+  },
+  {
+    id: "2",
+    email: "sup@gmail.com",
+    password: "0000",
+    name: "Test MSS",
+    role: Role.MSS,
+  },
+];
 
 // create JWT
 async function createToken(payload: JWTPayload, expiresIn: string) {
@@ -14,25 +33,35 @@ async function createToken(payload: JWTPayload, expiresIn: string) {
     .sign(secretKey);
 }
 
+export async function getSession(): Promise<SessionPayload | null> {
+  const cookieStore = await cookies();
+  const token = cookieStore.get("access_token")?.value;
+  if (!token) {
+    return null;
+  }
+
+  try {
+    const { payload } = await jwtVerify<SessionPayload>(token, secretKey);
+    return payload;
+  } catch (error) {
+    throw error;
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const { email, password } = await req.json();
 
     // fake auth
-    if (email !== "user@example.com" || password !== "1234") {
+    const user = usersDB.find((dbUser) => dbUser.email === email);
+    if (!user || user.password !== password) {
       return NextResponse.json(
         { message: "Invalid email or password" },
         { status: 401 }
       );
     }
-    // --------------------------------------------------------
 
-    const userPayload = {
-      id: "1234",
-      email: "user@example.com",
-      name: "Test User",
-      role: Role.ESS,
-    };
+    const { password: _, ...userPayload } = user;
 
     const accessToken = await createToken(userPayload, "15m");
 
@@ -45,7 +74,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 1,
+      maxAge: 60 * 15,
     });
 
     cookieStore.set("refresh_token", refreshToken, {
@@ -96,7 +125,7 @@ export async function PATCH() {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 1,
+      maxAge: 60 * 15,
     });
 
     cookieStore.set("refresh_token", newRefreshToken, {

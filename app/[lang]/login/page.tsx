@@ -1,5 +1,7 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Method } from "@/lib/api-client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -30,12 +32,12 @@ export default function LoginPage() {
   };
 
   return (
-    <div>
+    <div className="max-w-48">
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label>Email:</label>
-          <input
+          <Input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -44,7 +46,7 @@ export default function LoginPage() {
         </div>
         <div>
           <label>Password:</label>
-          <input
+          <Input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -52,7 +54,7 @@ export default function LoginPage() {
           />
         </div>
         {error && <p style={{ color: "red" }}>{error}</p>}
-        <button type="submit">Login</button>
+        <Button type="submit">Login</Button>
       </form>
     </div>
   );

@@ -13,6 +13,7 @@ export class ProbationDetailService<T> implements IProbationDetailService<T> {
         `${process.env.NEXT_PUBLIC_API_URL}/api/mock/probation`,
         {
           method: Method.GET,
+          credentials: "include",
         }
       );
       return response as T;

@@ -1,6 +1,7 @@
 import { ApiClient } from "@/lib/api-client";
 import * as model from "@/modules/probation/data/models/probation-kpi-model";
 import { queryOptions } from "@tanstack/react-query";
+import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextResponse } from "next/server";
 import { MoreProbationModel } from "../../data/models/more-probation-model";
 import { CompetencyModel } from "../../data/models/probation-competency-model";
@@ -28,8 +29,8 @@ export const timeAttQueryKery = ["probation-time"];
 export const devplanQueryKery = ["probation-devplan"];
 export const moreQueryKery = ["probation-more"];
 
-export const prefetchProbation = () => {
-  const api = new ApiClient();
+export const prefetchProbation = (cookieStore: ReadonlyRequestCookies) => {
+  const api = new ApiClient(cookieStore);
   const service = new ProbationDetailService<NextResponse>(api);
   const repo = new ProbationDetailRepository<ProbationModel>(service);
 

@@ -22,7 +22,7 @@ const MoreProbationForm = () => {
             key={item.id}
             className="grid grid-cols-1 md:grid-cols-12 items-center px-2 mt-2"
           >
-            <div className="text-start text-gray-500 col-span-4">
+            <div className="text-start font-body3 col-span-4">
               {index + 1}.{item.title}
             </div>
             <Textarea className="h-[60px] min-h-[60px] font-body3 rounded-[10px] col-span-8" />
