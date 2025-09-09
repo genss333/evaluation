@@ -3,7 +3,6 @@ import { ProbationModel } from "../../data/models/probation-model";
 
 export const useProbationData = (data: ProbationModel | null | undefined) => {
   const processedData = useMemo(() => {
-    // Return a default structure if data is not available to prevent runtime errors
     if (!data || !data.fields) {
       return {
         countField: undefined,
@@ -14,7 +13,6 @@ export const useProbationData = (data: ProbationModel | null | undefined) => {
       };
     }
 
-    // --- Find single fields by their unique key ---
     const countField = data.fields.find((f) => f.key === "count");
     const totalScoreField = data.fields.find((f) => f.key === "totalScore");
     const gradeField = data.fields.find((f) => f.key === "grade");
@@ -24,10 +22,10 @@ export const useProbationData = (data: ProbationModel | null | undefined) => {
       "years",
       "month",
       "empName",
-      "startDate",
-      "startWork",
       "position",
       "empLevel",
+      "startDate",
+      "startWork",
       "workAge",
     ];
     const employeeInfoFields = data.fields
@@ -49,7 +47,7 @@ export const useProbationData = (data: ProbationModel | null | undefined) => {
       totalScoreField,
       gradeField,
     };
-  }, [data]); // The hook will only re-run this logic when the `data` object changes
+  }, [data]);
 
   return processedData;
 };
