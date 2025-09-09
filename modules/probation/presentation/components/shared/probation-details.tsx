@@ -1,18 +1,23 @@
 "use client";
 
-import { ProbationModel } from "@/modules/probation/data/models/probation-model";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import * as model from "@/modules/probation/data/models/probation-model";
 import { useQuery } from "@tanstack/react-query";
-import { Form, FormProvider, useForm } from "react-hook-form";
+import { useEffect, useRef } from "react";
+import { useForm } from "react-hook-form";
 import { useFetchProbation } from "../../hooks/use-fetch-probation";
 import { useProbationData } from "../../hooks/use-probation-data";
 import { useProbationProps } from "../../hooks/use-probation-store";
+import { ProbationFormField } from "../../schema/probation-form";
 import ProbationGrade from "../mss/probation-grade";
+import { KpiFormRef } from "./forms/kpi-form";
 import ProbationField from "./probation-field";
 import ProbationStep from "./probation-setep";
 import ProbationTabs from "./probation-tabs";
 
 interface ProbationDetailProps {
-  data: ProbationModel;
+  data: model.ProbationModel;
 }
 
 const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
@@ -29,12 +34,48 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
     data ?? initialData
   );
 
-  const form = useForm();
+  const defaultValues = data?.fields
+    ? Object.fromEntries(
+        data.fields.map((item) => [
+          item.key,
+          item.selctedValue ? item.selctedValue : item.values?.[0]?.title ?? "",
+        ])
+      )
+    : {};
+
+  const form = useForm<ProbationFormField>({
+    defaultValues: defaultValues,
+  });
+
+  const kpiFormRef = useRef<KpiFormRef>(null);
+
+  const onSubmitUI = async (data: ProbationFormField) => {
+    const apiPayload = Object.entries(data).map(([key, value]) => ({
+      key: key,
+      selectedValueId: `${value}`,
+    }));
+
+    console.log("Payload for API:", apiPayload);
+
+    kpiFormRef.current?.submit();
+  };
+
+  useEffect(() => {
+    if (data?.fields) {
+      const newDefaultValues = Object.fromEntries(
+        data.fields.map((item) => [
+          item.key,
+          item.selctedValue ? item.selctedValue : item.values?.[0]?.title ?? "",
+        ])
+      );
+      form.reset(newDefaultValues);
+    }
+  }, [data, form.reset]);
 
   return (
-    <FormProvider {...form}>
-      <Form control={form.control}>
-        <div className="bg-background w-full rounded-[10px]">
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmitUI)}>
+        <div className="bg-background w-full rounded-[10px] pb-4">
           <ProbationStep steps={data?.steps ?? []} />
           <hr className="my-4" />
           <div className="p-4">
@@ -46,24 +87,45 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
               <div className="space-y-2.5">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                   {countField && (
-                    <ProbationField
-                      title={countField.title}
-                      values={countField.values}
-                      showSuffix={countField.values.length > 1}
-                      disable={countField.disable}
-                      colSpan={[2, 3]}
+                    <FormField
+                      name={countField.key}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <ProbationField
+                              field={field}
+                              title={countField.title}
+                              values={countField.values}
+                              showSuffix={countField.values.length > 1}
+                              disable={countField.disable}
+                              colSpan={[2, 3]}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
                     />
                   )}
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-3">
-                  {employeeInfoFields?.map((field) => (
-                    <ProbationField
-                      key={field.key}
-                      title={field.title}
-                      values={field.values}
-                      showSuffix={field.values.length > 1}
-                      disable={field.disable}
-                      colSpan={[2, 3]}
+                  {employeeInfoFields?.map((item) => (
+                    <FormField
+                      key={item.key}
+                      name={item.key}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <ProbationField
+                              field={field}
+                              title={item.title}
+                              selectedValue={item.selctedValue}
+                              values={item.values}
+                              showSuffix={item.values.length > 1}
+                              disable={item.disable}
+                              colSpan={[2, 3]}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
                     />
                   ))}
                 </div>
@@ -71,10 +133,27 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
               </div>
             )}
           </div>
-          <ProbationTabs />
+          <ProbationTabs kpiFormRef={kpiFormRef} />
+          <div className="flex justify-end gap-2">
+            <Button
+              type="submit"
+              variant={"outline"}
+              size={"sm"}
+              className="rounded-full border-primary min-w-[90px] h-7.5"
+            >
+              Save darft
+            </Button>
+            <Button
+              type="submit"
+              size={"sm"}
+              className="rounded-full min-w-[90px] h-7.5"
+            >
+              Submit
+            </Button>
+          </div>
         </div>
-      </Form>
-    </FormProvider>
+      </form>
+    </Form>
   );
 };
 

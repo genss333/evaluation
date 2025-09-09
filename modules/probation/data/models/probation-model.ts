@@ -6,7 +6,8 @@ export interface ProbationFieldValue {
 export interface ProbationField {
   key: string;
   title: string;
-  suffixText?: string,
+  suffixText?: string;
+  selctedValue?: ProbationFieldValue;
   values: ProbationFieldValue[];
   disable: boolean;
 }

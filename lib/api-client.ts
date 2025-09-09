@@ -9,10 +9,9 @@ export class ApiClient implements IApiClient {
 
   constructor(cookieStore?: ReadonlyRequestCookies) {
     if (cookieStore) {
-      this.cookieHeader = cookieStore
-        .getAll()
-        .map((cookie) => `${cookie.name}=${cookie.value}`)
-        .join("; ");
+      const name = cookieStore.get("access_token")?.name;
+      const value = cookieStore.get("access_token")?.value;
+      this.cookieHeader = `${name}=${value}`;
     }
   }
   async request<T>(url: string, options?: RequestInit): Promise<T> {

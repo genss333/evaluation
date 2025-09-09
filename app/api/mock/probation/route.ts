@@ -76,7 +76,7 @@ const mssMockData: ProbationModel = {
       key: "count",
       title: "ครั้งที่",
       values: [{ id: 1, title: "1" }],
-      disable: true,
+      disable: false,
     },
     {
       key: "code",
@@ -111,16 +111,18 @@ const mssMockData: ProbationModel = {
     {
       key: "years",
       title: "รอบการประเมินประจำปี",
+      selctedValue: { id: 1, title: "2025" },
       values: [
-        { id: 2025, title: "2025" },
-        { id: 2024, title: "2024" },
-        { id: 2023, title: "2023" },
+        { id: 1, title: "2025" },
+        { id: 2, title: "2024" },
+        { id: 3, title: "2023" },
       ],
-      disable: true,
+      disable: false,
     },
     {
       key: "month",
       title: "เดือน",
+      selctedValue: { id: 9, title: "กันยายน" },
       values: [
         { id: 9, title: "กันยายน" },
         { id: 10, title: "ตุลาคม" },

@@ -1,26 +1,30 @@
 "use client";
 
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { TextField } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { cn } from "@/lib/utils";
 import * as model from "@/modules/probation/data/models/probation-model";
 import { ChevronDown } from "lucide-react";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode } from "react";
+import { ControllerRenderProps, FieldValues } from "react-hook-form";
 
 interface ProbationFieldProps {
+  field: ControllerRenderProps<FieldValues, string>;
   title: string;
   suffixText?: string;
   titleStyle?: string;
+  selectedValue?: model.ProbationFieldValue;
   values: model.ProbationFieldValue[];
   showSuffix?: boolean;
   suffix?: ReactNode;
   disable?: boolean;
-  colSpan?: number[]; // Now supports 3 values: [title, value, secondaryTitle]
+  colSpan?: number[];
 }
 
 export const ProbationFieldTrigger = React.forwardRef<
@@ -44,10 +48,8 @@ export const ProbationFieldTrigger = React.forwardRef<
           : "text-semi-black bg-background outline hover:bg-background hover:cursor-pointer"
       )}
     >
-      <>{selectedValue?.title ?? ""}</>
-      {showSuffix && !suffix && (
-        <ChevronDown className="text-button-grey" size={18} />
-      )}
+      <div>{selectedValue?.title ?? ""}</div>
+      {showSuffix && !suffix && <ChevronDown className="size-4 opacity-50" />}
       {suffix}
     </div>
   );
@@ -56,23 +58,17 @@ export const ProbationFieldTrigger = React.forwardRef<
 ProbationFieldTrigger.displayName = "ProbationFieldTrigger";
 
 const ProbationField = ({
+  field,
   title,
   suffixText,
   titleStyle = "font-body2",
+  selectedValue,
   values,
   showSuffix = true,
   suffix,
   disable = false,
   colSpan,
 }: ProbationFieldProps) => {
-  const [selectedValue, setSelectedValue] = useState<
-    model.ProbationFieldValue | undefined
-  >(values[0]);
-
-  useEffect(() => {
-    setSelectedValue(values[0]);
-  }, [values]);
-
   const [titleColSpan = 1, valueColSpan = 1, secondaryTitleColSpan = 1] =
     colSpan ?? [];
 
@@ -96,20 +92,13 @@ const ProbationField = ({
       <div style={{ gridColumn: `span ${valueColSpan}` }}>
         {disable ? (
           <ProbationFieldTrigger
-            selectedValue={selectedValue}
+            selectedValue={selectedValue ?? values[0]}
             showSuffix={showSuffix}
             suffix={suffix}
             disable={disable}
           />
         ) : !disable && values.length === 1 ? (
           <TextField
-            value={selectedValue?.title ?? ""}
-            onChange={(e) =>
-              setSelectedValue((prev) => ({
-                id: prev?.id ?? values[0].id,
-                title: e.target.value,
-              }))
-            }
             className={cn(
               "flex items-center px-4 py-2",
               "font-body3 h-8 min-h-8 w-full rounded-[10px]",
@@ -117,30 +106,29 @@ const ProbationField = ({
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             )}
             suffixIcon={suffix}
+            {...field}
           />
         ) : (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <ProbationFieldTrigger
-                selectedValue={selectedValue}
-                showSuffix={showSuffix}
-                suffix={suffix}
-                disable={disable}
-              />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-[var(--radix-dropdown-menu-trigger-width)]">
+          <Select
+            onValueChange={field.onChange}
+            defaultValue={`${field.value.id}`}
+          >
+            <SelectTrigger
+              className="w-full font-body3 text-semi-black col-span-full lg:col-span-2 [data-placeholder]:text-semi-black rounded-[10px]"
+              size="sm"
+              {...field}
+            >
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
               {values &&
-                values.map((value: model.ProbationFieldValue) => (
-                  <DropdownMenuItem
-                    key={value.id}
-                    onSelect={() => setSelectedValue(value)}
-                    className="font-body3 text-semi-black"
-                  >
-                    {value.title}
-                  </DropdownMenuItem>
+                values.map((p) => (
+                  <SelectItem key={p.id} value={`${p.id}`}>
+                    {p.title}
+                  </SelectItem>
                 ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </SelectContent>
+          </Select>
         )}
       </div>
 
