@@ -33,7 +33,6 @@ export const useFetchProbation = ({
   cookieStore,
   initialData,
   personCode,
-  isSelectemp,
 }: {
   cookieStore?: ReadonlyRequestCookies;
   initialData?: ProbationModel;
@@ -48,7 +47,6 @@ export const useFetchProbation = ({
     queryKey: [probationQueryKery],
     initialData,
     queryFn: () => repo.call(personCode),
-    enabled: !!isSelectemp,
   });
 };
 

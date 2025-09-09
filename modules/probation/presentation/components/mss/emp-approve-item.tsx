@@ -9,7 +9,7 @@ import { useProbationProps } from "../../hooks/use-probation-store";
 
 export const EmpList = ({ items }: { items: model.Employee[] }) => {
   const queryClient = getQueryClient();
-  const { currentEmp, selectEmp, setSelectedEmp } = useProbationProps();
+  const { currentEmp, selectEmp } = useProbationProps();
 
   return (
     <ScrollArea className="h-full w-full">
@@ -30,7 +30,6 @@ export const EmpList = ({ items }: { items: model.Employee[] }) => {
                   queryKey: [probationQueryKery],
                 });
                 selectEmp(item);
-                setSelectedEmp();
               }}
             >
               <div className="flex items-center gap-2">

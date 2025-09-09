@@ -15,6 +15,4 @@ export const useProbationProps = () => ({
   currentEmp: useProbationStore((state) => state.currentEmp),
   selectEmp: useProbationStore((state) => state.selectEmp),
   setEmployees: useProbationStore((state) => state.setEmployees),
-  isSelectedEmp: useProbationStore((state) => state.isSelectedEmp),
-  setSelectedEmp: useProbationStore((state) => state.setSelectedEmp),
 });

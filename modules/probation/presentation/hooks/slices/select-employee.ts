@@ -5,10 +5,8 @@ import { StateCreator } from "zustand";
 interface SelectEmployeeState {
   employees: model.Employee[] | [];
   currentEmp: model.Employee | null;
-  isSelectedEmp: boolean;
 }
 interface SelectEmployeeAction {
-  setSelectedEmp: () => void;
   selectEmp: (emp: model.Employee) => void;
   setEmployees: (list: model.Employee[]) => void;
 }
@@ -20,14 +18,6 @@ export const CreateSelctEmployeeSlice: StateCreator<CreateSelctEmployee> = (
 ) => ({
   employees: [],
   currentEmp: null,
-  isSelectedEmp: false,
-  setSelectedEmp: () => {
-    set(
-      produce<CreateSelctEmployee>((state) => {
-        state.isSelectedEmp = true;
-      })
-    );
-  },
   selectEmp: (emp) => {
     set(
       produce<CreateSelctEmployee>((state) => {
