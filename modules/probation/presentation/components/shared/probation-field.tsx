@@ -9,22 +9,23 @@ import {
 import { cn } from "@/lib/utils";
 import * as model from "@/modules/probation/data/models/probation-model";
 import { ChevronDown } from "lucide-react";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
 interface ProbationFieldProps {
   title: string;
+  suffixText?: string;
   titleStyle?: string;
-  values: model.ProbationTitleValue[];
+  values: model.ProbationFieldValue[];
   showSuffix?: boolean;
   suffix?: ReactNode;
   disable?: boolean;
-  colSpan?: number[];
+  colSpan?: number[]; // Now supports 3 values: [title, value, secondaryTitle]
 }
 
 export const ProbationFieldTrigger = React.forwardRef<
   HTMLDivElement,
   {
-    selectedValue: model.ProbationTitleValue | undefined;
+    selectedValue: model.ProbationFieldValue | undefined;
     showSuffix: boolean;
     suffix?: ReactNode;
     disable?: boolean;
@@ -37,16 +38,16 @@ export const ProbationFieldTrigger = React.forwardRef<
       className={cn(
         "flex items-center px-4 py-2",
         "font-body3 h-8 min-h-8 w-full justify-between rounded-[10px]",
-        disable ? "text-button-grey" : "text-semi-black",
-        disable ? "bg-[#F0F0F0]" : "bg-background outline",
-        disable ? "hover:text-button-grey" : "hover:bg-background",
-        !disable && "hover:cursor-pointer"
+        disable
+          ? "text-button-grey bg-[#F0F0F0] hover:text-button-grey"
+          : "text-semi-black bg-background outline hover:bg-background hover:cursor-pointer"
       )}
     >
-      <>{selectedValue?.title}</>
-      {(showSuffix && suffix) ?? (
+      <>{selectedValue?.title ?? ""}</>
+      {showSuffix && !suffix && (
         <ChevronDown className="text-button-grey" size={18} />
       )}
+      {suffix}
     </div>
   );
 });
@@ -55,6 +56,7 @@ ProbationFieldTrigger.displayName = "ProbationFieldTrigger";
 
 const ProbationField = ({
   title,
+  suffixText,
   titleStyle = "font-body2",
   values,
   showSuffix = true,
@@ -63,27 +65,33 @@ const ProbationField = ({
   colSpan,
 }: ProbationFieldProps) => {
   const [selectedValue, setSelectedValue] = useState<
-    model.ProbationTitleValue | undefined
+    model.ProbationFieldValue | undefined
   >(values[0]);
 
-  // Define column spans with defaults
-  const titleColSpan = colSpan?.[0] ?? 1;
-  const valueColSpan = colSpan?.[1] ?? 1;
-  const totalCols = titleColSpan + valueColSpan;
+  useEffect(() => {
+    setSelectedValue(values[0]);
+  }, [values]);
+
+  const [titleColSpan = 1, valueColSpan = 1, secondaryTitleColSpan = 1] =
+    colSpan ?? [];
+
+  const totalCols =
+    titleColSpan + valueColSpan + (suffixText ? secondaryTitleColSpan : 0);
 
   return (
     <div
-      className="grid grid-cols-1 items-center gap-2"
+      className="grid items-center gap-2"
       style={{
         gridTemplateColumns: `repeat(${totalCols}, minmax(0, 1fr))`,
       }}
     >
       <div
-        className={`text-semi-black ${titleStyle}`}
+        className={cn("text-semi-black", titleStyle)}
         style={{ gridColumn: `span ${titleColSpan}` }}
       >
         {title}
       </div>
+
       <div style={{ gridColumn: `span ${valueColSpan}` }}>
         {disable ? (
           <ProbationFieldTrigger
@@ -91,6 +99,22 @@ const ProbationField = ({
             showSuffix={showSuffix}
             suffix={suffix}
             disable={disable}
+          />
+        ) : !disable && values.length === 1 ? (
+          <input
+            value={selectedValue?.title ?? ""}
+            onChange={(e) =>
+              setSelectedValue((prev) => ({
+                id: prev?.id ?? values[0].id,
+                title: e.target.value,
+              }))
+            }
+            className={cn(
+              "flex items-center px-4 py-2",
+              "font-body3 h-8 min-h-8 w-full rounded-[10px]",
+              "text-semi-black bg-background outline",
+              "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+            )}
           />
         ) : (
           <DropdownMenu>
@@ -104,7 +128,7 @@ const ProbationField = ({
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-[var(--radix-dropdown-menu-trigger-width)]">
               {values &&
-                values.map((value: model.ProbationTitleValue) => (
+                values.map((value: model.ProbationFieldValue) => (
                   <DropdownMenuItem
                     key={value.id}
                     onSelect={() => setSelectedValue(value)}
@@ -117,6 +141,15 @@ const ProbationField = ({
           </DropdownMenu>
         )}
       </div>
+
+      {suffixText && (
+        <div
+          className="font-body3 text-gray-500"
+          style={{ gridColumn: `span ${secondaryTitleColSpan}` }}
+        >
+          {suffixText}
+        </div>
+      )}
     </div>
   );
 };

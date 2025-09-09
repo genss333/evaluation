@@ -1,11 +1,13 @@
-export interface ProbationTitleValue {
+export interface ProbationFieldValue {
   id: number;
   title: string;
 }
 
-export interface ProbationTitle {
+export interface ProbationField {
+  key: string;
   title: string;
-  values: ProbationTitleValue[];
+  suffixText?: string,
+  values: ProbationFieldValue[];
   disable: boolean;
 }
 
@@ -24,20 +26,7 @@ export interface Employee {
 
 export interface ProbationModel {
   employee?: Employee[] | null;
-  titles: ProbationTitle[];
-  count: ProbationTitle;
-  code: ProbationTitle;
-  empName: ProbationTitle;
-  startDate: ProbationTitle;
-  startWork: ProbationTitle;
-  position: ProbationTitle;
-  years: ProbationTitle;
-  month: ProbationTitle;
-  empLevel: ProbationTitle;
-  workAge: ProbationTitle;
-  group: ProbationTitle[];
-  totalScore: ProbationTitle;
-  grade: ProbationTitle;
-  gradePeriod: string;
+  titles: ProbationField[];
+  fields: ProbationField[];
   steps: ProbationStep[];
 }

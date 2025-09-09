@@ -3,7 +3,7 @@ import * as model from "@/modules/probation/data/models/probation-model";
 import ProbationField from "../shared/probation-field";
 
 interface ProbationTitleProps {
-  items: model.ProbationTitle[] | [];
+  items: model.ProbationField[] | [];
 }
 
 const ProbationTitle = ({ items }: ProbationTitleProps) => {

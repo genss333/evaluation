@@ -6,6 +6,7 @@ import { ProbationModel } from "@/modules/probation/data/models/probation-model"
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode } from "react";
 import { useFetchProbation } from "../../hooks/use-fetch-probation";
+import { useProbationData } from "../../hooks/use-probation-data";
 import { useProbationProps } from "../../hooks/use-probation-store";
 import ProbationField from "./probation-field";
 import ProbationStep from "./probation-setep";
@@ -32,27 +33,21 @@ const ProbationGroupCard = ({
 const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
   const { currentEmp } = useProbationProps();
 
-  const { data, isLoading, isFetching } = useQuery(
+  const { data } = useQuery(
     useFetchProbation({
       personCode: currentEmp?.personCode,
       initialData,
     })
   );
 
-  const employeeInfoFields = [
-    data?.code,
-    data?.years,
-    data?.month,
-    data?.empName,
-    data?.position,
-    data?.empLevel,
-    data?.startDate,
-    data?.startWork,
-    data?.workAge,
-  ];
+  const {
+    countField,
+    employeeInfoFields,
+    gradeField,
+    scoreGroupFields,
+    totalScoreField,
+  } = useProbationData(data ?? initialData);
 
-  if (isFetching) return <p>กำลังโหลดข้อมูลพนักงาน...</p>;
-  if (isLoading) return <p>กำลังโหลดข้อมูลครั้งแรก...</p>;
   return (
     <div className="bg-background w-full rounded-[10px]">
       <ProbationStep steps={data?.steps ?? []} />
@@ -65,40 +60,40 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
         ) : (
           <>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-              <ProbationField
-                title={data?.count.title ?? ""}
-                values={data?.count.values ?? []}
-                showSuffix={data && data.count.values?.length > 1}
-                disable={data?.count.disable}
-                colSpan={[2, 3]}
-              />
+              {countField && (
+                <ProbationField
+                  title={countField.title}
+                  values={countField.values}
+                  showSuffix={countField.values.length > 1}
+                  disable={countField.disable}
+                  colSpan={[2, 3]}
+                />
+              )}
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-3">
-              {employeeInfoFields.map((field) =>
-                field ? (
-                  <ProbationField
-                    key={field?.title}
-                    title={field?.title ?? ""}
-                    values={field?.values ?? []}
-                    showSuffix={field && field.values.length > 1}
-                    disable={field?.disable}
-                    colSpan={[2, 3]}
-                  />
-                ) : null
-              )}
+              {employeeInfoFields?.map((field) => (
+                <ProbationField
+                  key={field.key}
+                  title={field.title}
+                  values={field.values}
+                  showSuffix={field.values.length > 1}
+                  disable={field.disable}
+                  colSpan={[2, 3]}
+                />
+              ))}
             </div>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-2 mt-4">
               <ProbationGroupCard>
                 <div className="grid grid-cols-1 2xl:grid-cols-2 gap-2.5 p-4">
-                  {data?.group?.map((item) => (
+                  {scoreGroupFields?.map((item) => (
                     <ProbationField
-                      key={item.title}
+                      key={item.key}
                       title={item.title}
                       values={item.values}
                       disable={item.disable}
                       suffix={
                         <div
-                          key="time-prefix"
+                          key={`${item.key}-suffix`}
                           className="font-body3 text-button-grey"
                         >
                           %
@@ -107,15 +102,15 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
                       colSpan={[1, 2]}
                     />
                   ))}
-                  {data?.totalScore && (
+                  {totalScoreField && (
                     <ProbationField
-                      key={data?.totalScore.title ?? ""}
-                      title={data?.totalScore.title ?? ""}
-                      values={data?.totalScore.values ?? []}
-                      disable={data?.totalScore.disable}
+                      key={totalScoreField.key}
+                      title={totalScoreField.title}
+                      values={totalScoreField.values}
+                      disable={totalScoreField.disable}
                       suffix={
                         <div
-                          key="time-prefix"
+                          key="total-score-suffix"
                           className="font-body3 text-button-grey"
                         >
                           คะแนน
@@ -133,16 +128,16 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
                   className="p-4 h-full"
                 >
                   <div className="font-title pt-2">เกรดรวม</div>
-                  <div className="grid grid-cols-1 2xl:grid-cols-2 items-center gap-4">
+                  {gradeField && (
                     <ProbationField
-                      title={data?.grade?.title ?? ""}
-                      values={data?.grade?.values ?? []}
-                      disable={data?.grade?.disable}
-                      showSuffix={data && data.grade?.values?.length > 1}
-                      colSpan={[3, 1]}
+                      title={gradeField.title}
+                      suffixText={gradeField.suffixText}
+                      values={gradeField.values}
+                      disable={gradeField.disable}
+                      showSuffix={gradeField.values.length > 1}
+                      colSpan={[1, 1]}
                     />
-                    <div className="font-body3">{data?.gradePeriod}</div>
-                  </div>
+                  )}
                 </Flex>
               </ProbationGroupCard>
             </div>

@@ -61,6 +61,7 @@ const mssMockData: ProbationModel = {
   ],
   titles: [
     {
+      key: "formProbation",
       title: "แบบฟอร์มการประเมิน",
       values: [
         { id: 1, title: "ความซื่อสัตย์และจริยธรรม" },
@@ -69,102 +70,107 @@ const mssMockData: ProbationModel = {
       ],
       disable: false,
     },
-    {
-      title: "หัวหน้าผู้ประเมิน",
-      values: [{ id: 4, title: "นางสาว ธิดาพร ชาวคูเวียง" }],
-      disable: true,
-    },
-    {
-      title: "ระยะเวลาการประเมิน",
-      values: [{ id: 1, title: "01/08/2568 - 31/08/2568" }],
-      disable: true,
-    },
   ],
-  count: {
-    title: "ครั้งที่",
-    values: [{ id: 1, title: "1" }],
-    disable: true,
-  },
-  code: {
-    title: "รหัสพนักงาน",
-    values: [{ id: 1, title: "EMP007" }],
-    disable: true,
-  },
-  empName: {
-    title: "ชื่อ-สกุล",
-    values: [{ id: 1, title: "สมศรี มีสุข" }],
-    disable: true,
-  },
-  startDate: {
-    title: "วันที่เริ่มทดลองงาน",
-    values: [{ id: 1, title: "01/06/2025" }],
-    disable: true,
-  },
-  startWork: {
-    title: "วันที่เริ่มงาน",
-    values: [{ id: 1, title: "01/06/2025" }],
-    disable: true,
-  },
-  position: {
-    title: "ตำแหน่ง",
-    values: [{ id: 1, title: "Senior Frontend Developer" }],
-    disable: true,
-  },
-  years: {
-    title: "รอบการประเมินประจำปี",
-    values: [
-      { id: 2025, title: "2025" },
-      { id: 2024, title: "2024" },
-      { id: 2023, title: "2023" },
-    ],
-    disable: false,
-  },
-  month: {
-    title: "เดือน",
-    values: [
-      { id: 9, title: "กันยายน" },
-      { id: 10, title: "ตุลาคม" },
-    ],
-    disable: false,
-  },
-  empLevel: {
-    title: "ระดับพนักงาน",
-    values: [{ id: 1, title: "S3" }],
-    disable: true,
-  },
-  workAge: {
-    title: "อายุงาน",
-    values: [{ id: 1, title: "3 ปี 6 เดือน" }],
-    disable: true,
-  },
-  group: [
+  fields: [
     {
+      key: "count",
+      title: "ครั้งที่",
+      values: [{ id: 1, title: "1" }],
+      disable: true,
+    },
+    {
+      key: "code",
+      title: "รหัสการประเมิน",
+      values: [{ id: 1, title: "EMP007" }],
+      disable: true,
+    },
+    {
+      key: "empName",
+      title: "ชื่อ-สกุล",
+      values: [{ id: 1, title: "สมศรี มีสุข" }],
+      disable: true,
+    },
+    {
+      key: "startDate",
+      title: "วันที่เริ่มทดลองงาน",
+      values: [{ id: 1, title: "01/06/2025" }],
+      disable: true,
+    },
+    {
+      key: "startWork",
+      title: "วันที่เริ่มงาน",
+      values: [{ id: 1, title: "01/06/2025" }],
+      disable: true,
+    },
+    {
+      key: "position",
+      title: "ตำแหน่ง",
+      values: [{ id: 1, title: "Senior Frontend Developer" }],
+      disable: true,
+    },
+    {
+      key: "years",
+      title: "รอบการประเมินประจำปี",
+      values: [
+        { id: 2025, title: "2025" },
+        { id: 2024, title: "2024" },
+        { id: 2023, title: "2023" },
+      ],
+      disable: true,
+    },
+    {
+      key: "month",
+      title: "เดือน",
+      values: [
+        { id: 9, title: "กันยายน" },
+        { id: 10, title: "ตุลาคม" },
+      ],
+      disable: false,
+    },
+    {
+      key: "empLevel",
+      title: "ระดับพนักงาน",
+      values: [{ id: 1, title: "S3" }],
+      disable: true,
+    },
+    {
+      key: "workAge",
+      title: "อายุงาน",
+      values: [{ id: 1, title: "3 ปี 6 เดือน" }],
+      disable: true,
+    },
+    {
+      key: "workTime",
       title: "เวลาทำงาน",
       values: [{ id: 1, title: "10" }],
       disable: true,
     },
     {
+      key: "kpi",
       title: "ผลงาน (KPI)",
       values: [{ id: 1, title: "50" }],
       disable: true,
     },
     {
+      key: "ability",
       title: "ความสามารถ",
       values: [{ id: 1, title: "40" }],
       disable: true,
     },
+    {
+      key: "totalScore",
+      title: "คะแนนรวม",
+      values: [{ id: 1, title: "100" }],
+      disable: true,
+    },
+    {
+      key: "grade",
+      title: "ผลการประเมิน",
+      values: [{ id: 1, title: "A" }],
+      suffixText: "ช่วงคะแนนประเมิน 0.00 - 50.00",
+      disable: true,
+    },
   ],
-  totalScore: {
-    title: "คะแนนรวม",
-    values: [{ id: 1, title: "100" }],
-    disable: true,
-  },
-  grade: {
-    title: "ผลการประเมิน",
-    values: [{ id: 1, title: "A" }],
-    disable: true,
-  },
-  gradePeriod: "ช่วงคะแนนประเมิน 0.00 - 50.00",
   steps: [
     {
       title: "ตั้งค่า KPI",
@@ -202,6 +208,7 @@ const mssMockData: ProbationModel = {
 const essMockData: ProbationModel = {
   titles: [
     {
+      key: "evaluationTopics",
       title: "แบบฟอร์มการประเมิน",
       values: [
         { id: 1, title: "ความซื่อสัตย์และจริยธรรม" },
@@ -211,91 +218,105 @@ const essMockData: ProbationModel = {
       disable: false,
     },
   ],
-  count: {
-    title: "ครั้งที่",
-    values: [{ id: 1, title: "1" }],
-    disable: true,
-  },
-  code: {
-    title: "รหัสพนักงาน",
-    values: [{ id: 1, title: "EMP007" }],
-    disable: true,
-  },
-  empName: {
-    title: "ชื่อ-สกุล",
-    values: [{ id: 1, title: "สมศรี มีสุข" }],
-    disable: true,
-  },
-  startDate: {
-    title: "วันที่เริ่มทดลองงาน",
-    values: [{ id: 1, title: "01/06/2025" }],
-    disable: true,
-  },
-  startWork: {
-    title: "วันที่เริ่มงาน",
-    values: [{ id: 1, title: "01/06/2025" }],
-    disable: true,
-  },
-  position: {
-    title: "ตำแหน่ง",
-    values: [{ id: 1, title: "Senior Frontend Developer" }],
-    disable: true,
-  },
-  years: {
-    title: "รอบการประเมินประจำปี",
-    values: [
-      { id: 2025, title: "2025" },
-      { id: 2024, title: "2024" },
-      { id: 2023, title: "2023" },
-    ],
-    disable: false,
-  },
-  month: {
-    title: "เดือน",
-    values: [
-      { id: 9, title: "กันยายน" },
-      { id: 10, title: "ตุลาคม" },
-    ],
-    disable: false,
-  },
-  empLevel: {
-    title: "ระดับพนักงาน",
-    values: [{ id: 1, title: "S3" }],
-    disable: true,
-  },
-  workAge: {
-    title: "อายุงาน",
-    values: [{ id: 1, title: "3 ปี 6 เดือน" }],
-    disable: true,
-  },
-  group: [
+  fields: [
     {
+      key: "count",
+      title: "ครั้งที่",
+      values: [{ id: 1, title: "1" }],
+      disable: true,
+    },
+    {
+      key: "code",
+      title: "รหัสพนักงาน",
+      values: [{ id: 1, title: "EMP007" }],
+      disable: true,
+    },
+    {
+      key: "empName",
+      title: "ชื่อ-สกุล",
+      values: [{ id: 1, title: "สมศรี มีสุข" }],
+      disable: true,
+    },
+    {
+      key: "startDate",
+      title: "วันที่เริ่มทดลองงาน",
+      values: [{ id: 1, title: "01/06/2025" }],
+      disable: true,
+    },
+    {
+      key: "startWork",
+      title: "วันที่เริ่มงาน",
+      values: [{ id: 1, title: "01/06/2025" }],
+      disable: true,
+    },
+    {
+      key: "position",
+      title: "ตำแหน่ง",
+      values: [{ id: 1, title: "Senior Frontend Developer" }],
+      disable: true,
+    },
+    {
+      key: "years",
+      title: "รอบการประเมินประจำปี",
+      values: [
+        { id: 2025, title: "2025" },
+        { id: 2024, title: "2024" },
+        { id: 2023, title: "2023" },
+      ],
+      disable: false,
+    },
+    {
+      key: "month",
+      title: "เดือน",
+      values: [
+        { id: 9, title: "กันยายน" },
+        { id: 10, title: "ตุลาคม" },
+      ],
+      disable: false,
+    },
+    {
+      key: "empLevel",
+      title: "ระดับพนักงาน",
+      values: [{ id: 1, title: "S3" }],
+      disable: true,
+    },
+    {
+      key: "workAge",
+      title: "อายุงาน",
+      values: [{ id: 1, title: "3 ปี 6 เดือน" }],
+      disable: true,
+    },
+    {
+      key: "workTime",
       title: "เวลาทำงาน",
       values: [{ id: 1, title: "10" }],
       disable: true,
     },
     {
+      key: "kpi",
       title: "ผลงาน (KPI)",
       values: [{ id: 1, title: "50" }],
       disable: true,
     },
     {
+      key: "ability",
       title: "ความสามารถ",
       values: [{ id: 1, title: "40" }],
       disable: true,
     },
+    {
+      key: "totalScore",
+      title: "คะแนนรวม",
+      values: [{ id: 1, title: "100" }],
+      disable: true,
+    },
+    {
+      key: "grade",
+      title: "ผลการประเมิน",
+      values: [{ id: 1, title: "A" }],
+      disable: true,
+    },
   ],
-  totalScore: {
-    title: "คะแนนรวม",
-    values: [{ id: 1, title: "100" }],
-    disable: true,
-  },
-  grade: {
-    title: "ผลการประเมิน",
-    values: [{ id: 1, title: "A" }],
-    disable: true,
-  },
-  gradePeriod: "ช่วงคะแนนประเมิน 0.00 - 50.00",
   steps: [
     {
       title: "ตั้งค่า KPI",

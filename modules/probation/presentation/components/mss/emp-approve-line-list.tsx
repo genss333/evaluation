@@ -25,7 +25,7 @@ import { EmpList } from "./emp-approve-item";
 
 interface EmpApproveLineProps {
   employees: model.Employee[] | null;
-  form: model.ProbationTitle | null;
+  form: model.ProbationField | null;
 }
 
 const CardSection = ({
