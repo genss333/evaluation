@@ -6,7 +6,7 @@ import { Form, FormProvider, useForm } from "react-hook-form";
 import { useFetchProbation } from "../../hooks/use-fetch-probation";
 import { useProbationData } from "../../hooks/use-probation-data";
 import { useProbationProps } from "../../hooks/use-probation-store";
-import GroupGradeESS from "../ess/group-grade";
+import ProbationGrade from "../mss/probation-grade";
 import ProbationField from "./probation-field";
 import ProbationStep from "./probation-setep";
 import ProbationTabs from "./probation-tabs";
@@ -43,7 +43,7 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
                 ไม่พบข้อมูลการประเมิน
               </div>
             ) : (
-              <>
+              <div className="space-y-2.5">
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                   {countField && (
                     <ProbationField
@@ -67,8 +67,8 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
                     />
                   ))}
                 </div>
-                <GroupGradeESS data={data ?? initialData} />
-              </>
+                <ProbationGrade data={data ?? initialData} />
+              </div>
             )}
           </div>
           <ProbationTabs />

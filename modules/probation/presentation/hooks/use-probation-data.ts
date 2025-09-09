@@ -35,7 +35,7 @@ export const useProbationData = (data: ProbationModel | null | undefined) => {
           employeeInfoKeys.indexOf(a.key) - employeeInfoKeys.indexOf(b.key)
       );
 
-    const scoreGroupKeys = ["workTime", "kpi", "ability"];
+    const scoreGroupKeys = ["totalTarget", "workTime", "kpi", "ability"];
     const scoreGroupFields = data.fields.filter((field) =>
       scoreGroupKeys.includes(field.key)
     );

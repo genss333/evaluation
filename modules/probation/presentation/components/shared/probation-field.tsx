@@ -6,6 +6,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { TextField } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import * as model from "@/modules/probation/data/models/probation-model";
 import { ChevronDown } from "lucide-react";
@@ -101,7 +102,7 @@ const ProbationField = ({
             disable={disable}
           />
         ) : !disable && values.length === 1 ? (
-          <input
+          <TextField
             value={selectedValue?.title ?? ""}
             onChange={(e) =>
               setSelectedValue((prev) => ({
@@ -115,6 +116,7 @@ const ProbationField = ({
               "text-semi-black bg-background outline",
               "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
             )}
+            suffixIcon={suffix}
           />
         ) : (
           <DropdownMenu>
@@ -144,7 +146,7 @@ const ProbationField = ({
 
       {suffixText && (
         <div
-          className="font-body3 text-gray-500"
+          className="font-body3 text-semi-black"
           style={{ gridColumn: `span ${secondaryTitleColSpan}` }}
         >
           {suffixText}
