@@ -2,16 +2,20 @@ import * as model from "@/modules/probation/data/models/probation-model";
 import { produce } from "immer";
 import { StateCreator } from "zustand";
 
-export interface SelectEmployeeState {
+interface SelectEmployeeState {
   employees: model.Employee[] | [];
   currentEmp: model.Employee | null;
   isSelectedEmp: boolean;
+}
+interface SelectEmployeeAction {
   setSelectedEmp: () => void;
   selectEmp: (emp: model.Employee) => void;
   setEmployees: (list: model.Employee[]) => void;
 }
 
-export const CreateSelctEmployeeSlice: StateCreator<SelectEmployeeState> = (
+export type CreateSelctEmployee = SelectEmployeeState & SelectEmployeeAction;
+
+export const CreateSelctEmployeeSlice: StateCreator<CreateSelctEmployee> = (
   set
 ) => ({
   employees: [],
@@ -19,21 +23,21 @@ export const CreateSelctEmployeeSlice: StateCreator<SelectEmployeeState> = (
   isSelectedEmp: false,
   setSelectedEmp: () => {
     set(
-      produce<SelectEmployeeState>((state) => {
+      produce<CreateSelctEmployee>((state) => {
         state.isSelectedEmp = true;
       })
     );
   },
   selectEmp: (emp) => {
     set(
-      produce<SelectEmployeeState>((state) => {
+      produce<CreateSelctEmployee>((state) => {
         state.currentEmp = emp;
       })
     );
   },
   setEmployees: (list) => {
     set(
-      produce<SelectEmployeeState>((state) => {
+      produce<CreateSelctEmployee>((state) => {
         state.employees = list;
       })
     );

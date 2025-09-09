@@ -1,11 +1,14 @@
 "use client";
 
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { getQueryClient } from "@/lib/get-query-client";
 import { cn } from "@/lib/utils";
 import * as model from "../../../data/models/probation-model";
+import { probationQueryKery } from "../../hooks/use-fetch-probation";
 import { useProbationProps } from "../../hooks/use-probation-store";
 
 export const EmpList = ({ items }: { items: model.Employee[] }) => {
+  const queryClient = getQueryClient();
   const { currentEmp, selectEmp, setSelectedEmp } = useProbationProps();
 
   return (
@@ -23,6 +26,9 @@ export const EmpList = ({ items }: { items: model.Employee[] }) => {
                   "bg-primary text-white"
               )}
               onClick={() => {
+                queryClient.invalidateQueries({
+                  queryKey: [probationQueryKery],
+                });
                 selectEmp(item);
                 setSelectedEmp();
               }}

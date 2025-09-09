@@ -31,10 +31,12 @@ export const moreQueryKery = ["probation-more"];
 
 export const useFetchProbation = ({
   cookieStore,
+  initialData,
   personCode,
   isSelectemp,
 }: {
   cookieStore?: ReadonlyRequestCookies;
+  initialData?: ProbationModel;
   personCode?: string;
   isSelectemp?: boolean;
 }) => {
@@ -43,7 +45,8 @@ export const useFetchProbation = ({
   const repo = new ProbationDetailRepository<ProbationModel>(service);
 
   return queryOptions<ProbationModel>({
-    queryKey: [probationQueryKery, personCode ?? ""],
+    queryKey: [probationQueryKery],
+    initialData,
     queryFn: () => repo.call(personCode),
     enabled: !!isSelectemp,
   });

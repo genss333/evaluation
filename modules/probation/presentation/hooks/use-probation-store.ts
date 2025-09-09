@@ -1,10 +1,10 @@
 import { create } from "zustand";
 import {
+  CreateSelctEmployee,
   CreateSelctEmployeeSlice,
-  SelectEmployeeState,
 } from "./slices/select-employee";
 
-type ProbationStore = SelectEmployeeState;
+type ProbationStore = CreateSelctEmployee;
 
 const useProbationStore = create<ProbationStore>()((...a) => ({
   ...CreateSelctEmployeeSlice(...a),

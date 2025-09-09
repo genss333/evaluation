@@ -32,14 +32,11 @@ const ProbationGroupCard = ({
 const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
   const { currentEmp, isSelectedEmp } = useProbationProps();
 
-  const {
-    data = initialData,
-    isLoading,
-    isFetching,
-  } = useQuery(
+  const { data, isLoading, isFetching } = useQuery(
     useFetchProbation({
       personCode: currentEmp?.personCode,
       isSelectemp: isSelectedEmp,
+      initialData,
     })
   );
 
