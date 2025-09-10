@@ -3,6 +3,13 @@ interface Score {
   disable: boolean;
 }
 
+export interface SumScore {
+  id: number;
+  key: string;
+  title: string;
+  value: number | string;
+}
+
 export interface Kpi {
   id: number;
   runNumber: number;

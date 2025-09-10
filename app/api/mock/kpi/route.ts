@@ -1,4 +1,7 @@
-import { Kpi } from "@/modules/probation/data/models/probation-kpi-model";
+import {
+  Kpi,
+  SumScore,
+} from "@/modules/probation/data/models/probation-kpi-model";
 import { ProbationTableModel } from "@/modules/probation/data/models/probation-table-model";
 import { NextResponse } from "next/server";
 
@@ -17,7 +20,7 @@ export interface Kpi {
 */
 
 export async function GET() {
-  const mockKpiData: ProbationTableModel<Kpi> = {
+  const mockKpiData: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
     title: "ผู้ประเมินเพิ่มหัวข้อการประเมินของ KPI",
     desc: "กำหนดให้ส่วนที่ 3 = 60%",
     list: [
@@ -64,6 +67,26 @@ export async function GET() {
           disable: false,
         },
         how: "จำนวน",
+      },
+    ],
+    sums: [
+      {
+        id: 1,
+        key: "targetScore",
+        title: "คะแนนความคาดหวังรวม",
+        value: 18.0,
+      },
+      {
+        id: 2,
+        key: "totalScore",
+        title: "คะแนนรวม",
+        value: 0.0,
+      },
+      {
+        id: 3,
+        key: "formTotal",
+        title: "จากคะแนนเต็ม",
+        value: 30.0,
       },
     ],
   };

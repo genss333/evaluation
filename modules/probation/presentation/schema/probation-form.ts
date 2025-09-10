@@ -13,6 +13,12 @@ export type KPISchema = {
     kpiMemo: string;
     kpiScore: number | string;
   }[];
+  kpiSums?: {
+    field: {
+      key: String;
+      value: number | string;
+    };
+  }[];
 };
 
 export type CompedencySchema = {

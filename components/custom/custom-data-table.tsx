@@ -77,7 +77,10 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
                       hTextLeft.includes(header.index)
                         ? "text-left"
                         : "text-center",
-                      "bg-[#F9F9F9] rounded-tl-[10px] rounded-tr-[10px]"
+                      "bg-[#F9F9F9]",
+                      header.index == 0 && "rounded-tl-[10px]",
+                      header.index === headerGroup.headers.length - 1 &&
+                        "rounded-tr-[10px]"
                     )}
                   >
                     {flexRender(
@@ -120,8 +123,8 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
           </TableBody>
         </Table>
       </div>
-      <div className="flex w-full items-center gap-8 lg:w-fit mt-2.5">
-        <div className="ml-auto flex items-center gap-2 lg:ml-0 ">
+      <div className="flex w-full items-center gap-8 lg:w-fit">
+        <div className="ml-auto flex items-center gap-2">
           <Button
             variant="outline"
             size={"icon"}

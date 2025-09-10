@@ -1,5 +1,6 @@
 import { ApiClient } from "@/lib/api-client";
 import * as model from "@/modules/probation/data/models/probation-kpi-model";
+import { SumScore } from "@/modules/probation/data/models/probation-kpi-model";
 import { queryOptions } from "@tanstack/react-query";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextResponse } from "next/server";
@@ -55,7 +56,7 @@ export const useFetchKpi = () => {
   const service = new KpiService<NextResponse>(api);
   const repo = new KpiRepository(service);
 
-  return queryOptions<ProbationTableModel<model.Kpi>>({
+  return queryOptions<ProbationTableModel<model.Kpi> & { sums?: SumScore[] }>({
     queryKey: kpiQueryKery,
     queryFn: async () => {
       const data = await repo.call();

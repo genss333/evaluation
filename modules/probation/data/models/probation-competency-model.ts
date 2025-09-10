@@ -3,7 +3,15 @@ import { Kpi } from "./probation-kpi-model";
 export interface CompetencyModel
   extends Pick<
     Kpi,
-    "id" | "runNumber" | "title" | "score" | "total" | "targetScore"| "essScore" | "memo"
+    | "id"
+    | "runNumber"
+    | "title"
+    | "score"
+    | "total"
+    | "targetScore"
+    | "essScore"
+    | "memo"
+    | "sums"
   > {
   weight: number;
   sum: number;
