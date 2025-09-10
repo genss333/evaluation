@@ -42,13 +42,13 @@ const ProbationGradeRadio = () => {
                 <div className="grid grid-cols-3 text-sm font-medium items-center">
                   <div>ผลการประเมิน</div>
                   <FormControl>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-end">
                       <RadioGroupItem value="pass" id="r1" />
                       <Label htmlFor="r1">ผ่าน</Label>
                     </div>
                   </FormControl>
                   <FormControl>
-                    <div className="flex gap-2 items-center">
+                    <div className="flex gap-2 items-end">
                       <RadioGroupItem value="fail" id="r2" />
                       <Label htmlFor="r2">ไม่ผ่าน</Label>
                     </div>
