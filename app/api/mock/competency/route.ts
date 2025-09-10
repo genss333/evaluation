@@ -1,33 +1,49 @@
+import { CompetencyModel } from "@/modules/probation/data/models/probation-competency-model";
 import { NextResponse } from "next/server";
 
 // Create the mock data array with the specified type
-const mockCompetencies = [
+const mockCompetencies: CompetencyModel[] = [
   {
-    id: "c8a1b3f2",
+    id: 1,
     runNumber: 1,
     title: "Technical Proficiency",
     sum: 85,
     total: 100,
     targetScore: 90,
     weight: 0.4,
+    essScore: 28,
+    score: {
+      score: null,
+      disable: false,
+    },
   },
   {
-    id: "d4e2f1a3",
-    runNumber: 1,
+    id: 2,
+    runNumber: 2,
     title: "Team Collaboration",
     sum: 92,
     total: 100,
     targetScore: 85,
     weight: 0.3,
+    essScore: 28,
+    score: {
+      score: null,
+      disable: false,
+    },
   },
   {
-    id: "b9c7d6e5",
-    runNumber: 1,
+    id: 3,
+    runNumber: 3,
     title: "Problem Solving",
     sum: 78,
     total: 100,
     targetScore: 80,
     weight: 0.2,
+    essScore: 28,
+    score: {
+      score: null,
+      disable: false,
+    },
   },
 ];
 
