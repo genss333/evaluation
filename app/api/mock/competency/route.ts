@@ -51,6 +51,26 @@ const mockData = {
   title: "การให้คะแนนการประเมิน Competency",
   desc: "กำหนดให้ส่วนที่ 2 = 30%",
   list: mockCompetencies,
+  sums: [
+    {
+      id: 1,
+      key: "targetScore",
+      title: "คะแนนความคาดหวังรวม",
+      value: 18.0,
+    },
+    {
+      id: 2,
+      key: "totalScore",
+      title: "คะแนนรวม",
+      value: 0.0,
+    },
+    {
+      id: 3,
+      key: "formTotal",
+      title: "จากคะแนนเต็ม",
+      value: 30.0,
+    },
+  ],
 };
 
 export async function GET() {

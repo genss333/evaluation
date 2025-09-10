@@ -2,14 +2,13 @@
 
 import ProbationDataTable from "@/components/custom/custom-data-table";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { TextField } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
-import { CompetencyModel } from "@/modules/probation/data/models/probation-competency-model";
 import { useQuery } from "@tanstack/react-query";
-import { ColumnDef } from "@tanstack/react-table";
 import { forwardRef, useEffect, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
 import { useFetchCompetency } from "../../../hooks/use-fetch-probation";
+import { useTableDataCompedency } from "../../../hooks/use-table-data";
 import { CompedencySchema, SubFormRef } from "../../../schema/probation-form";
 
 const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
@@ -18,130 +17,11 @@ const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const form = useForm<CompedencySchema>({
     defaultValues: {
       comps: [],
+      compsSums: [],
     },
   });
 
-  const columns: ColumnDef<CompetencyModel>[] = [
-    {
-      accessorKey: "runnumber",
-      header: "ลำดับ",
-      size: 80,
-      minSize: 80,
-      maxSize: 100,
-      cell: ({ row }) => (
-        <div className="text-center">
-          <div className="font-caption3 text-semi-black">
-            {row.original.runNumber}
-          </div>
-        </div>
-      ),
-    },
-
-    {
-      accessorKey: "title",
-      header: "หัวข้อการประเมิน",
-      size: 260,
-      minSize: 260,
-      cell: ({ row }) => (
-        <div className="text-left">
-          <div className="font-caption3 text-semi-black">
-            {row.original.title}
-          </div>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "total",
-      header: "คะแนนเต็ม",
-      size: 55,
-      minSize: 55,
-      cell: ({ row }) => (
-        <div className="text-center font-caption3 text-semi-black">
-          {row.original.total}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "wieght",
-      header: "ค่าถ่วงน้ำหนัก",
-      size: 70,
-      minSize: 70,
-      cell: ({ row }) => (
-        <div className="text-center font-caption3 text-semi-black">
-          {row.original.weight}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "sum",
-      header: "คะแนนเต็มรวม",
-      size: 70,
-      minSize: 70,
-      cell: ({ row }) => (
-        <div className="text-center font-caption3 text-semi-black">
-          {row.original.sum}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "score",
-      header: "คะแนน",
-      size: 80,
-      minSize: 80,
-      maxSize: 80,
-      cell: ({ row }) => (
-        <FormField
-          name={`comps.${row.index}.compMemo`}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="number"
-                  min={0}
-                  className="text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]"
-                  {...field}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      ),
-    },
-    {
-      accessorKey: "targetScore",
-      header: "คะแนนเป้าหมาย",
-      size: 70,
-      minSize: 70,
-      cell: ({ row }) => (
-        <div className="text-center font-caption3 text-semi-black">
-          {row.original.targetScore}
-        </div>
-      ),
-    },
-
-    {
-      accessorKey: "memo",
-      header: "หมายเหตุ / Memo",
-      size: 260,
-      minSize: 100,
-      maxSize: 260,
-      cell: ({ row }) => (
-        <FormField
-          name={`comps.${row.index}.compScore`}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  className="font-caption3 text-semi-black w-full h-8 rounded-[10px]"
-                  {...field}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      ),
-    },
-  ];
+  const { columns } = useTableDataCompedency(data);
 
   const onSubmit = (values: CompedencySchema) => {
     console.log("Form data submitted from compedency:", values);
@@ -160,6 +40,14 @@ const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
           compMemo: item.memo ?? "",
           compScore: item.score.score ?? "",
         })),
+        compsSums: data.sums
+          ? data.sums.map((item) => ({
+              field: {
+                key: item.key,
+                value: item.value ?? "",
+              },
+            }))
+          : [],
       };
       form.reset(formValues);
     }
@@ -187,6 +75,44 @@ const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
             columns={columns}
             data={data?.list || []}
           />
+          {data?.sums && (
+            <div className="border rounded-[10px] p-2.5 space-y-2.5">
+              <div className="text-sm font-semibold">
+                คะแนนรวมของ Competency
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                {data.sums.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="flex flex-col md:flex-row gap-2 items-center"
+                  >
+                    <div className="text-sm font-medium col-span-2">
+                      {item.title}
+                    </div>
+                    <FormField
+                      name={`compsSums.${index}.field.value`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <TextField
+                              className="h-8 max-w-[120px] text-sm font-normal"
+                              suffixIcon={
+                                <div className="text-sm font-normal text-button-grey">
+                                  คะแนน
+                                </div>
+                              }
+                              {...field}
+                              value={field.value ?? ""}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </Form>
     </TabsContent>

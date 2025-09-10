@@ -70,7 +70,9 @@ export const useFetchCompetency = () => {
   const service = new CompetencyService<NextResponse>(api);
   const repo = new CometencyRepository(service);
 
-  return queryOptions<ProbationTableModel<CompetencyModel>>({
+  return queryOptions<
+    ProbationTableModel<CompetencyModel> & { sums?: SumScore[] }
+  >({
     queryKey: competencyQueryKery,
     queryFn: async () => {
       const data = await repo.call();

@@ -3,6 +3,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { CompetencyModel } from "../../data/models/probation-competency-model";
 import { Kpi } from "../../data/models/probation-kpi-model";
 import { ProbationTableModel } from "../../data/models/probation-table-model";
 
@@ -105,6 +106,156 @@ export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
         cell: ({ row }) => (
           <div className="text-center font-caption3 text-semi-black">
             {row.original.how}
+          </div>
+        ),
+      },
+    ];
+
+    const hasMemoColumn = data?.list.some((item) => item.memo);
+    const hasEssScore = data?.list.some((item) => item.essScore);
+
+    if (hasMemoColumn) {
+      columns.splice(columns.length - 1, 0, {
+        accessorKey: "memo",
+        header: "หมายเหตุ / Memo",
+        cell: ({ row }) => (
+          <FormField
+            name={`kpis.${row.index}.kpiMemo`}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    className="font-caption3 text-semi-black w-full h-8 rounded-[10px]"
+                    {...field}
+                    value={field.value ?? ""}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        ),
+      });
+    }
+
+    if (hasEssScore) {
+      columns.splice(5, 0, {
+        accessorKey: "essScore",
+        header: "พนักงาน",
+        size: 80,
+        minSize: 80,
+        maxSize: 80,
+        cell: ({ row }) => (
+          <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+            {row.original.essScore}
+          </div>
+        ),
+      });
+    }
+
+    return {
+      columns,
+    };
+  }, [data]);
+};
+
+export const useTableDataCompedency = (
+  data: ProbationTableModel<CompetencyModel> | undefined
+) => {
+  return useMemo(() => {
+    let columns: ColumnDef<CompetencyModel>[] = [
+      {
+        accessorKey: "runnumber",
+        header: "ลำดับ",
+        size: 80,
+        minSize: 80,
+        maxSize: 100,
+        cell: ({ row }) => (
+          <div className="text-center">
+            <div className="font-caption3 text-semi-black">
+              {row.original.runNumber}
+            </div>
+          </div>
+        ),
+      },
+
+      {
+        accessorKey: "title",
+        header: "หัวข้อการประเมิน",
+        size: 260,
+        minSize: 260,
+        cell: ({ row }) => (
+          <div className="text-left">
+            <div className="font-caption3 text-semi-black">
+              {row.original.title}
+            </div>
+          </div>
+        ),
+      },
+      {
+        accessorKey: "total",
+        header: "คะแนนเต็ม",
+        size: 55,
+        minSize: 55,
+        cell: ({ row }) => (
+          <div className="text-center font-caption3 text-semi-black">
+            {row.original.total}
+          </div>
+        ),
+      },
+      {
+        accessorKey: "wieght",
+        header: "ค่าถ่วงน้ำหนัก",
+        size: 70,
+        minSize: 70,
+        cell: ({ row }) => (
+          <div className="text-center font-caption3 text-semi-black">
+            {row.original.weight}
+          </div>
+        ),
+      },
+      {
+        accessorKey: "sum",
+        header: "คะแนนเต็มรวม",
+        size: 70,
+        minSize: 70,
+        cell: ({ row }) => (
+          <div className="text-center font-caption3 text-semi-black">
+            {row.original.sum}
+          </div>
+        ),
+      },
+      {
+        accessorKey: "score",
+        header: "คะแนน",
+        size: 80,
+        minSize: 80,
+        maxSize: 80,
+        cell: ({ row }) => (
+          <FormField
+            name={`comps.${row.index}.compScore`}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <Input
+                    type="number"
+                    min={0}
+                    className="text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]"
+                    {...field}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        ),
+      },
+      {
+        accessorKey: "targetScore",
+        header: "คะแนนเป้าหมาย",
+        size: 70,
+        minSize: 70,
+        cell: ({ row }) => (
+          <div className="text-center font-caption3 text-semi-black">
+            {row.original.targetScore}
           </div>
         ),
       },

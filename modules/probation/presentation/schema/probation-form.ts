@@ -26,6 +26,12 @@ export type CompedencySchema = {
     compScore: number | string;
     compMemo: string;
   }[];
+  compsSums?: {
+    field: {
+      key: String;
+      value: number | string;
+    };
+  }[];
 };
 
 export type ProbationFormField = {
