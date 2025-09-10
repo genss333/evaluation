@@ -30,7 +30,7 @@ const ProbationTitle = ({ items }: ProbationTitleProps) => {
               {item.values.length > 1 && !item.disable ? (
                 <Select
                   defaultValue={`${
-                    item.selctedValue ?? item.values[0].id ?? ""
+                    item.selctedValue?.id ?? item.values[0].id ?? ""
                   }`}
                 >
                   <SelectTrigger
@@ -51,7 +51,7 @@ const ProbationTitle = ({ items }: ProbationTitleProps) => {
                 <div className="flex flex-col w-full col-span-2 lg:col-span-3">
                   <div className="relative flex items-center">
                     <Input
-                      className="h-8 rounded-[10px] disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:opacity-100"
+                      className="h-8 rounded-[10px] disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:opacity-100 disabled:border-none"
                       defaultValue={`${
                         item.selctedValue ?? item.values[0].title ?? ""
                       }`}

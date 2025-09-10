@@ -87,12 +87,14 @@ const EmpApproveLine = ({ employees, form }: EmpApproveLineProps) => {
               disable={true}
             />
           ) : (
-            <Select>
+            <Select
+              defaultValue={`${form?.selctedValue?.id ?? form?.values[0].id}`}
+            >
               <SelectTrigger
                 size="sm"
                 className="text-sm font-normal h-8 truncate w-full"
               >
-                <SelectValue placeholder="แบบฟอร์มประเมินพนักงานควบคุมคุณภาพ" />
+                <SelectValue />
               </SelectTrigger>
               <SelectContent>
                 {form &&
