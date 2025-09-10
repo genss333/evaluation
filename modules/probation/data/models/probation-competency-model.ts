@@ -11,7 +11,6 @@ export interface CompetencyModel
     | "targetScore"
     | "essScore"
     | "memo"
-    | "sums"
   > {
   weight: number;
   sum: number;
