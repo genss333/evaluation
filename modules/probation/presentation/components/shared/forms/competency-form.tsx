@@ -1,37 +1,25 @@
 "use client";
 
 import ProbationDataTable from "@/components/custom/custom-data-table";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
-import {
-  CompetencyKey,
-  CompetencyModel,
-} from "@/modules/probation/data/models/probation-competency-model";
+import { CompetencyModel } from "@/modules/probation/data/models/probation-competency-model";
 import { useQuery } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle } from "react";
+import { useForm } from "react-hook-form";
 import { useFetchCompetency } from "../../../hooks/use-fetch-probation";
+import { CompedencySchema, SubFormRef } from "../../../schema/probation-form";
 
-const CompetencyForm = () => {
+const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const { data, isLoading } = useQuery(useFetchCompetency());
 
-  const [tableData, setTableData] = useState<CompetencyModel[]>();
-
-  useEffect(() => {
-    setTableData(data?.list || []);
-  }, [data]);
-
-  const handleDataChange = (
-    rowIndex: number,
-    columnId: CompetencyKey,
-    value: any
-  ) => {
-    setTableData((prev) =>
-      prev?.map((row, index) =>
-        index === rowIndex ? { ...row, [columnId]: value } : row
-      )
-    );
-  };
+  const form = useForm<CompedencySchema>({
+    defaultValues: {
+      comps: [],
+    },
+  });
 
   const columns: ColumnDef<CompetencyModel>[] = [
     {
@@ -102,14 +90,20 @@ const CompetencyForm = () => {
       minSize: 80,
       maxSize: 80,
       cell: ({ row }) => (
-        <Input
-          type="number"
-          min={0}
-          defaultValue={row.original.score ?? ""}
-          onChange={(e) =>
-            handleDataChange(row.index, "score", e.target.valueAsNumber || null)
-          }
-          className="text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]"
+        <FormField
+          name={`comps.${row.index}.compMemo`}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type="number"
+                  min={0}
+                  className="text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
         />
       ),
     },
@@ -132,14 +126,44 @@ const CompetencyForm = () => {
       minSize: 100,
       maxSize: 260,
       cell: ({ row }) => (
-        <Input
-          defaultValue={row.original.memo ?? ""}
-          onChange={(e) => handleDataChange(row.index, "memo", e.target.value)}
-          className="font-caption3 text-semi-black w-full h-8 rounded-[10px]"
+        <FormField
+          name={`comps.${row.index}.compScore`}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  className="font-caption3 text-semi-black w-full h-8 rounded-[10px]"
+                  {...field}
+                />
+              </FormControl>
+            </FormItem>
+          )}
         />
       ),
     },
   ];
+
+  const onSubmit = (values: CompedencySchema) => {
+    console.log("Form data submitted from compedency:", values);
+  };
+
+  useImperativeHandle(ref, () => ({
+    submit: () => {
+      form.handleSubmit(onSubmit)();
+    },
+  }));
+
+  useEffect(() => {
+    if (data?.list) {
+      const formValues: CompedencySchema = {
+        comps: data.list.map((item) => ({
+          compMemo: item.memo ?? "",
+          compScore: item.score.score ?? "",
+        })),
+      };
+      form.reset(formValues);
+    }
+  }, [data, form]);
 
   if (isLoading) {
     return (
@@ -151,20 +175,22 @@ const CompetencyForm = () => {
 
   return (
     <TabsContent value="competency" className="mt-4">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="font-title text-semi-black">{data?.title}</div>
-          <div className="font-body2 text-status-red">{data?.desc}</div>
-        </div>
+      <Form {...form}>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <div className="font-title text-semi-black">{data?.title}</div>
+            <div className="font-body2 text-status-red">{data?.desc}</div>
+          </div>
 
-        <ProbationDataTable
-          hTextLeft={[1]}
-          columns={columns}
-          data={tableData || []}
-        />
-      </div>
+          <ProbationDataTable
+            hTextLeft={[1]}
+            columns={columns}
+            data={data?.list || []}
+          />
+        </div>
+      </Form>
     </TabsContent>
   );
-};
+});
 
 export default CompetencyForm;

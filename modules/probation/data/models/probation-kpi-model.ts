@@ -1,3 +1,8 @@
+interface Score {
+  score: number | null;
+  disable: boolean;
+}
+
 export interface Kpi {
   id: number;
   runNumber: number;
@@ -5,8 +10,9 @@ export interface Kpi {
   title: string;
   total: number;
   targetScore: number;
-  score: number | null;
-  memo: string | null;
+  essScore: number | null;
+  score: Score;
+  memo?: string | null;
   how: string;
 }
 

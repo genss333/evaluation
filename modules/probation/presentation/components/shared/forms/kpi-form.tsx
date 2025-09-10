@@ -1,22 +1,16 @@
 "use client";
 
 import ProbationDataTable from "@/components/custom/custom-data-table";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { TabsContent } from "@/components/ui/tabs";
-import { Kpi } from "@/modules/probation/data/models/probation-kpi-model";
 import { useQuery } from "@tanstack/react-query";
-import { ColumnDef } from "@tanstack/react-table";
 import { forwardRef, useEffect, useImperativeHandle } from "react";
 import { useForm } from "react-hook-form";
 import { useFetchKpi } from "../../../hooks/use-fetch-probation";
-import { KPISchema } from "../../../schema/probation-form";
+import { useTableDataKpi } from "../../../hooks/use-table-data";
+import { KPISchema, SubFormRef } from "../../../schema/probation-form";
 
-export interface KpiFormRef {
-  submit: () => void;
-}
-
-const KpiForm = forwardRef<KpiFormRef, {}>((props, ref) => {
+const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const { data, isLoading } = useQuery(useFetchKpi());
 
   const form = useForm<KPISchema>({
@@ -25,117 +19,10 @@ const KpiForm = forwardRef<KpiFormRef, {}>((props, ref) => {
     },
   });
 
-  const columns: ColumnDef<Kpi>[] = [
-    {
-      accessorKey: "runnumber",
-      header: "ลำดับ",
-      size: 80,
-      minSize: 80,
-      maxSize: 100,
-      cell: ({ row }) => (
-        <div className="text-center">
-          <div className="font-caption3 text-semi-black">
-            {row.original.runNumber}
-          </div>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "code",
-      header: "รหัสหัวข้อการประเมิน",
-      cell: ({ row }) => (
-        <div className="text-left">
-          <div className="font-caption3 text-semi-black">
-            {row.original.code}
-          </div>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "title",
-      header: "หัวข้อการประเมิน",
-      cell: ({ row }) => (
-        <div className="text-left">
-          <div className="font-caption3 text-semi-black">
-            {row.original.title}
-          </div>
-        </div>
-      ),
-    },
-    {
-      accessorKey: "total",
-      header: "น้ำหนัก (%)",
-      cell: ({ row }) => (
-        <div className="text-center font-caption3 text-semi-black">
-          {row.original.total}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "targetScore",
-      header: "คะแนนเป้าหมาย",
-      cell: ({ row }) => (
-        <div className="text-center font-caption3 text-semi-black">
-          {row.original.targetScore}
-        </div>
-      ),
-    },
-    {
-      accessorKey: "score",
-      header: "คะแนนที่ได้",
-      cell: ({ row }) => (
-        <FormField
-          name={`kpis.${row.index}.kpiScore`}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  type="number"
-                  min={0}
-                  className="text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]"
-                  {...field}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      ),
-    },
-    {
-      accessorKey: "memo",
-      header: "หมายเหตุ / Memo",
-      cell: ({ row }) => (
-        <FormField
-          name={`kpis.${row.index}.kpiMemo`}
-          render={({ field }) => (
-            <FormItem>
-              <FormControl>
-                <Input
-                  className="font-caption3 text-semi-black w-full h-8 rounded-[10px]"
-                  {...field}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-      ),
-    },
-    {
-      accessorKey: "how",
-      header: "วิธีการวัด",
-      size: 120,
-      minSize: 120,
-      maxSize: 120,
-      cell: ({ row }) => (
-        <div className="text-center font-caption3 text-semi-black">
-          {row.original.how}
-        </div>
-      ),
-    },
-  ];
+  const { columns } = useTableDataKpi(data);
 
   const onSubmit = (values: KPISchema) => {
-    console.log("Form data submitted from child:", values);
+    console.log("Form data submitted from kpi:", values);
   };
 
   useImperativeHandle(ref, () => ({
@@ -149,7 +36,7 @@ const KpiForm = forwardRef<KpiFormRef, {}>((props, ref) => {
       const formValues = {
         kpis: data.list.map((item) => ({
           kpiMemo: item.memo ?? "",
-          kpiScore: item.score ?? "",
+          kpiScore: item.score.score ?? "",
         })),
       };
       form.reset(formValues);

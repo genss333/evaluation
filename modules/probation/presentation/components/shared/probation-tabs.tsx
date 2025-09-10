@@ -1,16 +1,17 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RefObject } from "react";
-import CompetencyForm from "./forms/competency-form";
+import { SubFormRef } from "../../schema/probation-form";
 import DevplanForm from "./forms/dev-plan-form";
-import KpiForm, { KpiFormRef } from "./forms/kpi-form";
+import KpiForm from "./forms/kpi-form";
 import MoreProbationForm from "./forms/more-form";
 import TimeAttandanceForm from "./forms/time-attandance-form";
 
 interface ProbationTabsProps {
-  kpiFormRef: RefObject<KpiFormRef | null>;
+  kpiFormRef: RefObject<SubFormRef | null>;
+  compFormRef: RefObject<SubFormRef | null>;
 }
 
-const ProbationTabs = ({ kpiFormRef }: ProbationTabsProps) => {
+const ProbationTabs = ({ kpiFormRef, compFormRef }: ProbationTabsProps) => {
   return (
     <Tabs defaultValue="kpi" className="mx-4 mb-4 ">
       <TabsList className="bg-transparent">
@@ -21,7 +22,7 @@ const ProbationTabs = ({ kpiFormRef }: ProbationTabsProps) => {
         <TabsTrigger value="more">การประเมินเพิ่มเติม</TabsTrigger>
       </TabsList>
       <KpiForm ref={kpiFormRef} />
-      <CompetencyForm />
+      {/* <CompetencyForm ref={compFormRef} /> */}
       <TimeAttandanceForm />
       <DevplanForm />
       <MoreProbationForm />

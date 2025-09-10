@@ -106,17 +106,12 @@ const ProbationStep = ({ steps }: ProbationStepProps) => {
     <Flex direction="row" align="center" className="w-full pt-16 px-16">
       {steps?.map((item, index) => (
         <Fragment key={index}>
-          <Flex
-            direction="col"
-            align="center"
-            justify={"center"}
-            className="shrink-0 relative"
-          >
-            <span className="absolute bottom-full mb-2 whitespace-nowrap text-sm">
+          <div className="flex flex-col justify-center items-center relative">
+            <div className="absolute bottom-full mb-2 whitespace-nowrap text-sm">
               <TitleStep title={item.title ?? ""} desc={item.desc ?? ""} />
-            </span>
+            </div>
             <Dot start={index === 0} active={index <= (activeIndex ?? -1)} />
-          </Flex>
+          </div>
 
           {index !== steps.length - 1 && (
             <Line

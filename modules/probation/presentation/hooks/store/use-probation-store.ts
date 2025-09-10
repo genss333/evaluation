@@ -2,7 +2,7 @@ import { create } from "zustand";
 import {
   CreateSelctEmployee,
   CreateSelctEmployeeSlice,
-} from "./slices/select-employee";
+} from "../slices/select-employee";
 
 type ProbationStore = CreateSelctEmployee;
 

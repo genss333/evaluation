@@ -6,12 +6,11 @@ import * as model from "@/modules/probation/data/models/probation-model";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useProbationProps } from "../../hooks/store/use-probation-store";
 import { useFetchProbation } from "../../hooks/use-fetch-probation";
 import { useProbationData } from "../../hooks/use-probation-data";
-import { useProbationProps } from "../../hooks/use-probation-store";
-import { ProbationFormField } from "../../schema/probation-form";
+import { ProbationFormField, SubFormRef } from "../../schema/probation-form";
 import ProbationGrade from "../mss/probation-grade";
-import { KpiFormRef } from "./forms/kpi-form";
 import ProbationField from "./probation-field";
 import ProbationStep from "./probation-setep";
 import ProbationTabs from "./probation-tabs";
@@ -34,20 +33,22 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
     data ?? initialData
   );
 
-  const defaultValues = data?.fields
-    ? Object.fromEntries(
-        data.fields.map((item) => [
-          item.key,
-          item.selctedValue ? item.selctedValue : item.values?.[0]?.title ?? "",
-        ])
-      )
-    : {};
+  const mapFormData = () => {
+    const sourceData = data ?? initialData;
+    return Object.fromEntries(
+      sourceData.fields.map((item) => [
+        item.key,
+        item.selctedValue ? item.selctedValue : item.values?.[0]?.title ?? "",
+      ])
+    );
+  };
 
   const form = useForm<ProbationFormField>({
-    defaultValues: defaultValues,
+    defaultValues: mapFormData(),
   });
 
-  const kpiFormRef = useRef<KpiFormRef>(null);
+  const kpiFormRef = useRef<SubFormRef>(null);
+  const compFormRef = useRef<SubFormRef>(null);
 
   const onSubmitUI = async (data: ProbationFormField) => {
     const apiPayload = Object.entries(data).map(([key, value]) => ({
@@ -58,17 +59,13 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
     console.log("Payload for API:", apiPayload);
 
     kpiFormRef.current?.submit();
+    compFormRef.current?.submit();
   };
 
   useEffect(() => {
-    if (data?.fields) {
-      const newDefaultValues = Object.fromEntries(
-        data.fields.map((item) => [
-          item.key,
-          item.selctedValue ? item.selctedValue : item.values?.[0]?.title ?? "",
-        ])
-      );
-      form.reset(newDefaultValues);
+    const sourceData = data ?? initialData;
+    if (sourceData.fields) {
+      form.reset(mapFormData());
     }
   }, [data, form.reset]);
 
@@ -133,7 +130,7 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
               </div>
             )}
           </div>
-          <ProbationTabs kpiFormRef={kpiFormRef} />
+          <ProbationTabs kpiFormRef={kpiFormRef} compFormRef={compFormRef} />
           <div className="flex justify-end gap-2">
             <Button
               type="submit"

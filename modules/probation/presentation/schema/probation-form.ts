@@ -4,6 +4,10 @@ interface MSSProbtionSchema {
   resultProbation: "pass" | "fail";
 }
 
+export interface SubFormRef {
+  submit: () => void;
+}
+
 export type KPISchema = {
   kpis: {
     kpiMemo: string;
@@ -11,10 +15,12 @@ export type KPISchema = {
   }[];
 };
 
-export interface CompetencySchema {
-  comScore: number;
-  comMemo: string;
-}
+export type CompedencySchema = {
+  comps: {
+    compScore: number | string;
+    compMemo: string;
+  }[];
+};
 
 export type ProbationFormField = {
   [k: string]: string | model.ProbationFieldValue;
