@@ -17,7 +17,7 @@ export interface Kpi {
   title: string;
   total: number;
   targetScore: number;
-  essScore: number | null;
+  essScore?: number | null;
   score: Score;
   memo?: string | null;
   how: string;

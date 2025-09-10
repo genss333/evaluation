@@ -1,9 +1,11 @@
+import { Role } from "@/models/user-role";
 import {
   Kpi,
   SumScore,
 } from "@/modules/probation/data/models/probation-kpi-model";
 import { ProbationTableModel } from "@/modules/probation/data/models/probation-table-model";
 import { NextResponse } from "next/server";
+import { getSession } from "../../auth/route";
 
 // The interface for context
 /*
@@ -19,77 +21,134 @@ export interface Kpi {
 }
 */
 
-export async function GET() {
-  const mockKpiData: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
-    title: "ผู้ประเมินเพิ่มหัวข้อการประเมินของ KPI",
-    desc: "กำหนดให้ส่วนที่ 3 = 60%",
-    list: [
-      {
-        id: 1,
-        runNumber: 1,
-        code: "SALE-001",
-        title: "บรรลุเป้าหมายยอดขายผลิตภัณฑ์ A",
-        total: 30,
-        targetScore: 25,
-        essScore: 28,
-        score: {
-          score: null,
-          disable: false,
-        },
-        // memo: "ทำได้เกินเป้าหมายที่ตั้งไว้ในไตรมาสที่ 3 เนื่องจากแคมเปญการตลาดได้ผลดี",
-        how: "จำนวน",
+const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
+  title: "ผู้ประเมินเพิ่มหัวข้อการประเมินของ KPI",
+  desc: "กำหนดให้ส่วนที่ 3 = 60%",
+  list: [
+    {
+      id: 1,
+      runNumber: 1,
+      code: "SALE-001",
+      title: "บรรลุเป้าหมายยอดขายผลิตภัณฑ์ A",
+      total: 30,
+      targetScore: 25,
+      essScore: 28,
+      score: {
+        score: null,
+        disable: false,
       },
-      {
-        id: 2,
-        runNumber: 2,
-        code: "PROJ-005",
-        title: "การส่งมอบโปรเจกต์ 'Phoenix' ตรงตามกำหนด",
-        total: 20,
-        targetScore: 20,
-        essScore: 28,
-        score: {
-          score: null,
-          disable: false,
-        },
-        // memo: "ส่งมอบล่าช้ากว่ากำหนด 2 วัน เนื่องจากมีการแก้ไข Requirement กลางสัปดาห์สุดท้าย",
-        how: "จำนวน",
+      // memo: "ทำได้เกินเป้าหมายที่ตั้งไว้ในไตรมาสที่ 3 เนื่องจากแคมเปญการตลาดได้ผลดี",
+      how: "จำนวน",
+    },
+    {
+      id: 2,
+      runNumber: 2,
+      code: "PROJ-005",
+      title: "การส่งมอบโปรเจกต์ 'Phoenix' ตรงตามกำหนด",
+      total: 20,
+      targetScore: 20,
+      essScore: 28,
+      score: {
+        score: null,
+        disable: false,
       },
-      {
-        id: 3,
-        runNumber: 4,
-        code: "CS-002",
-        title: "รักษาคะแนนความพึงพอใจของลูกค้า",
-        total: 25,
-        targetScore: 20,
-        essScore: 28,
-        score: {
-          score: null,
-          disable: false,
-        },
-        how: "จำนวน",
+      // memo: "ส่งมอบล่าช้ากว่ากำหนด 2 วัน เนื่องจากมีการแก้ไข Requirement กลางสัปดาห์สุดท้าย",
+      how: "จำนวน",
+    },
+    {
+      id: 3,
+      runNumber: 4,
+      code: "CS-002",
+      title: "รักษาคะแนนความพึงพอใจของลูกค้า",
+      total: 25,
+      targetScore: 20,
+      essScore: 28,
+      score: {
+        score: null,
+        disable: false,
       },
-    ],
-    sums: [
-      {
-        id: 1,
-        key: "targetScore",
-        title: "คะแนนความคาดหวังรวม",
-        value: 18.0,
-      },
-      {
-        id: 2,
-        key: "totalScore",
-        title: "คะแนนรวม",
-        value: 0.0,
-      },
-      {
-        id: 3,
-        key: "formTotal",
-        title: "จากคะแนนเต็ม",
-        value: 30.0,
-      },
-    ],
-  };
+      how: "จำนวน",
+    },
+  ],
+  sums: [
+    {
+      id: 1,
+      key: "targetScore",
+      title: "คะแนนความคาดหวังรวม",
+      value: 18.0,
+    },
+    {
+      id: 2,
+      key: "totalScore",
+      title: "คะแนนรวม",
+      value: 0.0,
+    },
+    {
+      id: 3,
+      key: "formTotal",
+      title: "จากคะแนนเต็ม",
+      value: 30.0,
+    },
+  ],
+};
 
-  return NextResponse.json(mockKpiData);
+const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
+  title: "ผู้ประเมินเพิ่มหัวข้อการประเมินของ KPI",
+  desc: "กำหนดให้ส่วนที่ 3 = 60%",
+  list: [
+    {
+      id: 1,
+      runNumber: 1,
+      code: "SALE-001",
+      title: "บรรลุเป้าหมายยอดขายผลิตภัณฑ์ A",
+      total: 30,
+      targetScore: 25,
+      score: {
+        score: null,
+        disable: false,
+      },
+      memo: "",
+      how: "จำนวน",
+    },
+    {
+      id: 2,
+      runNumber: 2,
+      code: "PROJ-005",
+      title: "การส่งมอบโปรเจกต์ 'Phoenix' ตรงตามกำหนด",
+      total: 20,
+      targetScore: 20,
+      score: {
+        score: null,
+        disable: false,
+      },
+      memo: "",
+      how: "จำนวน",
+    },
+    {
+      id: 3,
+      runNumber: 4,
+      code: "CS-002",
+      title: "รักษาคะแนนความพึงพอใจของลูกค้า",
+      total: 25,
+      targetScore: 20,
+      score: {
+        score: null,
+        disable: false,
+      },
+      how: "จำนวน",
+      memo: "",
+    },
+  ],
+};
+
+export async function GET() {
+  const session = await getSession();
+  if (!session) {
+    return NextResponse.json({ message: "UnAuthorization" }, { status: 401 });
+  }
+
+  if (session.role === Role.MSS) {
+    return NextResponse.json(mockKpiDataMSS);
+  }
+  return NextResponse.json(mockKpiDataESS);
 }

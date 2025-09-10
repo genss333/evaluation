@@ -111,7 +111,7 @@ export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
       },
     ];
 
-    const hasMemoColumn = data?.list.some((item) => item.memo);
+    const hasMemoColumn = data?.list.some((item) => item.memo === "");
     const hasEssScore = data?.list.some((item) => item.essScore);
 
     if (hasMemoColumn) {
@@ -261,7 +261,7 @@ export const useTableDataCompedency = (
       },
     ];
 
-    const hasMemoColumn = data?.list.some((item) => item.memo);
+    const hasMemoColumn = data?.list.some((item) => item.memo === "");
     const hasEssScore = data?.list.some((item) => item.essScore);
 
     if (hasMemoColumn) {
