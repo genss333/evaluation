@@ -88,7 +88,10 @@ const EmpApproveLine = ({ employees, form }: EmpApproveLineProps) => {
             />
           ) : (
             <Select>
-              <SelectTrigger className="text-sm font-normal h-8 truncate w-full">
+              <SelectTrigger
+                size="sm"
+                className="text-sm font-normal h-8 truncate w-full"
+              >
                 <SelectValue placeholder="แบบฟอร์มประเมินพนักงานควบคุมคุณภาพ" />
               </SelectTrigger>
               <SelectContent>

@@ -1,6 +1,9 @@
+"use client";
+
 import { ProbationModel } from "@/modules/probation/data/models/probation-model";
 import ProbationDetail from "../shared/probation-details";
 import EmpApproveLine from "./emp-approve-line-list";
+import ProbationGrade from "./probation-grade";
 
 interface MSSLayoutProps {
   data: ProbationModel;
@@ -18,7 +21,10 @@ const MSSLayout = ({ data }: MSSLayoutProps) => {
         )}
       </div>
       <div className="col-span-3">
-        <ProbationDetail data={data} />
+        <ProbationDetail
+          data={data}
+          GradeGroup={(data) => <ProbationGrade data={data} />}
+        />
       </div>
     </div>
   );

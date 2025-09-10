@@ -225,6 +225,21 @@ const essMockData: ProbationModel = {
       ],
       disable: false,
     },
+    {
+      key: "headProbation",
+      title: "หัวหน้าผู้ประเมิน",
+      values: [
+        { id: 1, title: "นางสาว ธิดาพร ชาวคูเวียง" },
+        { id: 2, title: "นางสาว สมหมาย ชายสี่" },
+      ],
+      disable: true,
+    },
+    {
+      key: "probationPeriod",
+      title: "ระยะเวลาการประเมิน",
+      values: [{ id: 1, title: "01/08/2568 - 31/08/2568" }],
+      disable: true,
+    },
   ],
   fields: [
     {
@@ -266,21 +281,23 @@ const essMockData: ProbationModel = {
     {
       key: "years",
       title: "รอบการประเมินประจำปี",
+      selctedValue: { id: 2025, title: "2025" },
       values: [
         { id: 2025, title: "2025" },
         { id: 2024, title: "2024" },
         { id: 2023, title: "2023" },
       ],
-      disable: false,
+      disable: true,
     },
     {
       key: "month",
       title: "เดือน",
+      selctedValue: { id: 9, title: "กันยายน" },
       values: [
         { id: 9, title: "กันยายน" },
         { id: 10, title: "ตุลาคม" },
       ],
-      disable: false,
+      disable: true,
     },
     {
       key: "empLevel",
@@ -301,15 +318,15 @@ const essMockData: ProbationModel = {
       disable: true,
     },
     {
-      key: "kpi",
-      title: "ผลงาน (KPI)",
+      key: "competency",
+      title: "Competency",
       values: [{ id: 1, title: "50" }],
       disable: true,
     },
     {
-      key: "ability",
-      title: "ความสามารถ",
-      values: [{ id: 1, title: "40" }],
+      key: "kpi",
+      title: "ผลงาน (KPI)",
+      values: [{ id: 1, title: "50" }],
       disable: true,
     },
     {
@@ -321,6 +338,7 @@ const essMockData: ProbationModel = {
     {
       key: "grade",
       title: "ผลการประเมิน",
+      suffixText: "ช่วงคะแนนประเมิน 0.00 - 50.00",
       values: [{ id: 1, title: "A" }],
       disable: true,
     },

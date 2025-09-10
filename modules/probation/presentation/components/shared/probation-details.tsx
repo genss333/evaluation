@@ -4,22 +4,25 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import * as model from "@/modules/probation/data/models/probation-model";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
 import { useFetchProbation } from "../../hooks/use-fetch-probation";
 import { useProbationData } from "../../hooks/use-probation-data";
 import { ProbationFormField, SubFormRef } from "../../schema/probation-form";
-import ProbationGrade from "../mss/probation-grade";
 import ProbationField from "./probation-field";
 import ProbationStep from "./probation-setep";
 import ProbationTabs from "./probation-tabs";
 
 interface ProbationDetailProps {
   data: model.ProbationModel;
+  GradeGroup: (data: model.ProbationModel) => ReactNode;
 }
 
-const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
+const ProbationDetail = ({
+  data: initialData,
+  GradeGroup,
+}: ProbationDetailProps) => {
   const { currentEmp } = useProbationProps();
 
   const { data } = useQuery(
@@ -126,7 +129,7 @@ const ProbationDetail = ({ data: initialData }: ProbationDetailProps) => {
                     />
                   ))}
                 </div>
-                <ProbationGrade data={data ?? initialData} />
+                {GradeGroup(data ?? initialData)}
               </div>
             )}
           </div>
