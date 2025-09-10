@@ -44,11 +44,20 @@ const Line = ({
   );
 };
 
-const Dot = ({ start, active }: { start: boolean; active: boolean }) => {
-  if (start && active)
+const Dot = ({
+  start,
+  active,
+  index,
+  activeIndex,
+}: {
+  start: boolean;
+  active: boolean;
+  index: number;
+  activeIndex: number;
+}) => {
+  if (start || index < activeIndex) {
     return <div className="w-[10px] h-[10px] bg-status-red rounded-full" />;
-
-  if (active)
+  } else if (active && index === activeIndex) {
     return (
       <Flex
         justify={"center"}
@@ -66,7 +75,7 @@ const Dot = ({ start, active }: { start: boolean; active: boolean }) => {
         </Flex>
       </Flex>
     );
-
+  }
   return (
     <Flex
       justify={"center"}
@@ -110,7 +119,12 @@ const ProbationStep = ({ steps }: ProbationStepProps) => {
             <div className="absolute bottom-full mb-2 whitespace-nowrap text-sm">
               <TitleStep title={item.title ?? ""} desc={item.desc ?? ""} />
             </div>
-            <Dot start={index === 0} active={index <= (activeIndex ?? -1)} />
+            <Dot
+              start={index === 0}
+              active={index <= (activeIndex ?? -1)}
+              index={index}
+              activeIndex={activeIndex ?? -1}
+            />
           </div>
 
           {index !== steps.length - 1 && (
