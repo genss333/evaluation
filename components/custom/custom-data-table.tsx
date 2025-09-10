@@ -132,7 +132,6 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">Go to first page</span>
             <ChevronsLeftIcon className="size-3 text-semi-black" />
           </Button>
           <Button
@@ -142,8 +141,18 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            <span className="sr-only">Go to previous page</span>
             <ChevronLeftIcon className="size-3 text-semi-black" />
+          </Button>
+          <Button
+            variant="outline"
+            className="hidden size-6 p-2 border-tiger-red rounded-[5px] lg:flex"
+            size="sm"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            <div className="text-xs font-normal text-tiger-red">
+              {table.getState().pagination.pageIndex + 1}
+            </div>
           </Button>
           <Button
             variant="outline"
@@ -152,7 +161,6 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">Go to next page</span>
             <ChevronRightIcon className="size-3 text-semi-black" />
           </Button>
           <Button
@@ -162,7 +170,6 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
           >
-            <span className="sr-only">Go to last page</span>
             <ChevronsRightIcon className="size-3 text-semi-black" />
           </Button>
         </div>
