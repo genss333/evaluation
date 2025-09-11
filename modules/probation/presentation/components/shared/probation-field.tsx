@@ -15,7 +15,7 @@ import React, { ReactNode } from "react";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 
 interface ProbationFieldProps {
-  field: ControllerRenderProps<FieldValues, string>;
+  field?: ControllerRenderProps<FieldValues, string>;
   title: string;
   suffixText?: string;
   titleStyle?: string;
@@ -110,8 +110,8 @@ const ProbationField = ({
           />
         ) : (
           <Select
-            onValueChange={field.onChange}
-            defaultValue={`${field.value.id}`}
+            onValueChange={field?.onChange}
+            defaultValue={`${field?.value.id}`}
           >
             <SelectTrigger
               className="w-full font-body3 text-semi-black col-span-full lg:col-span-2 [data-placeholder]:text-semi-black rounded-[10px]"

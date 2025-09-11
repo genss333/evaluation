@@ -5,21 +5,16 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { TextField } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
 import { useQuery } from "@tanstack/react-query";
-import { forwardRef, useEffect, useImperativeHandle } from "react";
-import { useForm } from "react-hook-form";
+import { forwardRef, useImperativeHandle } from "react";
 import { useFetchCompetency } from "../../../hooks/use-fetch-probation";
+import { useFormDataCompedency } from "../../../hooks/use-probation-form";
 import { useTableDataCompedency } from "../../../hooks/use-table-data";
 import { CompedencySchema, SubFormRef } from "../../../schema/probation-form";
 
 const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const { data, isLoading } = useQuery(useFetchCompetency());
 
-  const form = useForm<CompedencySchema>({
-    defaultValues: {
-      comps: [],
-      compsSums: [],
-    },
-  });
+  const form = useFormDataCompedency(data);
 
   const { columns } = useTableDataCompedency(data);
 
@@ -32,26 +27,6 @@ const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
       form.handleSubmit(onSubmit)();
     },
   }));
-
-  useEffect(() => {
-    if (data?.list) {
-      const formValues: CompedencySchema = {
-        comps: data.list.map((item) => ({
-          compMemo: item.memo ?? "",
-          compScore: item.score.score ?? "",
-        })),
-        compsSums: data.sums
-          ? data.sums.map((item) => ({
-              field: {
-                key: item.key,
-                value: item.value ?? "",
-              },
-            }))
-          : [],
-      };
-      form.reset(formValues);
-    }
-  }, [data, form]);
 
   if (isLoading) {
     return (

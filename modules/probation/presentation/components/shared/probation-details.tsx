@@ -4,11 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import * as model from "@/modules/probation/data/models/probation-model";
 import { useQuery } from "@tanstack/react-query";
-import { ReactNode, useEffect, useRef } from "react";
-import { useForm } from "react-hook-form";
+import { ReactNode, useRef } from "react";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
 import { useFetchProbation } from "../../hooks/use-fetch-probation";
-import { useProbationData } from "../../hooks/use-probation-data";
+import { useFormData, useProbationData } from "../../hooks/use-probation-form";
 import { ProbationFormField, SubFormRef } from "../../schema/probation-form";
 import ProbationField from "./probation-field";
 import ProbationStep from "./probation-setep";
@@ -36,22 +35,11 @@ const ProbationDetail = ({
     data ?? initialData
   );
 
-  const mapFormData = () => {
-    const sourceData = data ?? initialData;
-    return Object.fromEntries(
-      sourceData.fields.map((item) => [
-        item.key,
-        item.selctedValue ? item.selctedValue : item.values?.[0]?.title ?? "",
-      ])
-    );
-  };
-
-  const form = useForm<ProbationFormField>({
-    defaultValues: mapFormData(),
-  });
+  const form = useFormData(data ?? initialData);
 
   const kpiFormRef = useRef<SubFormRef>(null);
   const compFormRef = useRef<SubFormRef>(null);
+  const devplanFormRef = useRef<SubFormRef>(null);
 
   const onSubmitUI = async (data: ProbationFormField) => {
     const apiPayload = Object.entries(data).map(([key, value]) => ({
@@ -63,14 +51,8 @@ const ProbationDetail = ({
 
     kpiFormRef.current?.submit();
     compFormRef.current?.submit();
+    devplanFormRef.current?.submit();
   };
-
-  useEffect(() => {
-    const sourceData = data ?? initialData;
-    if (sourceData.fields) {
-      form.reset(mapFormData());
-    }
-  }, [data, form.reset]);
 
   return (
     <Form {...form}>
@@ -133,7 +115,11 @@ const ProbationDetail = ({
               </div>
             )}
           </div>
-          <ProbationTabs kpiFormRef={kpiFormRef} compFormRef={compFormRef} />
+          <ProbationTabs
+            kpiFormRef={kpiFormRef}
+            compFormRef={compFormRef}
+            devplanFormRef={devplanFormRef}
+          />
           <div className="flex justify-end gap-2">
             <Button
               type="submit"

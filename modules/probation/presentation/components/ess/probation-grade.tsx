@@ -5,7 +5,7 @@ import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { ProbationModel } from "@/modules/probation/data/models/probation-model";
 import { ReactNode } from "react";
-import { useProbationData } from "../../hooks/use-probation-data";
+import { useProbationData } from "../../hooks/use-probation-form";
 import ProbationField from "../shared/probation-field";
 
 interface ProbationGradeProps {

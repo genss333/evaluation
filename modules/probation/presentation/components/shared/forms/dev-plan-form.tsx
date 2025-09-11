@@ -1,6 +1,7 @@
 "use client";
 
 import { Calendar } from "@/components/ui/calendar";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
@@ -20,10 +21,32 @@ import { DateFormat } from "@/extensions/date-format";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Calendar as CalendarIcon } from "lucide-react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import { useFetchDevplan } from "../../../hooks/use-fetch-probation";
+import { useFormDataDevplan } from "../../../hooks/use-probation-form";
+import { DevplanSchema, SubFormRef } from "../../../schema/probation-form";
 
-const DevplanForm = () => {
+interface SelectedDate {
+  index: number;
+  date: Date;
+}
+
+const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const { data, isLoading } = useQuery(useFetchDevplan());
+
+  const [date, setDate] = useState<(SelectedDate | undefined)[]>();
+
+  const form = useFormDataDevplan(data);
+
+  const onSubmit = (values: DevplanSchema) => {
+    console.log("Form data submitted from Devplan:", values);
+  };
+
+  useImperativeHandle(ref, () => ({
+    submit: () => {
+      form.handleSubmit(onSubmit)();
+    },
+  }));
 
   if (isLoading) {
     return (
@@ -33,101 +56,144 @@ const DevplanForm = () => {
     );
   }
   return (
-    <TabsContent value="devplan" className="mt-4">
-      <div className="flex flex-col gap-4">
-        <div className="flex flex-col gap-2">
-          <div className="font-title text-semi-black">{data?.title}</div>
-          <div className="font-body2 text-status-red">{data?.desc}</div>
-        </div>
-      </div>
-      <div className="mt-4">
-        <div className="hidden lg:grid grid-cols-11 gap-x-4 my-4 px-2">
-          <div className="col-span-4" />
-          <div className="col-span-2 font-body2 text-semi-black text-center">
-            Priority
-          </div>
-          <div className="col-span-2 font-body2 text-semi-black text-center">
-            Timing
-          </div>
-          <div className="col-span-3 font-body2 text-semi-black text-center">
-            Remarks
+    <Form {...form}>
+      <TabsContent value="devplan" className="mt-4">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            <div className="font-title text-semi-black">{data?.title}</div>
+            <div className="font-body2 text-status-red">{data?.desc}</div>
           </div>
         </div>
-        <div className="flex flex-col gap-y-3">
-          {data?.list &&
-            data.list.map((item, index) => (
-              <div
-                key={item.id}
-                className="grid grid-cols-1 lg:grid-cols-11 gap-x-4 gap-y-2 items-center"
-              >
-                <div className="flex gap-x-6 gap-y-2 items-center col-span-full lg:col-span-4">
-                  <div className="hidden lg:block text-center text-gray-500">
-                    {index + 1}
-                  </div>
-                  <Textarea
-                    placeholder="Text"
-                    className="h-8 min-h-8 font-body3 rounded-[10px]"
-                    rows={1}
-                  />
-                </div>
-                <Select>
-                  <SelectTrigger
-                    className="w-full font-body3 text-semi-black col-span-full lg:col-span-2 [data-placeholder]:text-semi-black rounded-[10px]"
-                    size="sm"
+        <div className="mt-4">
+          <div className="hidden lg:grid grid-cols-11 gap-x-4 my-4 px-2">
+            <div className="col-span-4" />
+            <div className="col-span-2 font-body2 text-semi-black text-center">
+              Priority
+            </div>
+            <div className="col-span-2 font-body2 text-semi-black text-center">
+              Timing
+            </div>
+            <div className="col-span-3 font-body2 text-semi-black text-center">
+              Remarks
+            </div>
+          </div>
+          <div className="flex flex-col gap-y-3">
+            {data?.list &&
+              data.list.map((item, index) => {
+                const currentDate = date?.[index]?.date ?? item.dateTime;
+                return (
+                  <div
+                    key={item.id}
+                    className="grid grid-cols-1 lg:grid-cols-11 gap-x-4 gap-y-2 items-center"
                   >
-                    <SelectValue placeholder={item.priority?.name ?? ""} />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {item.prioritys &&
-                      item.prioritys.map((p) => (
-                        <SelectItem key={p.id} value={`${p.id}`}>
-                          {p.name}
-                        </SelectItem>
-                      ))}
-                  </SelectContent>
-                </Select>
-
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <div
-                      className={cn(
-                        "font-body3",
-                        "border rounded-[10px]",
-                        "w-full col-span-full lg:col-span-2 px-3"
-                      )}
-                    >
-                      <div className="flex justify-between items-center min-h-8 rounded-[10px]">
-                        <div className="flex-1">
-                          {item.dateTime &&
-                            DateFormat.shortDate({ date: item.dateTime })}
-                        </div>
-                        <CalendarIcon className="size-4 opacity-50 text-muted-foreground" />
+                    <div className="flex gap-x-6 gap-y-2 items-center col-span-full lg:col-span-4">
+                      <div className="hidden lg:block text-center text-gray-500">
+                        {index + 1}
                       </div>
+                      <FormField
+                        name={`plans.${index}.plan`}
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormControl>
+                              <Textarea
+                                placeholder="Text"
+                                className="h-8 min-h-8 font-body3 rounded-[10px] w-full"
+                                rows={1}
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
                     </div>
-                  </PopoverTrigger>
-                  <PopoverContent
-                    className="w-auto overflow-hidden p-0"
-                    align="start"
-                  >
-                    <Calendar
-                      mode="single"
-                      selected={item.dateTime ?? undefined}
-                      captionLayout="label"
-                      onSelect={(date) => {}}
+                    <FormField
+                      name={`plans.${index}.priority`}
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormControl>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={`${field.value}`}
+                            >
+                              <SelectTrigger
+                                className="w-full h-8 font-body3 text-semi-black col-span-full lg:col-span-2 [data-placeholder]:text-semi-black rounded-[10px]"
+                                size="sm"
+                                {...field}
+                              >
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {item.prioritys &&
+                                  item.prioritys.map((p) => (
+                                    <SelectItem key={p.id} value={`${p.id}`}>
+                                      {p.name}
+                                    </SelectItem>
+                                  ))}
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                        </FormItem>
+                      )}
                     />
-                  </PopoverContent>
-                </Popover>
-
-                <Input
-                  defaultValue={item.remark ?? " "}
-                  className="col-span-full lg:col-span-3 h-8 min-h-8 font-body3 text-semi-black rounded-[10px]"
-                />
-              </div>
-            ))}
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <div
+                          className={cn(
+                            "font-body3 cursor-pointer", // Added cursor-pointer for better UX
+                            "border rounded-[10px]",
+                            "w-full h-8 col-span-full lg:col-span-2 px-3"
+                          )}
+                        >
+                          <div className="flex justify-between items-center min-h-8 rounded-[10px]">
+                            <div className="flex-1">
+                              {currentDate &&
+                                DateFormat.shortDate({ date: currentDate })}
+                            </div>
+                            <CalendarIcon className="size-4 opacity-50 text-muted-foreground" />
+                          </div>
+                        </div>
+                      </PopoverTrigger>
+                      <PopoverContent
+                        className="w-auto overflow-hidden p-0"
+                        align="start"
+                      >
+                        <Calendar
+                          mode="single"
+                          selected={currentDate ?? undefined}
+                          captionLayout="label"
+                          onSelect={(selectedDate) => {
+                            setDate((prevDates = []) => {
+                              const newDates = [...(prevDates ?? [])];
+                              newDates[index] = selectedDate
+                                ? { index, date: selectedDate }
+                                : undefined;
+                              return newDates;
+                            });
+                          }}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormField
+                      name={`plans.${index}.remark`}
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormControl>
+                            <Input
+                              className="col-span-full lg:col-span-3 h-8 min-h-8 font-body3 text-semi-black rounded-[10px]"
+                              {...field}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                );
+              })}
+          </div>
         </div>
-      </div>
-    </TabsContent>
+      </TabsContent>
+    </Form>
   );
-};
+});
 
 export default DevplanForm;

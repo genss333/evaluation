@@ -10,9 +10,14 @@ import TimeAttandanceForm from "./forms/time-attandance-form";
 interface ProbationTabsProps {
   kpiFormRef: RefObject<SubFormRef | null>;
   compFormRef: RefObject<SubFormRef | null>;
+  devplanFormRef: RefObject<SubFormRef | null>;
 }
 
-const ProbationTabs = ({ kpiFormRef, compFormRef }: ProbationTabsProps) => {
+const ProbationTabs = ({
+  kpiFormRef,
+  compFormRef,
+  devplanFormRef,
+}: ProbationTabsProps) => {
   return (
     <Tabs defaultValue="kpi" className="mx-4 mb-4 ">
       <TabsList className="bg-transparent">
@@ -25,7 +30,7 @@ const ProbationTabs = ({ kpiFormRef, compFormRef }: ProbationTabsProps) => {
       <KpiForm ref={kpiFormRef} />
       <CompetencyForm ref={compFormRef} />
       <TimeAttandanceForm />
-      <DevplanForm />
+      <DevplanForm ref={devplanFormRef} />
       <MoreProbationForm />
     </Tabs>
   );

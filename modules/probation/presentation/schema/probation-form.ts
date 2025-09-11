@@ -34,6 +34,15 @@ export type CompedencySchema = {
   }[];
 };
 
+export type DevplanSchema = {
+  plans: {
+    plan: string;
+    priority: string;
+    timing: string;
+    remark: string;
+  }[];
+};
+
 export type ProbationFormField = {
   [k: string]: string | model.ProbationFieldValue;
 } & MSSProbtionSchema;

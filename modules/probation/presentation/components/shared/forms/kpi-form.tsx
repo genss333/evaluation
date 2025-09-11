@@ -5,21 +5,16 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { TextField } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
 import { useQuery } from "@tanstack/react-query";
-import { forwardRef, useEffect, useImperativeHandle } from "react";
-import { useForm } from "react-hook-form";
+import { forwardRef, useImperativeHandle } from "react";
 import { useFetchKpi } from "../../../hooks/use-fetch-probation";
+import { useFormDataKpi } from "../../../hooks/use-probation-form";
 import { useTableDataKpi } from "../../../hooks/use-table-data";
 import { KPISchema, SubFormRef } from "../../../schema/probation-form";
 
 const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const { data, isLoading } = useQuery(useFetchKpi());
 
-  const form = useForm<KPISchema>({
-    defaultValues: {
-      kpis: [],
-      kpiSums: [],
-    },
-  });
+  const form = useFormDataKpi(data);
 
   const { columns } = useTableDataKpi(data);
 
@@ -32,26 +27,6 @@ const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
       form.handleSubmit(onSubmit)();
     },
   }));
-
-  useEffect(() => {
-    if (data?.list) {
-      const formValues: KPISchema = {
-        kpis: data.list.map((item) => ({
-          kpiMemo: item.memo ?? "",
-          kpiScore: item.score.score ?? "",
-        })),
-        kpiSums: data.sums
-          ? data.sums.map((item) => ({
-              field: {
-                key: item.key,
-                value: item.value ?? "",
-              },
-            }))
-          : [],
-      };
-      form.reset(formValues);
-    }
-  }, [data, form]);
 
   if (isLoading) {
     return (

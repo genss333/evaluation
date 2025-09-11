@@ -18,24 +18,28 @@ const availablePriorities: Priority[] = [
 const devplanList: DevplanModel[] = [
   {
     id: 101,
+    value: "",
     prioritys: [availablePriorities[0]], // High priority
     dateTime: new Date("2025-10-15T09:00:00Z"),
     remark: "Focus on data fetching patterns and caching strategies.",
   },
   {
     id: 102,
+    value: "",
     prioritys: [availablePriorities[0], availablePriorities[1]], // High, Medium
     dateTime: new Date("2025-11-01T10:00:00Z"),
     remark: null, // Example of a null remark
   },
   {
     id: 103,
+    value: "",
     prioritys: [availablePriorities[1]], // Medium priority
     dateTime: null, // Example of a null date
     remark: "Explore plugin creation and design system integration.",
   },
   {
     id: 104,
+    value: "",
     prioritys: [availablePriorities[2]], // Low priority
     dateTime: new Date("2025-12-20T14:30:00Z"),
     remark: "Find a project that aligns with current tech stack.",
