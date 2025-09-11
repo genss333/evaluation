@@ -21,7 +21,7 @@ import { DateFormat } from "@/extensions/date-format";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { Calendar as CalendarIcon } from "lucide-react";
-import { forwardRef, useImperativeHandle, useState } from "react";
+import { forwardRef, useImperativeHandle } from "react";
 import { useFetchDevplan } from "../../../hooks/use-fetch-probation";
 import { useFormDataDevplan } from "../../../hooks/use-probation-form";
 import { DevplanSchema, SubFormRef } from "../../../schema/probation-form";
@@ -33,8 +33,6 @@ interface SelectedDate {
 
 const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const { data, isLoading } = useQuery(useFetchDevplan());
-
-  const [date, setDate] = useState<(SelectedDate | undefined)[]>();
 
   const form = useFormDataDevplan(data);
 
@@ -77,10 +75,9 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
               Remarks
             </div>
           </div>
-          <div className="flex flex-col gap-y-3">
+          <div className="space-y-2">
             {data?.list &&
               data.list.map((item, index) => {
-                const currentDate = date?.[index]?.date ?? item.dateTime;
                 return (
                   <div
                     key={item.id}
@@ -93,11 +90,11 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                       <FormField
                         name={`plans.${index}.plan`}
                         render={({ field }) => (
-                          <FormItem>
+                          <FormItem className="w-full">
                             <FormControl>
                               <Textarea
                                 placeholder="Text"
-                                className="h-8 min-h-8 font-body3 rounded-[10px] w-full"
+                                className="h-8 min-h-8 font-body3 rounded-[10px]"
                                 rows={1}
                                 {...field}
                               />
@@ -109,14 +106,14 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                     <FormField
                       name={`plans.${index}.priority`}
                       render={({ field }) => (
-                        <FormItem>
+                        <FormItem className="w-full col-span-full lg:col-span-2">
                           <FormControl>
                             <Select
                               onValueChange={field.onChange}
                               defaultValue={`${field.value}`}
                             >
                               <SelectTrigger
-                                className="w-full h-8 font-body3 text-semi-black col-span-full lg:col-span-2 [data-placeholder]:text-semi-black rounded-[10px]"
+                                className="w-full h-8 font-body3 text-semi-black [data-placeholder]:text-semi-black rounded-[10px]"
                                 size="sm"
                                 {...field}
                               >
@@ -135,51 +132,58 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                         </FormItem>
                       )}
                     />
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <div
-                          className={cn(
-                            "font-body3 cursor-pointer", // Added cursor-pointer for better UX
-                            "border rounded-[10px]",
-                            "w-full h-8 col-span-full lg:col-span-2 px-3"
-                          )}
-                        >
-                          <div className="flex justify-between items-center min-h-8 rounded-[10px]">
-                            <div className="flex-1">
-                              {currentDate &&
-                                DateFormat.shortDate({ date: currentDate })}
-                            </div>
-                            <CalendarIcon className="size-4 opacity-50 text-muted-foreground" />
-                          </div>
-                        </div>
-                      </PopoverTrigger>
-                      <PopoverContent
-                        className="w-auto overflow-hidden p-0"
-                        align="start"
-                      >
-                        <Calendar
-                          mode="single"
-                          selected={currentDate ?? undefined}
-                          captionLayout="label"
-                          onSelect={(selectedDate) => {
-                            setDate((prevDates = []) => {
-                              const newDates = [...(prevDates ?? [])];
-                              newDates[index] = selectedDate
-                                ? { index, date: selectedDate }
-                                : undefined;
-                              return newDates;
-                            });
-                          }}
-                        />
-                      </PopoverContent>
-                    </Popover>
+                    <FormField
+                      name={`plans.${index}.timing`}
+                      control={form.control}
+                      render={({ field }) => (
+                        <FormItem className="flex flex-col w-full h-8 col-span-full lg:col-span-2 px-3">
+                          <Popover>
+                            <PopoverTrigger asChild>
+                              <FormControl>
+                                <div
+                                  className={cn(
+                                    "font-body3 cursor-pointer",
+                                    "border rounded-[10px]"
+                                  )}
+                                >
+                                  <div className="flex justify-between items-center min-h-8 rounded-[10px] mx-2">
+                                    <div className="flex-1">
+                                      {field.value
+                                        ? DateFormat.shortDate({
+                                            date: new Date(field.value),
+                                          })
+                                        : "Select a date"}
+                                    </div>
+                                    <CalendarIcon className="size-4 opacity-50 text-muted-foreground" />
+                                  </div>
+                                </div>
+                              </FormControl>
+                            </PopoverTrigger>
+                            <PopoverContent
+                              className="w-auto overflow-hidden p-0"
+                              align="start"
+                            >
+                              <Calendar
+                                mode="single"
+                                selected={
+                                  field.value
+                                    ? new Date(field.value)
+                                    : undefined
+                                }
+                                onSelect={field.onChange}
+                              />
+                            </PopoverContent>
+                          </Popover>
+                        </FormItem>
+                      )}
+                    />
                     <FormField
                       name={`plans.${index}.remark`}
                       render={({ field }) => (
-                        <FormItem className="w-full">
+                        <FormItem className="w-full col-span-full lg:col-span-3 ">
                           <FormControl>
                             <Input
-                              className="col-span-full lg:col-span-3 h-8 min-h-8 font-body3 text-semi-black rounded-[10px]"
+                              className="h-8 font-body3 text-semi-black rounded-[10px]"
                               {...field}
                             />
                           </FormControl>

@@ -19,6 +19,7 @@ const devplanList: DevplanModel[] = [
   {
     id: 101,
     value: "",
+    priority: availablePriorities[0],
     prioritys: [availablePriorities[0]], // High priority
     dateTime: new Date("2025-10-15T09:00:00Z"),
     remark: "Focus on data fetching patterns and caching strategies.",
@@ -26,13 +27,15 @@ const devplanList: DevplanModel[] = [
   {
     id: 102,
     value: "",
+    priority: availablePriorities[0],
     prioritys: [availablePriorities[0], availablePriorities[1]], // High, Medium
     dateTime: new Date("2025-11-01T10:00:00Z"),
-    remark: null, // Example of a null remark
+    remark: null,
   },
   {
     id: 103,
     value: "",
+    priority: availablePriorities[1],
     prioritys: [availablePriorities[1]], // Medium priority
     dateTime: null, // Example of a null date
     remark: "Explore plugin creation and design system integration.",
@@ -40,6 +43,7 @@ const devplanList: DevplanModel[] = [
   {
     id: 104,
     value: "",
+    priority: availablePriorities[2],
     prioritys: [availablePriorities[2]], // Low priority
     dateTime: new Date("2025-12-20T14:30:00Z"),
     remark: "Find a project that aligns with current tech stack.",
@@ -56,7 +60,5 @@ const mockData: ProbationTableModel<DevplanModel> = {
 // --- API Handler ---
 
 export async function GET() {
-  // In a real application, you would fetch this data from a database.
-  // Here, we simply return our generated mock data.
   return NextResponse.json(mockData);
 }

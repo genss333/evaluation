@@ -199,6 +199,18 @@ const mssMockData: ProbationModel = {
       dateTime: null,
     },
     {
+      title: "หัวหน้างานประเมิน",
+      desc: "หัวหน้างานกำลังประเมินผล",
+      status: "P",
+      dateTime: null,
+    },
+    {
+      title: "หัวหน้างานประเมิน",
+      desc: "หัวหน้างานกำลังประเมินผล",
+      status: "P",
+      dateTime: null,
+    },
+    {
       title: "ฝ่ายบุคคลตรวจสอบ",
       desc: "รอฝ่ายบุคคลดำเนินการ",
       status: "P",
@@ -353,6 +365,18 @@ const essMockData: ProbationModel = {
     {
       title: "พนักงานประเมินตนเอง",
       desc: "พนักงานดำเนินการประเมิน",
+      status: "P",
+      dateTime: null,
+    },
+    {
+      title: "หัวหน้างานประเมิน",
+      desc: "หัวหน้างานกำลังประเมินผล",
+      status: "P",
+      dateTime: null,
+    },
+    {
+      title: "หัวหน้างานประเมิน",
+      desc: "หัวหน้างานกำลังประเมินผล",
       status: "P",
       dateTime: null,
     },
