@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { MoreProbationModel } from "../../data/models/more-probation-model";
 import { CompetencyModel } from "../../data/models/probation-competency-model";
 import { DevplanModel } from "../../data/models/probation-devplan-model";
 import { Kpi, SumScore } from "../../data/models/probation-kpi-model";
@@ -9,6 +10,7 @@ import {
   CompedencySchema,
   DevplanSchema,
   KPISchema,
+  MoreProbationSchema,
   ProbationFormField,
 } from "../schema/probation-form";
 
@@ -198,6 +200,30 @@ export const useFormDataDevplan = (
       form.reset(formData);
     }
   }, [formData, form]);
+
+  return form;
+};
+
+export const useFormDataMoreProbation = (
+  data: ProbationTableModel<MoreProbationModel> | undefined
+) => {
+  const form = useForm<MoreProbationSchema>({ defaultValues: {} });
+
+  const formData = useMemo(() => {
+    if (data) {
+      const formvalues: MoreProbationSchema = Object.fromEntries(
+        data.list.map((item) => [`key${item.id}`, item.value])
+      );
+
+      return formvalues;
+    }
+  }, [data?.list]);
+
+  useEffect(() => {
+    if (formData) {
+      form.reset(formData);
+    }
+  }, [formData, form.reset]);
 
   return form;
 };

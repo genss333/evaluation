@@ -43,6 +43,10 @@ export type DevplanSchema = {
   }[];
 };
 
+export type MoreProbationSchema = {
+  [k: string]: string;
+};
+
 export type ProbationFormField = {
   [k: string]: string | model.ProbationFieldValue;
 } & MSSProbtionSchema;

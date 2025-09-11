@@ -40,6 +40,7 @@ const ProbationDetail = ({
   const kpiFormRef = useRef<SubFormRef>(null);
   const compFormRef = useRef<SubFormRef>(null);
   const devplanFormRef = useRef<SubFormRef>(null);
+  const moreFormRef = useRef<SubFormRef>(null);
 
   const onSubmitUI = async (data: ProbationFormField) => {
     const apiPayload = Object.entries(data).map(([key, value]) => ({
@@ -52,6 +53,7 @@ const ProbationDetail = ({
     kpiFormRef.current?.submit();
     compFormRef.current?.submit();
     devplanFormRef.current?.submit();
+    moreFormRef.current?.submit();
   };
 
   return (
@@ -119,6 +121,7 @@ const ProbationDetail = ({
             kpiFormRef={kpiFormRef}
             compFormRef={compFormRef}
             devplanFormRef={devplanFormRef}
+            moreFormRef={moreFormRef}
           />
           <div className="flex justify-end gap-2">
             <Button

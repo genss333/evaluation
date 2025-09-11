@@ -11,12 +11,14 @@ interface ProbationTabsProps {
   kpiFormRef: RefObject<SubFormRef | null>;
   compFormRef: RefObject<SubFormRef | null>;
   devplanFormRef: RefObject<SubFormRef | null>;
+  moreFormRef: RefObject<SubFormRef | null>;
 }
 
 const ProbationTabs = ({
   kpiFormRef,
   compFormRef,
   devplanFormRef,
+  moreFormRef,
 }: ProbationTabsProps) => {
   return (
     <Tabs defaultValue="kpi" className="mx-4 mb-4 ">
@@ -31,7 +33,7 @@ const ProbationTabs = ({
       <CompetencyForm ref={compFormRef} />
       <TimeAttandanceForm />
       <DevplanForm ref={devplanFormRef} />
-      <MoreProbationForm />
+      <MoreProbationForm ref={moreFormRef} />
     </Tabs>
   );
 };
