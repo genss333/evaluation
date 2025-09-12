@@ -34,7 +34,7 @@ const MSSLayout = ({ data }: MSSLayoutProps) => {
                   <DialogTrigger asChild>
                     <Button
                       variant={"outline"}
-                      className="h-8 text-xs border-tiger-red rounded-full"
+                      className="h-8 text-tiger-red text-xs border-tiger-red rounded-full"
                     >
                       Role Back
                     </Button>

@@ -2,6 +2,7 @@
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
+import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { forwardRef, useImperativeHandle } from "react";
 import { useFetchMoreProbation } from "../../../hooks/use-fetch-probation";
@@ -46,23 +47,38 @@ const MoreProbationForm = forwardRef<SubFormRef, {}>((props, ref) => {
                 {index + 1}.{item.title}
               </div>
 
-              <div className="flex w-full gap-2">
+              <div className="flex w-full gap-2 relative">
                 {item.value.map((fieldItem, fieldIndex) => (
-                  <FormField
-                    key={fieldItem.id}
-                    name={`${item.id}[${fieldIndex}].${fieldItem.id}`}
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormControl>
-                          <Textarea
-                            className="h-[60px] min-h-[60px] font-body3 rounded-[10px]"
-                            {...field}
-                            disabled={fieldItem.disable ?? false}
-                          />
-                        </FormControl>
-                      </FormItem>
+                  <div key={fieldItem.id} className="w-full">
+                    {index == 0 && (
+                      <div
+                        className={cn(
+                          "absloute left-1/2 translate-x-1/3",
+                          item.value.length < 2 && "hidden"
+                        )}
+                      >
+                        <div className="text-sm font-medium mb-2">
+                          {fieldIndex > 0
+                            ? `ผู้ประเมินลำดับที่ ${fieldIndex}`
+                            : "พนักงานประเมินตนเอง"}
+                        </div>
+                      </div>
                     )}
-                  />
+                    <FormField
+                      name={`${item.id}[${fieldIndex}].${fieldItem.id}`}
+                      render={({ field }) => (
+                        <FormItem className="w-full">
+                          <FormControl>
+                            <Textarea
+                              className="h-[60px] min-h-[60px] font-body3 rounded-[10px]"
+                              {...field}
+                              disabled={fieldItem.disable ?? false}
+                            />
+                          </FormControl>
+                        </FormItem>
+                      )}
+                    />
+                  </div>
                 ))}
               </div>
             </div>
