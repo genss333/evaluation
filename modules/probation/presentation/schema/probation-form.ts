@@ -1,4 +1,5 @@
 import * as model from "@/modules/probation/data/models/probation-model";
+import { Kpi } from "../../data/models/probation-kpi-model";
 
 interface MSSProbtionSchema {
   resultProbation: "pass" | "fail";
@@ -9,10 +10,7 @@ export interface SubFormRef {
 }
 
 export type KPISchema = {
-  kpis: {
-    kpiMemo: string;
-    kpiScore: number | string;
-  }[];
+  kpis: Kpi[];
   kpiSums?: {
     field: {
       key: String;

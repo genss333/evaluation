@@ -26,16 +26,9 @@ import { useFetchDevplan } from "../../../hooks/use-fetch-probation";
 import { useFormDataDevplan } from "../../../hooks/use-probation-form";
 import { DevplanSchema, SubFormRef } from "../../../schema/probation-form";
 
-interface SelectedDate {
-  index: number;
-  date: Date;
-}
-
 const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const { data, isLoading } = useQuery(useFetchDevplan());
-
   const form = useFormDataDevplan(data);
-
   const onSubmit = (values: DevplanSchema) => {
     console.log("Form data submitted from Devplan:", values);
   };

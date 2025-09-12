@@ -32,13 +32,17 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       title: "บรรลุเป้าหมายยอดขายผลิตภัณฑ์ A",
       total: 30,
       targetScore: 25,
-      essScore: 28,
+      scoreList: [
+        { id: 2, title: "ลำดับ1", value: 50 },
+        { id: 1, title: "พนักงาน", value: 50 },
+      ],
       score: {
         score: null,
         disable: false,
       },
       // memo: "ทำได้เกินเป้าหมายที่ตั้งไว้ในไตรมาสที่ 3 เนื่องจากแคมเปญการตลาดได้ผลดี",
       how: "จำนวน",
+      standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
     {
       id: 2,
@@ -47,13 +51,13 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       title: "การส่งมอบโปรเจกต์ 'Phoenix' ตรงตามกำหนด",
       total: 20,
       targetScore: 20,
-      essScore: 28,
       score: {
         score: null,
         disable: false,
       },
       // memo: "ส่งมอบล่าช้ากว่ากำหนด 2 วัน เนื่องจากมีการแก้ไข Requirement กลางสัปดาห์สุดท้าย",
       how: "จำนวน",
+      standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
     {
       id: 3,
@@ -62,12 +66,12 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       title: "รักษาคะแนนความพึงพอใจของลูกค้า",
       total: 25,
       targetScore: 20,
-      essScore: 28,
       score: {
         score: null,
         disable: false,
       },
       how: "จำนวน",
+      standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
   ],
   sums: [
@@ -109,6 +113,7 @@ const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       },
       memo: "",
       how: "จำนวน",
+      standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
     {
       id: 2,
@@ -123,6 +128,7 @@ const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       },
       memo: "",
       how: "จำนวน",
+      standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
     {
       id: 3,
@@ -137,6 +143,7 @@ const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       },
       how: "จำนวน",
       memo: "",
+      standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
   ],
 };

@@ -9,7 +9,7 @@ export interface CompetencyModel
     | "score"
     | "total"
     | "targetScore"
-    | "essScore"
+    | "scoreList"
     | "memo"
   > {
   weight: number;

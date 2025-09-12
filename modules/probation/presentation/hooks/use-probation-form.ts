@@ -103,10 +103,7 @@ export const useFormDataKpi = (
   const formData = useMemo(() => {
     if (data?.list) {
       const formValues: KPISchema = {
-        kpis: data.list.map((item) => ({
-          kpiMemo: item.memo ?? "",
-          kpiScore: item.score.score ?? "",
-        })),
+        kpis: data.list.map((item) => item),
         kpiSums: data.sums
           ? data.sums.map((item) => ({
               field: {

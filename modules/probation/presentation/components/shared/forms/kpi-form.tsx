@@ -1,11 +1,13 @@
 "use client";
 
-import ProbationDataTable from "@/components/custom/custom-data-table";
+import CustomDataTable from "@/components/custom/custom-data-table";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { TextField } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
+import { Kpi } from "@/modules/probation/data/models/probation-kpi-model";
 import { useQuery } from "@tanstack/react-query";
-import { forwardRef, useImperativeHandle } from "react";
+import { RowSelectionState } from "@tanstack/react-table";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { useFetchKpi } from "../../../hooks/use-fetch-probation";
 import { useFormDataKpi } from "../../../hooks/use-probation-form";
 import { useTableDataKpi } from "../../../hooks/use-table-data";
@@ -13,10 +15,11 @@ import { KPISchema, SubFormRef } from "../../../schema/probation-form";
 
 const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const { data, isLoading } = useQuery(useFetchKpi());
-
+  const [table, setTable] = useState<Array<Kpi & { isNew: boolean }>>([]);
   const form = useFormDataKpi(data);
 
-  const { columns } = useTableDataKpi(data);
+  const { columns } = useTableDataKpi(table);
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const onSubmit = (values: KPISchema) => {
     console.log("Form data submitted from kpi:", values);
@@ -27,6 +30,34 @@ const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
       form.handleSubmit(onSubmit)();
     },
   }));
+
+  const addRow = () => {
+    setTable((prevTable) => {
+      const arr = Array.isArray(prevTable) ? prevTable : [];
+      const updatedArr = arr.map((item) => ({ ...item, isNew: false }));
+      return [
+        ...updatedArr,
+        {
+          id: updatedArr.length + 1,
+          isNew: true,
+        } as Kpi & { isNew: boolean },
+      ];
+    });
+  };
+
+  const deleteRows = (selectedIndices: number[]) => {
+    setTable((prevTable) => {
+      const arr = Array.isArray(prevTable) ? prevTable : [];
+      return arr.filter((_, idx) => !selectedIndices.includes(idx));
+    });
+    setRowSelection({});
+  };
+
+  const onSave = () => {};
+
+  useEffect(() => {
+    setTable((data?.list ?? []) as Array<Kpi & { isNew: boolean }>);
+  }, [data?.list]);
 
   if (isLoading) {
     return (
@@ -44,10 +75,17 @@ const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
             <div className="font-title text-semi-black">{data?.title}</div>
             <div className="font-body2 text-status-red">{data?.desc}</div>
           </div>
-          <ProbationDataTable
-            hTextLeft={[1, 2]}
+          <CustomDataTable
+            hTextLeft={[2, 3]}
             columns={columns}
-            data={data?.list || []}
+            data={table ?? []}
+            actions={{
+              addRow,
+              deleteRows,
+              onSave,
+            }}
+            rowSelection={rowSelection}
+            onRowSelectionChange={setRowSelection}
           />
           {data?.sums && (
             <div className="border rounded-[10px] p-2.5 space-y-2.5">

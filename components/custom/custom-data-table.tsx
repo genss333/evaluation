@@ -14,6 +14,7 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  RowSelectionState,
   useReactTable,
 } from "@tanstack/react-table";
 import {
@@ -21,9 +22,13 @@ import {
   ChevronRightIcon,
   ChevronsLeftIcon,
   ChevronsRightIcon,
+  Plus,
+  Save,
+  X,
 } from "lucide-react";
-import { Fragment, useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "../ui/button";
+import { Checkbox } from "../ui/checkbox";
 import {
   Select,
   SelectContent,
@@ -32,28 +37,77 @@ import {
   SelectValue,
 } from "../ui/select";
 
+export interface CustomTableAction {
+  addRow: () => void;
+  deleteRows: (selectedRowIndices: number[]) => void;
+  onSave?: () => void;
+}
+
 interface CustomDataTableProps<T> {
   columns: ColumnDef<T>[];
   data: T[];
   hTextLeft: number[];
+  onRowSelectionChange: (updater: any) => void;
+  rowSelection: RowSelectionState;
+  actions?: CustomTableAction;
 }
 
 const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
   columns,
   data,
   hTextLeft,
+  actions,
+  rowSelection,
+  onRowSelectionChange,
 }: CustomDataTableProps<any>) => {
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 20,
   });
 
+  const memoizedColumns = useMemo<ColumnDef<any>[]>(
+    () => [
+      {
+        id: "select",
+        header: ({ table }) => (
+          <Checkbox
+            checked={
+              table.getIsAllPageRowsSelected() ||
+              (table.getIsSomePageRowsSelected() && "indeterminate")
+            }
+            onCheckedChange={(value) =>
+              table.toggleAllPageRowsSelected(!!value)
+            }
+            aria-label="Select all"
+          />
+        ),
+        cell: ({ row }) => (
+          <div className="flex justify-center">
+            <Checkbox
+              checked={row.getIsSelected()}
+              onCheckedChange={(value) => row.toggleSelected(!!value)}
+              aria-label="Select row"
+            />
+          </div>
+        ),
+        enableResizing: false,
+        size: 40,
+      },
+      ...columns,
+    ],
+    [columns]
+  );
+
   const table = useReactTable({
     data,
-    columns,
+    columns: actions ? memoizedColumns : columns,
     state: {
       pagination,
+      rowSelection: rowSelection,
     },
+    enableRowSelection: true,
+    onRowSelectionChange: onRowSelectionChange,
+    getRowId: (row) => row.id,
     enableColumnResizing: true,
     columnResizeMode: "onChange",
     getCoreRowModel: getCoreRowModel(),
@@ -61,9 +115,36 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
     getPaginationRowModel: getPaginationRowModel(),
   });
 
+  const handleDeleteClick = () => {
+    if (actions?.deleteRows) {
+      const selectedIndices = table
+        .getSelectedRowModel()
+        .rows.map((row) => row.index);
+      actions.deleteRows(selectedIndices);
+    }
+  };
+
   return (
-    <Fragment>
-      <div className="border rounded-tl-[10px] rounded-tr-[10px] mt-2.5">
+    <div className="space-y-2.5">
+      {actions && (
+        <div className="w-fit h-7 bg-background drop-shadow-md drop-shadow-[#BFBFBF40] rounded-[5px] flex justify-around items-center gap-2 px-4">
+          <Plus
+            className="size-4 text-[#E6E6E6] hover:text-semi-black hover:cursor-pointer"
+            onClick={actions?.addRow}
+          />
+          {actions.onSave && (
+            <Save
+              className="size-4 text-[#E6E6E6] hover:text-semi-black hover:cursor-pointer"
+              onClick={actions?.onSave}
+            />
+          )}
+          <X
+            className="size-4 text-[#E6E6E6] hover:text-semi-black hover:cursor-pointer"
+            onClick={handleDeleteClick}
+          />
+        </div>
+      )}
+      <div className="border rounded-tl-[10px] rounded-tr-[10px]">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -113,7 +194,7 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
             ) : (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length}
+                  colSpan={memoizedColumns.length}
                   className="h-24 text-center"
                 >
                   No results.
@@ -183,14 +264,18 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
           >
             <SelectTrigger
               size="sm"
-              className="h-7 w-[98px]"
               id="rows-per-page"
+              className="h-7 w-[98px] font-caption2"
             >
               <SelectValue placeholder={table.getState().pagination.pageSize} />
             </SelectTrigger>
             <SelectContent>
               {[10, 20, 30, 40, 50].map((pageSize) => (
-                <SelectItem key={pageSize} value={`${pageSize}`}>
+                <SelectItem
+                  key={pageSize}
+                  value={`${pageSize}`}
+                  className="font-caption3"
+                >
                   {pageSize}
                 </SelectItem>
               ))}
@@ -198,7 +283,7 @@ const CustomDataTable: React.FC<CustomDataTableProps<any>> = ({
           </Select>
         </div>
       </div>
-    </Fragment>
+    </div>
   );
 };
 

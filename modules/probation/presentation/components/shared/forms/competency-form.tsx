@@ -1,11 +1,12 @@
 "use client";
 
-import ProbationDataTable from "@/components/custom/custom-data-table";
+import CustomDataTable from "@/components/custom/custom-data-table";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { TextField } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
 import { useQuery } from "@tanstack/react-query";
-import { forwardRef, useImperativeHandle } from "react";
+import { RowSelectionState } from "@tanstack/react-table";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import { useFetchCompetency } from "../../../hooks/use-fetch-probation";
 import { useFormDataCompedency } from "../../../hooks/use-probation-form";
 import { useTableDataCompedency } from "../../../hooks/use-table-data";
@@ -13,10 +14,9 @@ import { CompedencySchema, SubFormRef } from "../../../schema/probation-form";
 
 const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const { data, isLoading } = useQuery(useFetchCompetency());
-
   const form = useFormDataCompedency(data);
-
   const { columns } = useTableDataCompedency(data);
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const onSubmit = (values: CompedencySchema) => {
     console.log("Form data submitted from compedency:", values);
@@ -45,10 +45,12 @@ const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
             <div className="font-body2 text-status-red">{data?.desc}</div>
           </div>
 
-          <ProbationDataTable
+          <CustomDataTable
             hTextLeft={[1]}
             columns={columns}
             data={data?.list || []}
+            rowSelection={rowSelection}
+            onRowSelectionChange={setRowSelection}
           />
           {data?.sums && (
             <div className="border rounded-[10px] p-2.5 space-y-2.5">

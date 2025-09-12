@@ -7,9 +7,9 @@ import { CompetencyModel } from "../../data/models/probation-competency-model";
 import { Kpi } from "../../data/models/probation-kpi-model";
 import { ProbationTableModel } from "../../data/models/probation-table-model";
 
-export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
+export const useTableDataKpi = (table: Kpi[]) => {
   return useMemo(() => {
-    let columns: ColumnDef<Kpi>[] = [
+    let columns: ColumnDef<Kpi & { isNew: boolean }>[] = [
       {
         accessorKey: "runnumber",
         header: "ลำดับ",
@@ -18,9 +18,7 @@ export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
         maxSize: 100,
         cell: ({ row }) => (
           <div className="text-center">
-            <div className="font-caption3 text-semi-black">
-              {row.original.runNumber}
-            </div>
+            <div className="font-caption3 text-semi-black">{row.index + 1}</div>
           </div>
         ),
       },
@@ -28,22 +26,56 @@ export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
         accessorKey: "code",
         header: "รหัสหัวข้อการประเมิน",
         cell: ({ row }) => (
-          <div className="text-left">
-            <div className="font-caption3 text-semi-black">
-              {row.original.code}
-            </div>
-          </div>
+          <FormField
+            name={`kpis.${row.index}.code`}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  {row.original.isNew ? (
+                    <Input
+                      className="font-caption3 text-semi-black h-8 rounded-[10px]"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  ) : (
+                    <div className="text-left">
+                      <div className="font-caption3 text-semi-black">
+                        {field.value ?? row.original.code}
+                      </div>
+                    </div>
+                  )}
+                </FormControl>
+              </FormItem>
+            )}
+          />
         ),
       },
       {
         accessorKey: "title",
         header: "หัวข้อการประเมิน",
         cell: ({ row }) => (
-          <div className="text-left">
-            <div className="font-caption3 text-semi-black">
-              {row.original.title}
-            </div>
-          </div>
+          <FormField
+            name={`kpis.${row.index}.title`}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  {row.original.isNew ? (
+                    <Input
+                      className="font-caption3 text-semi-black h-8 rounded-[10px]"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  ) : (
+                    <div className="text-left">
+                      <div className="font-caption3 text-semi-black">
+                        {field.value ?? row.original.title}
+                      </div>
+                    </div>
+                  )}
+                </FormControl>
+              </FormItem>
+            )}
+          />
         ),
       },
       {
@@ -53,9 +85,30 @@ export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
         minSize: 80,
         maxSize: 80,
         cell: ({ row }) => (
-          <div className="text-center font-caption3 text-semi-black">
-            {row.original.total}
-          </div>
+          <FormField
+            name={`kpis.${row.index}.total`}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  {row.original.isNew ? (
+                    <Input
+                      type="number"
+                      min={0}
+                      className="font-caption3 text-semi-black h-8 rounded-[10px]"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  ) : (
+                    <div className="text-center">
+                      <div className="font-caption3 text-semi-black">
+                        {field.value ?? row.original.total}
+                      </div>
+                    </div>
+                  )}
+                </FormControl>
+              </FormItem>
+            )}
+          />
         ),
       },
       {
@@ -65,9 +118,30 @@ export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
         minSize: 80,
         maxSize: 80,
         cell: ({ row }) => (
-          <div className="text-center font-caption3 text-semi-black">
-            {row.original.targetScore}
-          </div>
+          <FormField
+            name={`kpis.${row.index}.targetScore`}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  {row.original.isNew ? (
+                    <Input
+                      type="number"
+                      min={0}
+                      className="font-caption3 text-semi-black h-8 rounded-[10px]"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  ) : (
+                    <div className="text-center">
+                      <div className="font-caption3 text-semi-black">
+                        {field.value ?? row.original.targetScore}
+                      </div>
+                    </div>
+                  )}
+                </FormControl>
+              </FormItem>
+            )}
+          />
         ),
       },
       {
@@ -78,7 +152,7 @@ export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
         maxSize: 80,
         cell: ({ row }) => (
           <FormField
-            name={`kpis.${row.index}.kpiScore`}
+            name={`kpis.${row.index}.score`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -104,15 +178,64 @@ export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
         minSize: 120,
         maxSize: 120,
         cell: ({ row }) => (
-          <div className="text-center font-caption3 text-semi-black">
-            {row.original.how}
-          </div>
+          <FormField
+            name={`kpis.${row.index}.how`}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  {row.original.isNew ? (
+                    <Input
+                      className="font-caption3 text-semi-black h-8 rounded-[10px]"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  ) : (
+                    <div className="text-center">
+                      <div className="font-caption3 text-semi-black">
+                        {field.value ?? row.original.how}
+                      </div>
+                    </div>
+                  )}
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        ),
+      },
+      {
+        accessorKey: "standard",
+        header: "เกณฑ์การให้คะแนน",
+        size: 280,
+        minSize: 280,
+        maxSize: 280,
+        cell: ({ row }) => (
+          <FormField
+            name={`kpis.${row.index}.standard`}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  {row.original.isNew ? (
+                    <Input
+                      className="font-caption3 text-semi-black h-8 rounded-[10px]"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  ) : (
+                    <div className="text-center">
+                      <div className="font-caption3 text-semi-black">
+                        {field.value ?? row.original.standard}
+                      </div>
+                    </div>
+                  )}
+                </FormControl>
+              </FormItem>
+            )}
+          />
         ),
       },
     ];
 
-    const hasMemoColumn = data?.list.some((item) => item.memo === "");
-    const hasEssScore = data?.list.some((item) => item.essScore);
+    const hasMemoColumn = table.some((item) => item.memo === "");
 
     if (hasMemoColumn) {
       columns.splice(columns.length - 1, 0, {
@@ -120,7 +243,7 @@ export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
         header: "หมายเหตุ / Memo",
         cell: ({ row }) => (
           <FormField
-            name={`kpis.${row.index}.kpiMemo`}
+            name={`kpis.${row.index}.memo`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -137,25 +260,27 @@ export const useTableDataKpi = (data: ProbationTableModel<Kpi> | undefined) => {
       });
     }
 
-    if (hasEssScore) {
-      columns.splice(5, 0, {
-        accessorKey: "essScore",
-        header: "พนักงาน",
-        size: 80,
-        minSize: 80,
-        maxSize: 80,
-        cell: ({ row }) => (
-          <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-            {row.original.essScore}
-          </div>
-        ),
-      });
-    }
+    table.some((item) =>
+      item.scoreList?.map((score, index) => {
+        columns.splice(5, 0, {
+          accessorKey: `scoreList.${score.id}`,
+          header: `${score.title}`,
+          size: 80,
+          minSize: 80,
+          maxSize: 80,
+          cell: ({ row }) => (
+            <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+              {`${row.original.scoreList?.[index]?.value ?? "-"}`}
+            </div>
+          ),
+        });
+      })
+    );
 
     return {
       columns,
     };
-  }, [data]);
+  }, [table]);
 };
 
 export const useTableDataCompedency = (
@@ -262,7 +387,6 @@ export const useTableDataCompedency = (
     ];
 
     const hasMemoColumn = data?.list.some((item) => item.memo === "");
-    const hasEssScore = data?.list.some((item) => item.essScore);
 
     if (hasMemoColumn) {
       columns.splice(columns.length - 1, 0, {
@@ -283,21 +407,6 @@ export const useTableDataCompedency = (
               </FormItem>
             )}
           />
-        ),
-      });
-    }
-
-    if (hasEssScore) {
-      columns.splice(5, 0, {
-        accessorKey: "essScore",
-        header: "พนักงาน",
-        size: 80,
-        minSize: 80,
-        maxSize: 80,
-        cell: ({ row }) => (
-          <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-            {row.original.essScore}
-          </div>
         ),
       });
     }
