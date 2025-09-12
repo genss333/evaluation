@@ -36,7 +36,10 @@ export type DevplanSchema = {
 };
 
 export type MoreProbationSchema = {
-  [k: string]: { [key: string]: string }[];
+  [k: string]: {
+    [key: string]: string | boolean;
+    disable: boolean;
+  }[];
 };
 
 export type ProbationFormField = {

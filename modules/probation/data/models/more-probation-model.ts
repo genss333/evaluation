@@ -4,5 +4,6 @@ export interface MoreProbationModel {
   value: {
     id: number;
     value: string;
+    disable: boolean;
   }[];
 }

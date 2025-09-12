@@ -203,7 +203,10 @@ export const useFormDataMoreProbation = (
       const formvalues: MoreProbationSchema = Object.fromEntries(
         data.list.map((item) => [
           item.id,
-          item.value.map((v) => ({ [v.id]: v.value })),
+          item.value.map((v) => ({
+            [String(v.id)]: v.value,
+            disable: v.disable ?? false,
+          })),
         ])
       );
 

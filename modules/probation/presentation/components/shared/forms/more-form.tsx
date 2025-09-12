@@ -50,7 +50,6 @@ const MoreProbationForm = forwardRef<SubFormRef, {}>((props, ref) => {
                 {item.value.map((fieldItem, fieldIndex) => (
                   <FormField
                     key={fieldItem.id}
-                    // Format the name to create an array of objects
                     name={`${item.id}[${fieldIndex}].${fieldItem.id}`}
                     render={({ field }) => (
                       <FormItem className="w-full">
