@@ -13,11 +13,15 @@ const mockCompetencies: CompetencyModel[] = [
     total: 100,
     targetScore: 90,
     weight: 0.4,
-    essScore: 28,
+    scoreList: [
+      { id: 1, title: "พนักงาน", value: 50 },
+      { id: 2, title: "ลำดับ1", value: 50 },
+    ],
     score: {
       score: null,
       disable: false,
     },
+    sumScore: "",
   },
   {
     id: 2,
@@ -27,11 +31,15 @@ const mockCompetencies: CompetencyModel[] = [
     total: 100,
     targetScore: 85,
     weight: 0.3,
-    essScore: 28,
+    scoreList: [
+      { id: 1, title: "พนักงาน", value: 50 },
+      { id: 2, title: "ลำดับ1", value: 50 },
+    ],
     score: {
       score: null,
       disable: false,
     },
+    sumScore: "",
   },
   {
     id: 3,
@@ -41,11 +49,15 @@ const mockCompetencies: CompetencyModel[] = [
     total: 100,
     targetScore: 80,
     weight: 0.2,
-    essScore: 28,
+    scoreList: [
+      { id: 1, title: "พนักงาน", value: 50 },
+      { id: 2, title: "ลำดับ1", value: 50 },
+    ],
     score: {
       score: null,
       disable: false,
     },
+    sumScore: "",
   },
 ];
 
