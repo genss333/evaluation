@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
 import { ProbationModel } from "@/modules/probation/data/models/probation-model";
 import ProbationDetail from "../shared/probation-details";
 import EmpApproveLine from "./emp-approve-line-list";
@@ -24,6 +25,19 @@ const MSSLayout = ({ data }: MSSLayoutProps) => {
         <ProbationDetail
           data={data}
           GradeGroup={(data) => <ProbationGrade data={data} />}
+          roleBack={
+            <div className="p-4">
+              <div className="flex justify-between items-center">
+                <div className="font-title">เลือกเงื่อนไขแบบฟอร์ม</div>
+                <Button
+                  variant={"outline"}
+                  className="h-8 text-xs border-tiger-red rounded-full"
+                >
+                  Role Back
+                </Button>
+              </div>
+            </div>
+          }
         />
       </div>
     </div>

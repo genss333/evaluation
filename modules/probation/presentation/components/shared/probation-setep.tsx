@@ -3,7 +3,7 @@
 import Flex from "@/components/layout/flex";
 import { cn } from "@/lib/utils";
 import { GetCurrentStep } from "@/modules/probation/domain/usecases/get-current-step";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, ReactNode, useEffect, useState } from "react";
 import * as model from "../../../data/models/probation-model";
 interface TitleStepProps {
   title: string;
@@ -12,6 +12,7 @@ interface TitleStepProps {
 
 interface ProbationStepProps {
   steps: model.ProbationStep[] | null;
+  ConditionForm?: ReactNode;
 }
 
 const TitleStep = ({ title, desc }: TitleStepProps) => {
@@ -93,7 +94,7 @@ const Dot = ({
   );
 };
 
-const ProbationStep = ({ steps }: ProbationStepProps) => {
+const ProbationStep = ({ steps, ConditionForm }: ProbationStepProps) => {
   const [activeIndex, setActiveIndex] = useState<number>();
 
   useEffect(() => {
@@ -112,30 +113,32 @@ const ProbationStep = ({ steps }: ProbationStepProps) => {
   }, [steps]);
 
   return (
-    <Flex direction="row" align="center" className="w-full pt-16 px-16">
-      {steps?.map((item, index) => (
-        <Fragment key={index}>
-          <div className="flex flex-col justify-center items-center relative">
-            <div className="absolute bottom-full mb-2 whitespace-nowrap text-sm">
-              <TitleStep title={item.title ?? ""} desc={item.desc ?? ""} />
+    <>
+      {ConditionForm}
+      <Flex direction="row" align="center" className="w-full pt-16 px-16">
+        {steps?.map((item, index) => (
+          <Fragment key={index}>
+            <div className="flex flex-col justify-center items-center relative">
+              <div className="absolute bottom-full mb-2 whitespace-nowrap text-sm">
+                <TitleStep title={item.title ?? ""} desc={item.desc ?? ""} />
+              </div>
+              <Dot
+                start={index === 0}
+                active={index <= (activeIndex ?? -1)}
+                index={index}
+                activeIndex={activeIndex ?? -1}
+              />
             </div>
-            <Dot
-              start={index === 0}
-              active={index <= (activeIndex ?? -1)}
-              index={index}
-              activeIndex={activeIndex ?? -1}
-            />
-          </div>
-
-          {index !== steps.length - 1 && (
-            <Line
-              active={index < (activeIndex ?? -1)}
-              className="grow" // ย้าย grow มาไว้ที่ Line
-            />
-          )}
-        </Fragment>
-      ))}
-    </Flex>
+            {index !== steps.length - 1 && (
+              <Line
+                active={index < (activeIndex ?? -1)}
+                className="grow" // ย้าย grow มาไว้ที่ Line
+              />
+            )}
+          </Fragment>
+        ))}
+      </Flex>
+    </>
   );
 };
 

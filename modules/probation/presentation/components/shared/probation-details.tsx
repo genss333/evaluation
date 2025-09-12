@@ -15,12 +15,14 @@ import ProbationTabs from "./probation-tabs";
 
 interface ProbationDetailProps {
   data: model.ProbationModel;
+  roleBack?: ReactNode;
   GradeGroup: (data: model.ProbationModel) => ReactNode;
 }
 
 const ProbationDetail = ({
   data: initialData,
   GradeGroup,
+  roleBack,
 }: ProbationDetailProps) => {
   const { currentEmp } = useProbationProps();
 
@@ -60,7 +62,7 @@ const ProbationDetail = ({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmitUI)}>
         <div className="bg-background w-full rounded-[10px] pb-4">
-          <ProbationStep steps={data?.steps ?? []} />
+          <ProbationStep steps={data?.steps ?? []} ConditionForm={roleBack} />
           <hr className="my-4" />
           <div className="p-4">
             {!data ? (
@@ -123,19 +125,17 @@ const ProbationDetail = ({
             devplanFormRef={devplanFormRef}
             moreFormRef={moreFormRef}
           />
-          <div className="flex justify-end gap-2">
+          <div className="flex justify-end gap-2 mr-4">
             <Button
               type="submit"
               variant={"outline"}
-              size={"sm"}
-              className="rounded-full border-primary min-w-[90px] h-7.5"
+              className="rounded-full border-primary min-w-[90px] h-8 text-xs font-normal"
             >
               Save darft
             </Button>
             <Button
               type="submit"
-              size={"sm"}
-              className="rounded-full min-w-[90px] h-7.5"
+              className="rounded-full min-w-[90px] h-8 text-xs font-normal"
             >
               Submit
             </Button>
