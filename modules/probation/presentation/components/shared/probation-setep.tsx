@@ -60,21 +60,11 @@ const Dot = ({
     return <div className="w-[10px] h-[10px] bg-status-red rounded-full" />;
   } else if (active && index === activeIndex) {
     return (
-      <Flex
-        justify={"center"}
-        align={"center"}
-        direction={"col"}
-        className="w-[20px] h-[20px] bg-[#E6E6E6] rounded-full "
-      >
-        <Flex
-          justify={"center"}
-          align={"center"}
-          direction={"col"}
-          className="w-[14px] h-[14px] bg-status-red rounded-full"
-        >
-          <Flex className="w-[6px] h-[6px] bg-background rounded-full" />
-        </Flex>
-      </Flex>
+      <div className="relative w-[20px] h-[20px] bg-[#E6E6E6] rounded-full">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[12px] h-[12px] bg-red-500 rounded-full">
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[6px] h-[6px] bg-white rounded-full" />
+        </div>
+      </div>
     );
   }
   return (

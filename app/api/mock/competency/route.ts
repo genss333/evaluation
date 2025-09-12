@@ -3,14 +3,13 @@ import { CompetencyModel } from "@/modules/probation/data/models/probation-compe
 import { NextResponse } from "next/server";
 import { getSession } from "../../auth/route";
 
-// Create the mock data array with the specified type
 const mockCompetencies: CompetencyModel[] = [
   {
     id: 1,
     runNumber: 1,
     title: "Technical Proficiency",
-    sum: 85,
     total: 100,
+    sum: 85,
     targetScore: 90,
     weight: 0.4,
     scoreList: [
@@ -21,14 +20,15 @@ const mockCompetencies: CompetencyModel[] = [
       score: null,
       disable: false,
     },
+    memo: "",
   },
   {
     id: 2,
     runNumber: 2,
     title: "Team Collaboration",
-    sum: 92,
-    total: 100,
-    targetScore: 85,
+    sum: 100,
+    total: 10,
+    targetScore: 8.0,
     weight: 0.3,
     scoreList: [
       { id: 1, title: "พนักงาน", value: 50 },
@@ -39,6 +39,7 @@ const mockCompetencies: CompetencyModel[] = [
       disable: false,
     },
     sumScore: "",
+    memo: "",
   },
   {
     id: 3,
@@ -56,7 +57,8 @@ const mockCompetencies: CompetencyModel[] = [
       score: null,
       disable: false,
     },
-    sumScore: "",
+    sumScore: "78",
+    memo: "",
   },
 ];
 

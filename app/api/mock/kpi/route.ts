@@ -31,6 +31,7 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       code: "SALE-001",
       title: "บรรลุเป้าหมายยอดขายผลิตภัณฑ์ A",
       total: 30,
+      weight: 0.4,
       targetScore: 25,
       scoreList: [
         { id: 2, title: "ลำดับ1", value: 50 },
@@ -50,6 +51,7 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       code: "PROJ-005",
       title: "การส่งมอบโปรเจกต์ 'Phoenix' ตรงตามกำหนด",
       total: 20,
+      weight: 0.4,
       targetScore: 20,
       score: {
         score: null,
@@ -65,6 +67,7 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       code: "CS-002",
       title: "รักษาคะแนนความพึงพอใจของลูกค้า",
       total: 25,
+      weight: 0.4,
       targetScore: 20,
       score: {
         score: null,
@@ -107,6 +110,7 @@ const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       code: "SALE-001",
       title: "บรรลุเป้าหมายยอดขายผลิตภัณฑ์ A",
       total: 30,
+      weight: 0.4,
       targetScore: 25,
       score: {
         score: null,
@@ -122,6 +126,7 @@ const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       code: "PROJ-005",
       title: "การส่งมอบโปรเจกต์ 'Phoenix' ตรงตามกำหนด",
       total: 20,
+      weight: 0.4,
       targetScore: 20,
       score: {
         score: null,
@@ -137,6 +142,7 @@ const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       code: "CS-002",
       title: "รักษาคะแนนความพึงพอใจของลูกค้า",
       total: 25,
+      weight: 0.4,
       targetScore: 20,
       score: {
         score: null,

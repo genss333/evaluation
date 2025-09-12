@@ -16,6 +16,7 @@ export interface Kpi {
   code: string;
   title: string;
   total: number;
+  weight: number;
   targetScore: number;
   scoreList?: {
     id: number;

@@ -79,10 +79,9 @@ export const useTableDataKpi = (table: Kpi[]) => {
       },
       {
         accessorKey: "total",
-        header: "น้ำหนัก (%)",
-        size: 80,
-        minSize: 80,
-        maxSize: 80,
+        header: "คะแนนเต็ม",
+        size: 55,
+        minSize: 55,
         cell: ({ row }) => (
           <FormField
             name={`kpis.${row.index}.total`}
@@ -111,8 +110,41 @@ export const useTableDataKpi = (table: Kpi[]) => {
         ),
       },
       {
+        accessorKey: "weight",
+        header: "ค่าถ่วงน้ำหนัก",
+        size: 80,
+        minSize: 80,
+        maxSize: 80,
+        cell: ({ row }) => (
+          <FormField
+            name={`kpis.${row.index}.weight`}
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  {row.original.isNew ? (
+                    <Input
+                      type="number"
+                      min={0}
+                      className="font-caption3 text-semi-black h-8 rounded-[10px]"
+                      {...field}
+                      value={field.value ?? ""}
+                    />
+                  ) : (
+                    <div className="text-center">
+                      <div className="font-caption3 text-semi-black">
+                        {field.value ?? row.original.total}
+                      </div>
+                    </div>
+                  )}
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        ),
+      },
+      {
         accessorKey: "targetScore",
-        header: "คะแนนเป้าหมาย",
+        header: "คะแนนคาดหวัง",
         size: 80,
         minSize: 80,
         maxSize: 80,
@@ -236,7 +268,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
 
     table.some((item) =>
       item.scoreList?.map((score, index) => {
-        columns.splice(5, 0, {
+        columns.splice(6, 0, {
           accessorKey: `scoreList.${score.id}`,
           header: `${score.title}`,
           size: 80,
@@ -244,7 +276,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
           maxSize: 80,
           cell: ({ row }) => (
             <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-              {`${row.original.scoreList?.[index]?.value ?? "-"}`}
+              {`${row.original.scoreList?.[index]?.value ?? ""}`}
             </div>
           ),
         });
@@ -267,7 +299,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
       });
     }
 
-    const hasMemoColumn = table.some((item) => item.memo != "");
+    const hasMemoColumn = table.some((item) => item.memo != undefined);
 
     if (hasMemoColumn) {
       columns.splice(columns.length, 0, {
@@ -316,7 +348,6 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
           </div>
         ),
       },
-
       {
         accessorKey: "title",
         header: "หัวข้อการประเมิน",
@@ -354,17 +385,6 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
       },
 
       {
-        accessorKey: "targetScore",
-        header: "คะแนนความคาดหวัง",
-        size: 70,
-        minSize: 70,
-        cell: ({ row }) => (
-          <div className="text-center font-caption3 text-semi-black">
-            {row.original.targetScore}
-          </div>
-        ),
-      },
-      {
         accessorKey: "score",
         header: "คะแนน",
         size: 80,
@@ -388,11 +408,38 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
           />
         ),
       },
+      {
+        accessorKey: "targetScore",
+        header: "คะแนนความคาดหวัง",
+        size: 70,
+        minSize: 70,
+        cell: ({ row }) => (
+          <div className="text-center font-caption3 text-semi-black">
+            {row.original.targetScore}
+          </div>
+        ),
+      },
     ];
+
+    table.some(
+      (item) =>
+        item &&
+        columns.splice(4, 0, {
+          accessorKey: "sum",
+          header: "คะแนนเต็มรวม",
+          size: 70,
+          minSize: 70,
+          cell: ({ row }) => (
+            <div className="text-center font-caption3 text-semi-black">
+              {row.original.sum}
+            </div>
+          ),
+        })
+    );
 
     table.some((item) =>
       item.scoreList?.map((score, index) => {
-        columns.splice(columns.length - 1, 0, {
+        columns.splice(columns.length - 2, 0, {
           accessorKey: `scoreList.${score.id}`,
           header: `${score.title}`,
           size: 80,
@@ -400,7 +447,7 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
           maxSize: 80,
           cell: ({ row }) => (
             <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-              {`${row.original.scoreList?.[index]?.value ?? "-"}`}
+              {`${row.original.scoreList?.[index]?.value ?? ""}`}
             </div>
           ),
         });
@@ -409,7 +456,7 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
 
     const hasSumScore = table.some((item) => item.sumScore);
     if (hasSumScore) {
-      columns.splice(columns.length, 0, {
+      columns.splice(columns.length - 1, 0, {
         accessorKey: "sumScore",
         header: `คะแนนรวม`,
         size: 80,
@@ -423,7 +470,7 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
       });
     }
 
-    const hasMemoColumn = table.some((item) => item.memo != "");
+    const hasMemoColumn = table.some((item) => item.memo != undefined);
     if (hasMemoColumn) {
       columns.splice(columns.length, 0, {
         accessorKey: "memo",

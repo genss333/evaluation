@@ -7,14 +7,14 @@ export interface CompetencyModel
     | "runNumber"
     | "title"
     | "score"
+    | "weight"
     | "total"
     | "targetScore"
     | "scoreList"
     | "sumScore"
     | "memo"
   > {
-  weight: number;
-  sum: number;
+  sum?: number;
 }
 
 export type CompetencyKey = keyof CompetencyModel;

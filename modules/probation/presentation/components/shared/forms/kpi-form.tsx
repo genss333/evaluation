@@ -68,7 +68,7 @@ const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
   }
 
   return (
-    <TabsContent value="kpi" className="mt-4">
+    <TabsContent value="kpi">
       <Form {...form}>
         <div className="flex flex-col gap-2.5">
           <div className="flex flex-col gap-2">
