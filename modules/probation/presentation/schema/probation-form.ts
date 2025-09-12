@@ -36,7 +36,7 @@ export type DevplanSchema = {
 };
 
 export type MoreProbationSchema = {
-  [k: string]: string;
+  [k: string]: { [key: string]: string }[];
 };
 
 export type ProbationFormField = {

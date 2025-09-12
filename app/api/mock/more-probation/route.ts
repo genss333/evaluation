@@ -9,12 +9,15 @@ const mockData: ProbationTableModel<MoreProbationModel> = {
     {
       id: 1,
       title: "จุดแข็งของผู้ถูกประเมิน",
-      value: "",
+      value: [
+        { id: 1, value: "" },
+        { id: 2, value: "" },
+      ],
     },
     {
       id: 2,
       title: "เรื่องที่จะประเมินผลงานในครั้งต่อไป",
-      value: "",
+      value: [{ id: 1, value: "" }],
     },
   ],
 };

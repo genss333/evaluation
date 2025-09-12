@@ -1,5 +1,8 @@
 export interface MoreProbationModel {
   id: number;
   title: string;
-  value: string;
+  value: {
+    id: number;
+    value: string;
+  }[];
 }

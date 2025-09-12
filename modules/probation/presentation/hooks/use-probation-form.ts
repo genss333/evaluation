@@ -201,7 +201,10 @@ export const useFormDataMoreProbation = (
   const formData = useMemo(() => {
     if (data) {
       const formvalues: MoreProbationSchema = Object.fromEntries(
-        data.list.map((item) => [`key${item.id}`, item.value])
+        data.list.map((item) => [
+          item.id,
+          item.value.map((v) => ({ [v.id]: v.value })),
+        ])
       );
 
       return formvalues;

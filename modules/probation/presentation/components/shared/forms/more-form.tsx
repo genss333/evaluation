@@ -40,24 +40,31 @@ const MoreProbationForm = forwardRef<SubFormRef, {}>((props, ref) => {
           data.list.map((item, index) => (
             <div
               key={item.id}
-              className="grid grid-cols-1 md:grid-cols-12 items-center px-2 mt-2"
+              className="grid grid-cols-[240px_1fr] gap-4 items-center px-2 mt-2"
             >
-              <div className="text-start font-body3 col-span-4">
+              <div className="text-start font-body3">
                 {index + 1}.{item.title}
               </div>
-              <FormField
-                name={`key${item.id}`}
-                render={({ field }) => (
-                  <FormItem className="col-span-8">
-                    <FormControl>
-                      <Textarea
-                        className="h-[60px] min-h-[60px] font-body3 rounded-[10px]"
-                        {...field}
-                      />
-                    </FormControl>
-                  </FormItem>
-                )}
-              />
+
+              <div className="flex w-full gap-2">
+                {item.value.map((fieldItem, fieldIndex) => (
+                  <FormField
+                    key={fieldItem.id}
+                    // Format the name to create an array of objects
+                    name={`${item.id}[${fieldIndex}].${fieldItem.id}`}
+                    render={({ field }) => (
+                      <FormItem className="w-full">
+                        <FormControl>
+                          <Textarea
+                            className="h-[60px] min-h-[60px] font-body3 rounded-[10px]"
+                            {...field}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                ))}
+              </div>
             </div>
           ))}
       </Form>
