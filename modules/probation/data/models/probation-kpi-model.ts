@@ -24,6 +24,7 @@ export interface Kpi {
   }[];
   standard: string;
   score: Score;
+  sumScore?: number | string;
   memo?: string | null;
   how: string;
 }

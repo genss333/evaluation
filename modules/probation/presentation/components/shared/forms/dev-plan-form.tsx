@@ -126,7 +126,7 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                       )}
                     />
                     <FormField
-                      name={`plans.${index}.timing`}
+                      name={`plans.${index}.dateTime`}
                       control={form.control}
                       render={({ field }) => (
                         <FormItem className="flex flex-col w-full h-8 col-span-full lg:col-span-2 px-3">
@@ -143,7 +143,7 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                                     <div className="flex-1">
                                       {field.value
                                         ? DateFormat.shortDate({
-                                            date: new Date(field.value),
+                                            date: field.value,
                                           })
                                         : "Select a date"}
                                     </div>

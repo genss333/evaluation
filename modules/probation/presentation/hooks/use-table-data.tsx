@@ -5,7 +5,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { CompetencyModel } from "../../data/models/probation-competency-model";
 import { Kpi } from "../../data/models/probation-kpi-model";
-import { ProbationTableModel } from "../../data/models/probation-table-model";
 
 export const useTableDataKpi = (table: Kpi[]) => {
   return useMemo(() => {
@@ -235,12 +234,48 @@ export const useTableDataKpi = (table: Kpi[]) => {
       },
     ];
 
-    const hasMemoColumn = table.some((item) => item.memo === "");
+    table.some((item) =>
+      item.scoreList?.map((score, index) => {
+        columns.splice(5, 0, {
+          accessorKey: `scoreList.${score.id}`,
+          header: `${score.title}`,
+          size: 80,
+          minSize: 80,
+          maxSize: 80,
+          cell: ({ row }) => (
+            <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+              {`${row.original.scoreList?.[index]?.value ?? "-"}`}
+            </div>
+          ),
+        });
+      })
+    );
+
+    const hasSumScore = table.some((item) => item.sumScore);
+    if (hasSumScore) {
+      columns.splice(columns.length - 2, 0, {
+        accessorKey: "sumScore",
+        header: `คะแนนรวม`,
+        size: 80,
+        minSize: 80,
+        maxSize: 80,
+        cell: ({ row }) => (
+          <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+            {`${row.original.sumScore ?? "-"}`}
+          </div>
+        ),
+      });
+    }
+
+    const hasMemoColumn = table.some((item) => item.memo != "");
 
     if (hasMemoColumn) {
-      columns.splice(columns.length - 1, 0, {
+      columns.splice(columns.length, 0, {
         accessorKey: "memo",
         header: "หมายเหตุ / Memo",
+        size: 200,
+        minSize: 200,
+        maxSize: 200,
         cell: ({ row }) => (
           <FormField
             name={`kpis.${row.index}.memo`}
@@ -260,32 +295,13 @@ export const useTableDataKpi = (table: Kpi[]) => {
       });
     }
 
-    table.some((item) =>
-      item.scoreList?.map((score, index) => {
-        columns.splice(5, 0, {
-          accessorKey: `scoreList.${score.id}`,
-          header: `${score.title}`,
-          size: 80,
-          minSize: 80,
-          maxSize: 80,
-          cell: ({ row }) => (
-            <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-              {`${row.original.scoreList?.[index]?.value ?? "-"}`}
-            </div>
-          ),
-        });
-      })
-    );
-
     return {
       columns,
     };
   }, [table]);
 };
 
-export const useTableDataCompedency = (
-  data: ProbationTableModel<CompetencyModel> | undefined
-) => {
+export const useTableDataCompedency = (table: CompetencyModel[]) => {
   return useMemo(() => {
     let columns: ColumnDef<CompetencyModel>[] = [
       {
@@ -296,9 +312,7 @@ export const useTableDataCompedency = (
         maxSize: 100,
         cell: ({ row }) => (
           <div className="text-center">
-            <div className="font-caption3 text-semi-black">
-              {row.original.runNumber}
-            </div>
+            <div className="font-caption3 text-semi-black">{row.index + 1}</div>
           </div>
         ),
       },
@@ -338,14 +352,15 @@ export const useTableDataCompedency = (
           </div>
         ),
       },
+
       {
-        accessorKey: "sum",
-        header: "คะแนนเต็มรวม",
+        accessorKey: "targetScore",
+        header: "คะแนนความคาดหวัง",
         size: 70,
         minSize: 70,
         cell: ({ row }) => (
           <div className="text-center font-caption3 text-semi-black">
-            {row.original.sum}
+            {row.original.targetScore}
           </div>
         ),
       },
@@ -357,7 +372,7 @@ export const useTableDataCompedency = (
         maxSize: 80,
         cell: ({ row }) => (
           <FormField
-            name={`comps.${row.index}.compScore`}
+            name={`comps.${row.index}.score`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -373,28 +388,49 @@ export const useTableDataCompedency = (
           />
         ),
       },
-      {
-        accessorKey: "targetScore",
-        header: "คะแนนเป้าหมาย",
-        size: 70,
-        minSize: 70,
-        cell: ({ row }) => (
-          <div className="text-center font-caption3 text-semi-black">
-            {row.original.targetScore}
-          </div>
-        ),
-      },
     ];
 
-    const hasMemoColumn = data?.list.some((item) => item.memo === "");
+    table.some((item) =>
+      item.scoreList?.map((score, index) => {
+        columns.splice(columns.length - 1, 0, {
+          accessorKey: `scoreList.${score.id}`,
+          header: `${score.title}`,
+          size: 80,
+          minSize: 80,
+          maxSize: 80,
+          cell: ({ row }) => (
+            <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+              {`${row.original.scoreList?.[index]?.value ?? "-"}`}
+            </div>
+          ),
+        });
+      })
+    );
 
+    const hasSumScore = table.some((item) => item.sumScore != undefined);
+    if (hasSumScore) {
+      columns.splice(columns.length, 0, {
+        accessorKey: "sumScore",
+        header: `คะแนนรวม`,
+        size: 80,
+        minSize: 80,
+        maxSize: 80,
+        cell: ({ row }) => (
+          <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+            {`${row.original.sumScore}`}
+          </div>
+        ),
+      });
+    }
+
+    const hasMemoColumn = table.some((item) => item.memo != "");
     if (hasMemoColumn) {
-      columns.splice(columns.length - 1, 0, {
+      columns.splice(columns.length, 0, {
         accessorKey: "memo",
         header: "หมายเหตุ / Memo",
         cell: ({ row }) => (
           <FormField
-            name={`kpis.${row.index}.kpiMemo`}
+            name={`kpis.${row.index}.memo`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -414,5 +450,5 @@ export const useTableDataCompedency = (
     return {
       columns,
     };
-  }, [data]);
+  }, [table]);
 };

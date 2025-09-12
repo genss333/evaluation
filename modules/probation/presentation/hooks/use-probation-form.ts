@@ -144,10 +144,7 @@ export const useFormDataCompedency = (
   const formData = useMemo(() => {
     if (data?.list) {
       const formValues: CompedencySchema = {
-        comps: data.list.map((item) => ({
-          compMemo: item.memo ?? "",
-          compScore: item.score.score ?? "",
-        })),
+        comps: data.list.map((item) => item),
         compsSums: data.sums
           ? data.sums.map((item) => ({
               field: {

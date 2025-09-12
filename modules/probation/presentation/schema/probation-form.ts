@@ -1,4 +1,6 @@
 import * as model from "@/modules/probation/data/models/probation-model";
+import { CompetencyModel } from "../../data/models/probation-competency-model";
+import { DevplanModel } from "../../data/models/probation-devplan-model";
 import { Kpi } from "../../data/models/probation-kpi-model";
 
 interface MSSProbtionSchema {
@@ -20,10 +22,7 @@ export type KPISchema = {
 };
 
 export type CompedencySchema = {
-  comps: {
-    compScore: number | string;
-    compMemo: string;
-  }[];
+  comps: CompetencyModel[];
   compsSums?: {
     field: {
       key: String;
@@ -33,12 +32,7 @@ export type CompedencySchema = {
 };
 
 export type DevplanSchema = {
-  plans: {
-    plan: string;
-    priority: string;
-    timing: string;
-    remark: string;
-  }[];
+  plans: DevplanModel[];
 };
 
 export type MoreProbationSchema = {

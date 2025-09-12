@@ -15,7 +15,7 @@ import { CompedencySchema, SubFormRef } from "../../../schema/probation-form";
 const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const { data, isLoading } = useQuery(useFetchCompetency());
   const form = useFormDataCompedency(data);
-  const { columns } = useTableDataCompedency(data);
+  const { columns } = useTableDataCompedency(data?.list ?? []);
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const onSubmit = (values: CompedencySchema) => {
