@@ -34,8 +34,8 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       weight: 0.4,
       targetScore: 25,
       scoreList: [
-        { id: 2, title: "ลำดับ1", value: 50 },
         { id: 1, title: "พนักงาน", value: 50 },
+        { id: 2, title: "ลำดับ1", value: 50 },
       ],
       score: {
         score: null,
@@ -53,6 +53,10 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       total: 20,
       weight: 0.4,
       targetScore: 20,
+      scoreList: [
+        { id: 1, title: "พนักงาน", value: 50 },
+        { id: 2, title: "ลำดับ1", value: 50 },
+      ],
       score: {
         score: null,
         disable: false,
@@ -69,6 +73,10 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       total: 25,
       weight: 0.4,
       targetScore: 20,
+      scoreList: [
+        { id: 1, title: "พนักงาน", value: 50 },
+        { id: 2, title: "ลำดับ1", value: 50 },
+      ],
       score: {
         score: null,
         disable: false,

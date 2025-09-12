@@ -267,20 +267,26 @@ export const useTableDataKpi = (table: Kpi[]) => {
     ];
 
     table.some((item) =>
-      item.scoreList?.map((score, index) => {
-        columns.splice(6, 0, {
-          accessorKey: `scoreList.${score.id}`,
-          header: `${score.title}`,
-          size: 80,
-          minSize: 80,
-          maxSize: 80,
-          cell: ({ row }) => (
-            <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-              {`${row.original.scoreList?.[index]?.value ?? ""}`}
-            </div>
-          ),
-        });
-      })
+      item.scoreList
+        ?.slice()
+        .sort((a, b) => a.id - b.id)
+        .map((score, index) => {
+          columns.splice(6 + index, 0, {
+            accessorKey: `scoreList.${score.id}`,
+            header: `${score.title}`,
+            size: 80,
+            minSize: 80,
+            maxSize: 80,
+            cell: ({ row }) => (
+              <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+                {`${
+                  row.original.scoreList?.find((s) => s.id === score.id)
+                    ?.value ?? ""
+                }`}
+              </div>
+            ),
+          });
+        })
     );
 
     const hasSumScore = table.some((item) => item.sumScore);
