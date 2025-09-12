@@ -266,12 +266,11 @@ export const useTableDataKpi = (table: Kpi[]) => {
       },
     ];
 
-    table.some((item) =>
-      item.scoreList
-        ?.slice()
-        .sort((a, b) => a.id - b.id)
-        .map((score, index) => {
-          columns.splice(6 + index, 0, {
+    const firstItem = table.find((item) => item.scoreList?.length);
+    if (firstItem) {
+      table.some((item) =>
+        item.scoreList?.map((score, index) => {
+          columns.splice(columns.length - 3, 0, {
             accessorKey: `scoreList.${score.id}`,
             header: `${score.title}`,
             size: 80,
@@ -279,15 +278,13 @@ export const useTableDataKpi = (table: Kpi[]) => {
             maxSize: 80,
             cell: ({ row }) => (
               <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-                {`${
-                  row.original.scoreList?.find((s) => s.id === score.id)
-                    ?.value ?? ""
-                }`}
+                {`${row.original.scoreList?.[index]?.value ?? ""}`}
               </div>
             ),
           });
         })
-    );
+      );
+    }
 
     const hasSumScore = table.some((item) => item.sumScore);
     if (hasSumScore) {
@@ -443,22 +440,25 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
         })
     );
 
-    table.some((item) =>
-      item.scoreList?.map((score, index) => {
-        columns.splice(columns.length - 2, 0, {
-          accessorKey: `scoreList.${score.id}`,
-          header: `${score.title}`,
-          size: 80,
-          minSize: 80,
-          maxSize: 80,
-          cell: ({ row }) => (
-            <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-              {`${row.original.scoreList?.[index]?.value ?? ""}`}
-            </div>
-          ),
-        });
-      })
-    );
+    const hasScoreList = table.some((item) => item.scoreList?.length);
+    if (hasScoreList) {
+      table.some((item) =>
+        item.scoreList?.map((score, index) => {
+          columns.splice(columns.length - 2, 0, {
+            accessorKey: `scoreList.${score.id}`,
+            header: `${score.title}`,
+            size: 80,
+            minSize: 80,
+            maxSize: 80,
+            cell: ({ row }) => (
+              <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+                {`${row.original.scoreList?.[index]?.value ?? ""}`}
+              </div>
+            ),
+          });
+        })
+      );
+    }
 
     const hasSumScore = table.some((item) => item.sumScore);
     if (hasSumScore) {
