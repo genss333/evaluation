@@ -40,7 +40,6 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
         score: null,
         disable: false,
       },
-      sumScore: 100,
       memo: "ทำได้เกินเป้าหมายที่ตั้งไว้ในไตรมาสที่ 3 เนื่องจากแคมเปญการตลาดได้ผลดี",
       how: "จำนวน",
       standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",

@@ -21,7 +21,6 @@ const mockCompetencies: CompetencyModel[] = [
       score: null,
       disable: false,
     },
-    sumScore: "",
   },
   {
     id: 2,

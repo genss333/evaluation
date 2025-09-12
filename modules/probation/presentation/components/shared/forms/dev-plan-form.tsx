@@ -103,7 +103,7 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                           <FormControl>
                             <Select
                               onValueChange={field.onChange}
-                              defaultValue={`${field.value}`}
+                              defaultValue={`${field.value.id}`}
                             >
                               <SelectTrigger
                                 className="w-full h-8 font-body3 text-semi-black [data-placeholder]:text-semi-black rounded-[10px]"
@@ -178,6 +178,7 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                             <Input
                               className="h-8 font-body3 text-semi-black rounded-[10px]"
                               {...field}
+                              value={field.value ?? ""}
                             />
                           </FormControl>
                         </FormItem>

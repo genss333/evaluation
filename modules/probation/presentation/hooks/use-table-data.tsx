@@ -261,7 +261,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
         maxSize: 80,
         cell: ({ row }) => (
           <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-            {`${row.original.sumScore ?? "-"}`}
+            {`${row.original.sumScore ?? ""}`}
           </div>
         ),
       });
@@ -407,7 +407,7 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
       })
     );
 
-    const hasSumScore = table.some((item) => item.sumScore != undefined);
+    const hasSumScore = table.some((item) => item.sumScore);
     if (hasSumScore) {
       columns.splice(columns.length, 0, {
         accessorKey: "sumScore",
@@ -417,7 +417,7 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
         maxSize: 80,
         cell: ({ row }) => (
           <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-            {`${row.original.sumScore}`}
+            {`${row.original.sumScore ?? ""}`}
           </div>
         ),
       });
