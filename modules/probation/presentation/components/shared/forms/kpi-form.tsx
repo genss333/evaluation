@@ -61,7 +61,7 @@ const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
 
   if (isLoading) {
     return (
-      <TabsContent value="kpi" className="mt-4">
+      <TabsContent value="kpi">
         <div>Loading KPI data...</div>
       </TabsContent>
     );

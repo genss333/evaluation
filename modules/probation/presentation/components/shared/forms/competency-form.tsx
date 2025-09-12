@@ -30,14 +30,14 @@ const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
 
   if (isLoading) {
     return (
-      <TabsContent value="competency" className="mt-4">
+      <TabsContent value="competency">
         <div>Loading Competency data...</div>
       </TabsContent>
     );
   }
 
   return (
-    <TabsContent value="competency" className="mt-4">
+    <TabsContent value="competency">
       <Form {...form}>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">

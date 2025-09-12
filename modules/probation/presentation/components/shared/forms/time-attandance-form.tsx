@@ -9,13 +9,13 @@ const TimeAttandanceForm = () => {
 
   if (isLoading) {
     return (
-      <TabsContent value="time" className="mt-4">
+      <TabsContent value="time">
         <div>Loading Time Attandance data...</div>
       </TabsContent>
     );
   }
   return (
-    <TabsContent value="time" className="mt-4">
+    <TabsContent value="time">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
           <div className="font-title text-semi-black">{data?.title}</div>

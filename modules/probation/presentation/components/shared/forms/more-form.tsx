@@ -29,13 +29,13 @@ const MoreProbationForm = forwardRef<SubFormRef, {}>((props, ref) => {
 
   if (isLoading) {
     return (
-      <TabsContent value="more" className="mt-4">
+      <TabsContent value="more">
         <div>Loading More Probations data...</div>
       </TabsContent>
     );
   }
   return (
-    <TabsContent value="more" className="mt-4">
+    <TabsContent value="more">
       <Form {...form}>
         {data?.list &&
           data.list.map((item, index) => (

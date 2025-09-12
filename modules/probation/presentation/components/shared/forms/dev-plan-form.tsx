@@ -41,14 +41,14 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
 
   if (isLoading) {
     return (
-      <TabsContent value="time" className="mt-4">
+      <TabsContent value="time">
         <div>Loading Devplan data...</div>
       </TabsContent>
     );
   }
   return (
     <Form {...form}>
-      <TabsContent value="devplan" className="mt-4">
+      <TabsContent value="devplan">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <div className="font-title text-semi-black">{data?.title}</div>
