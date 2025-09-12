@@ -178,12 +178,7 @@ export const useFormDataDevplan = (
   const formData = useMemo(() => {
     if (data) {
       const formValues: DevplanSchema = {
-        plans: data.list.map((item) => ({
-          plan: item.value ?? "",
-          priority: `${item.priority?.id ?? ""}`,
-          timing: `${item.dateTime}`,
-          remark: item.remark ?? "",
-        })),
+        plans: data.list.map((item) => item),
       };
       return formValues;
     }
