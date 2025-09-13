@@ -2,7 +2,7 @@
 
 import { ProbationModel } from "@/modules/probation/data/models/probation-model";
 import ProbationDetail from "../shared/probation-details";
-import RollBack from "../shared/roll-back";
+import RollBack from "./roll-back";
 import EmpApproveLine from "./emp-approve-line-list";
 import ProbationGrade from "./probation-grade";
 
