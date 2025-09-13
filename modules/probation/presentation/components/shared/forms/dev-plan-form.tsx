@@ -1,7 +1,13 @@
 "use client";
 
 import { Calendar } from "@/components/ui/calendar";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Popover,
@@ -47,8 +53,8 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
     );
   }
   return (
-    <Form {...form}>
-      <TabsContent value="devplan">
+    <TabsContent value="devplan">
+      <Form {...form}>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
             <div className="font-title text-semi-black">{data?.title}</div>
@@ -87,11 +93,14 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                             <FormControl>
                               <Textarea
                                 placeholder="Text"
-                                className="h-8 min-h-8 font-body3 rounded-[10px]"
+                                className={cn(
+                                  "h-8 min-h-8 font-body3 rounded-[10px]"
+                                )}
                                 rows={1}
                                 {...field}
                               />
                             </FormControl>
+                            <FormMessage className="hidden" />
                           </FormItem>
                         )}
                       />
@@ -103,7 +112,7 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                           <FormControl>
                             <Select
                               onValueChange={field.onChange}
-                              defaultValue={`${field.value.id}`}
+                              defaultValue={`${field.value}`}
                             >
                               <SelectTrigger
                                 className="w-full h-8 font-body3 text-semi-black [data-placeholder]:text-semi-black rounded-[10px]"
@@ -122,6 +131,7 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                               </SelectContent>
                             </Select>
                           </FormControl>
+                          <FormMessage className="hidden" />
                         </FormItem>
                       )}
                     />
@@ -167,6 +177,7 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                               />
                             </PopoverContent>
                           </Popover>
+                          <FormMessage className="hidden" />
                         </FormItem>
                       )}
                     />
@@ -181,6 +192,7 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                               value={field.value ?? ""}
                             />
                           </FormControl>
+                          <FormMessage className="hidden" />
                         </FormItem>
                       )}
                     />
@@ -189,8 +201,8 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
               })}
           </div>
         </div>
-      </TabsContent>
-    </Form>
+      </Form>
+    </TabsContent>
   );
 });
 

@@ -483,7 +483,7 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
         header: "หมายเหตุ / Memo",
         cell: ({ row }) => (
           <FormField
-            name={`kpis.${row.index}.memo`}
+            name={`comps.${row.index}.memo`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>

@@ -1,11 +1,7 @@
 import * as model from "@/modules/probation/data/models/probation-model";
+import z from "zod";
 import { CompetencyModel } from "../../data/models/probation-competency-model";
-import { DevplanModel } from "../../data/models/probation-devplan-model";
 import { Kpi } from "../../data/models/probation-kpi-model";
-
-interface MSSProbtionSchema {
-  resultProbation: "pass" | "fail";
-}
 
 export interface SubFormRef {
   submit: () => void;
@@ -15,7 +11,7 @@ export type KPISchema = {
   kpis: Kpi[];
   kpiSums?: {
     field: {
-      key: String;
+      key: string;
       value: number | string;
     };
   }[];
@@ -25,23 +21,41 @@ export type CompedencySchema = {
   comps: CompetencyModel[];
   compsSums?: {
     field: {
-      key: String;
+      key: string;
       value: number | string;
     };
   }[];
 };
 
-export type DevplanSchema = {
-  plans: DevplanModel[];
-};
+export const devplanModelSchema = z.object({
+  id: z.number().int(),
+  plan: z.string().min(1),
+  priority: z.number().int(),
+  dateTime: z.date().nullable().optional(),
+  remark: z.string().min(1),
+});
 
-export type MoreProbationSchema = {
-  [k: string]: {
-    [key: string]: string | boolean;
-    disable: boolean;
-  }[];
-};
+export const devplanSchema = z.object({
+  plans: z.array(devplanModelSchema),
+});
+
+export type DevplanSchema = z.infer<typeof devplanSchema>;
+
+export const moreProbationZodSchema = z.record(
+  z.string(),
+  z.array(
+    z
+      .object({
+        disable: z.boolean(),
+      })
+      .catchall(z.union([z.string().min(1), z.boolean()]))
+  )
+);
+
+export type MoreProbationSchema = z.infer<typeof moreProbationZodSchema>;
 
 export type ProbationFormField = {
   [k: string]: string | model.ProbationFieldValue;
-} & MSSProbtionSchema;
+} & {
+  resultProbation: "pass" | "fail";
+};

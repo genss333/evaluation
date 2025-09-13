@@ -1,5 +1,11 @@
 "use client";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
 import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
@@ -70,11 +76,14 @@ const MoreProbationForm = forwardRef<SubFormRef, {}>((props, ref) => {
                         <FormItem className="w-full">
                           <FormControl>
                             <Textarea
-                              className="h-[60px] min-h-[60px] font-body3 rounded-[10px]"
+                              className={cn(
+                                "h-[60px] min-h-[60px] font-body3 rounded-[10px]"
+                              )}
                               {...field}
                               disabled={fieldItem.disable ?? false}
                             />
                           </FormControl>
+                          <FormMessage className="hidden" />
                         </FormItem>
                       )}
                     />

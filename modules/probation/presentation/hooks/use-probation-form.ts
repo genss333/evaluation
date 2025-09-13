@@ -1,3 +1,4 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { MoreProbationModel } from "../../data/models/more-probation-model";
@@ -8,9 +9,11 @@ import { ProbationModel } from "../../data/models/probation-model";
 import { ProbationTableModel } from "../../data/models/probation-table-model";
 import {
   CompedencySchema,
+  devplanSchema,
   DevplanSchema,
   KPISchema,
   MoreProbationSchema,
+  moreProbationZodSchema,
   ProbationFormField,
 } from "../schema/probation-form";
 
@@ -172,13 +175,19 @@ export const useFormDataDevplan = (
   data: ProbationTableModel<DevplanModel> | undefined
 ) => {
   const form = useForm<DevplanSchema>({
-    defaultValues: {},
+    resolver: zodResolver(devplanSchema),
   });
 
   const formData = useMemo(() => {
     if (data) {
       const formValues: DevplanSchema = {
-        plans: data.list.map((item) => item),
+        plans: data.list.map((item) => ({
+          id: item.id,
+          plan: item.value,
+          priority: item.priority?.id ?? -1,
+          dateTime: item.dateTime ?? null,
+          remark: item.remark ?? "",
+        })),
       };
       return formValues;
     }
@@ -196,7 +205,9 @@ export const useFormDataDevplan = (
 export const useFormDataMoreProbation = (
   data: ProbationTableModel<MoreProbationModel> | undefined
 ) => {
-  const form = useForm<MoreProbationSchema>({ defaultValues: {} });
+  const form = useForm<MoreProbationSchema>({
+    resolver: zodResolver(moreProbationZodSchema),
+  });
 
   const formData = useMemo(() => {
     if (data) {
