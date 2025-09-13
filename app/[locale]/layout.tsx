@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_Thai, Poppins } from "next/font/google";
+import QueryClientProviders from "../react-query-provider";
 import "./globals.css";
-import QueryClientProviders from "./react-query-provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,11 +22,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+  params: { locale },
+}: {
   children: React.ReactNode;
-}>) {
+  params: { locale: string };
+}) {
   return (
-    <html lang="th" className={`${poppins.variable} ${notoThai.variable}`}>
+    <html lang={locale} className={`${poppins.variable} ${notoThai.variable}`}>
       <body>
         <QueryClientProviders>{children}</QueryClientProviders>
       </body>

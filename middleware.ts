@@ -3,14 +3,17 @@ import { NextRequest, NextResponse } from "next/server";
 import { Method } from "./lib/api-client";
 
 // --- Configuration ---
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY;
+if (!JWT_SECRET_KEY) {
+  throw new Error("Missing environment variable JWT_SECRET_KEY");
+}
+const secretKey = new TextEncoder().encode(JWT_SECRET_KEY);
+
 const setupConfig = {
   locales: ["en", "th"],
   defaultLocale: "en",
-  secretKey: new TextEncoder().encode(process.env.JWT_SECRET_KEY),
-  protectedPaths: ["/home", "/probation"],
+  protectedPaths: ["/home", "/probation"], // Paths without locale prefix
 };
-
-// --- Helper Functions ---
 
 function pathnameHasLocale(pathname: string): boolean {
   return setupConfig.locales.some(
@@ -22,10 +25,11 @@ function isProtectedPath(pathname: string): boolean {
   return setupConfig.protectedPaths.some((path) => pathname.startsWith(path));
 }
 
-// --- Middleware Handlers ---
+// --- Main Middleware Logic ---
 
-function handleLocaleRedirect(request: NextRequest): NextResponse | null {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+
   if (!pathnameHasLocale(pathname)) {
     const newUrl = new URL(
       `/${setupConfig.defaultLocale}${pathname}`,
@@ -33,83 +37,74 @@ function handleLocaleRedirect(request: NextRequest): NextResponse | null {
     );
     return NextResponse.redirect(newUrl);
   }
-  return null;
-}
 
-async function refreshToken(
-  request: NextRequest
-): Promise<NextResponse | null> {
-  try {
-    const response = await fetch(new URL("/api/auth", request.url), {
-      method: Method.PATCH,
-    });
-
-    if (response.ok) {
-      const newAccessToken = request.cookies.get("access_token")?.value;
-      if (newAccessToken) {
-        await jwtVerify(newAccessToken, setupConfig.secretKey);
-
-        const nextResponse = NextResponse.next();
-
-        return nextResponse;
-      }
-    }
-  } catch (refreshError) {
-    console.error("Token refresh failed:", refreshError);
-  }
-  return null;
-}
-
-async function handleSessionVerification(
-  request: NextRequest
-): Promise<NextResponse> {
-  const { pathname } = request.nextUrl;
-  const accessToken = request.cookies.get("access_token")?.value;
   const locale = pathname.split("/")[1] || setupConfig.defaultLocale;
   const pathnameWithoutLocale = pathname.replace(`/${locale}`, "") || "/";
+  const loginUrl = new URL(`/${locale}/login`, request.url);
 
-  if (isProtectedPath(pathnameWithoutLocale)) {
-    const loginUrl = new URL(`/${locale}/login`, request.url);
+  // If it's not a protected path, allow the request to continue.
+  if (!isProtectedPath(pathnameWithoutLocale)) {
+    return NextResponse.next();
+  }
 
-    if (!accessToken) {
-      return NextResponse.redirect(loginUrl);
-    }
+  const accessToken = request.cookies.get("access_token")?.value;
 
-    try {
-      await jwtVerify(accessToken, setupConfig.secretKey);
-      return NextResponse.next();
-    } catch (error) {
-      console.error("Access token verification failed:", error);
+  if (!accessToken) {
+    console.log("No access token found, redirecting to login.");
+    return NextResponse.redirect(loginUrl);
+  }
 
-      const isJwtExpiredError =
-        typeof error === "object" &&
-        error !== null &&
-        "code" in error &&
-        (error as { code?: string }).code === "ERR_JWT_EXPIRED";
+  try {
+    await jwtVerify(accessToken, secretKey);
+    return NextResponse.next();
+  } catch (error) {
+    const isJwtExpiredError =
+      (error as { code?: string }).code === "ERR_JWT_EXPIRED";
 
-      if (isJwtExpiredError) {
-        const response = await refreshToken(request);
-        if (response) {
+    if (isJwtExpiredError) {
+      console.log("Access token expired. Attempting to refresh...");
+      try {
+        const refreshApiResponse = await fetch(
+          new URL("/api/auth", request.url),
+          {
+            method: Method.PATCH,
+          }
+        );
+
+        if (refreshApiResponse.ok) {
+          console.log(
+            "Token refresh successful. Setting new cookies and redirecting."
+          );
+          const response = NextResponse.redirect(request.url);
+
+          const newAccessToken =
+            refreshApiResponse.headers.get("x-access-token");
+          const newRefreshToken =
+            refreshApiResponse.headers.get("x-refresh-token");
+
+          if (newAccessToken) {
+            response.cookies.set("access_token", newAccessToken, { path: "/" });
+          }
+          if (newRefreshToken) {
+            response.cookies.set("refresh_token", newRefreshToken, {
+              path: "/",
+              httpOnly: true,
+            });
+          }
+
           return response;
         }
+      } catch (refreshError) {
+        console.error("Token refresh fetch failed:", refreshError);
       }
-
-      return NextResponse.redirect(loginUrl);
     }
+
+    console.log("Token invalid or refresh failed. Redirecting to login.");
+    const response = NextResponse.redirect(loginUrl);
+    response.cookies.delete("access_token");
+    response.cookies.delete("refresh_token");
+    return response;
   }
-
-  return NextResponse.next();
-}
-
-// --- Main Middleware Logic ---
-
-export async function middleware(request: NextRequest) {
-  const localeRedirect = handleLocaleRedirect(request);
-  if (localeRedirect) {
-    return localeRedirect;
-  }
-
-  return await handleSessionVerification(request);
 }
 
 // --- Middleware Config ---
