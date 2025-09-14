@@ -8,8 +8,6 @@ export async function POST(request: Request) {
   try {
     const { lang } = await request.json();
 
-    // --- Input Validation ---
-    // Ensure the language is a supported one to prevent setting invalid cookies.
     if (!lang || !SUPPORTED_LANGS.includes(lang)) {
       return NextResponse.json(
         { error: "Invalid language provided." },
@@ -17,15 +15,12 @@ export async function POST(request: Request) {
       );
     }
 
-    // --- Set the Cookie ---
-    // The `cookies()` function from `next/headers` is the standard way to manage
-    // cookies in App Router Route Handlers and Server Actions.
     (await cookies()).set("lang", lang, {
-      path: "/", // Make the cookie available on all pages
-      httpOnly: true, // Prevents client-side JS from accessing the cookie (improves security)
-      secure: process.env.NODE_ENV === "production", // Only send over HTTPS in production
-      sameSite: "lax", // Good balance of security and usability
-      maxAge: 60 * 60 * 24 * 365, // Expires in 1 year
+      path: "/",
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "lax",
+      maxAge: 60 * 60 * 24 * 365,
     });
 
     return NextResponse.json({ message: "Language set successfully." });
