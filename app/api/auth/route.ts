@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 15,
+      maxAge: 60 * 1,
     });
 
     cookieStore.set("refresh_token", refreshToken, {
@@ -125,7 +125,7 @@ export async function PATCH() {
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
       path: "/",
-      maxAge: 60 * 15,
+      maxAge: 60 * 1,
     });
 
     cookieStore.set("refresh_token", newRefreshToken, {
