@@ -7,8 +7,6 @@ export interface IApiClient {
 export class ApiClient implements IApiClient {
   private cookieHeader?: string;
 
-  private refreshTokenPromise: Promise<boolean> | null = null;
-
   constructor(cookieStore?: ReadonlyRequestCookies) {
     if (cookieStore) {
       const name = cookieStore.get("access_token")?.name;
@@ -17,39 +15,26 @@ export class ApiClient implements IApiClient {
     }
   }
 
-  private refreshToken(): Promise<boolean> {
-    if (!this.refreshTokenPromise) {
-      this.refreshTokenPromise = (async () => {
-        try {
-          const res = await fetch("/api/auth", {
-            method: Method.PATCH,
-            cache: "no-store",
-          });
+  private async refreshToken(): Promise<boolean> {
+    try {
+      const res = await fetch("/api/auth", {
+        method: Method.PATCH,
+        cache: "no-store",
+      });
 
-          if (res.ok) {
-            console.log("Token refreshed successfully.");
-            return true; // Resolves the promise with true
-          } else {
-            throw new Error("Failed to refresh token"); // Rejects the promise
-          }
-        } catch (error) {
-          console.error("Failed to refresh token:", error);
-          throw error; // Re-throws the error, rejecting the promise
-        } finally {
-          // This finally block is tied to the async function
-          console.log("Resetting refresh token promise.");
-          this.refreshTokenPromise = null;
-        }
-      })();
+      if (res.ok) {
+        console.log("Token refreshed successfully.");
+        return true;
+      } else {
+        throw new Error("Failed to refresh token");
+      }
+    } catch (error) {
+      console.error("Failed to refresh token:", error);
+      throw error;
     }
-    return this.refreshTokenPromise;
   }
 
-  async request<T>(
-    url: string,
-    options?: RequestInit,
-    isRetry: boolean = false
-  ): Promise<T> {
+  async request<T>(url: string, options?: RequestInit): Promise<T> {
     try {
       const res = await fetch(url, {
         ...options,
@@ -61,13 +46,13 @@ export class ApiClient implements IApiClient {
         cache: "no-store",
       });
 
-      if (res.status === 401 && !isRetry) {
+      if (res.status === 401) {
         console.log(
           "Received 401 Unauthorized. Attempting to refresh token..."
         );
         const refreshSuccess = await this.refreshToken();
         if (refreshSuccess) {
-          return this.request<T>(url, options, true);
+          return this.request<T>(url, options);
         } else {
           throw new Error("Session expired. Please log in again.");
         }

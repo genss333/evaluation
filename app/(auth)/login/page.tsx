@@ -24,7 +24,7 @@ export default function LoginPage() {
 
     if (response.ok) {
       // Login สำเร็จ, redirect ไปหน้า dashboard หรือหน้าหลัก
-      router.push("/home");
+      router.push("/");
     } else {
       const data = await response.json();
       setError(data.message || "Login failed");

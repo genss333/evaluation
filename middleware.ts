@@ -10,7 +10,10 @@ const setupConfig = {
 };
 
 function isProtectedPath(pathname: string): boolean {
-  return setupConfig.protectedPaths.some((path) => pathname.startsWith(path));
+  if (pathname === "/") return true;
+  return setupConfig.protectedPaths
+    .filter((p) => p !== "/")
+    .some((path) => pathname.startsWith(path));
 }
 
 async function onRefreshToken(
@@ -60,8 +63,6 @@ async function handleSessionVerification(
         await jwtVerify(accessToken, setupConfig.secretKey);
         return NextResponse.next();
       }
-
-      return NextResponse.redirect(loginUrl);
     } catch (error) {
       const isJwtExpiredError =
         error instanceof Error && error.name === "JWTExpired";
@@ -72,7 +73,14 @@ async function handleSessionVerification(
           return refreshResponse;
         }
       }
-      return NextResponse.redirect(loginUrl);
+      const loginUrl = new URL(`/login`, request.url);
+      const redirectResponse = NextResponse.redirect(loginUrl);
+
+      console.log("Redirecting to login and clearing old tokens.");
+      redirectResponse.cookies.delete("access_token");
+      redirectResponse.cookies.delete("refresh_token");
+
+      return redirectResponse;
     }
   }
 
