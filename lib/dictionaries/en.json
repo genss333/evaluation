@@ -1,0 +1,24 @@
+{
+  "greetings": {
+    "hello": "hello",
+    "home": "hell home page"
+  },
+  "sidebar": {
+    "get-started": "Get started",
+    "introduction": "Introduction",
+    "theming": "Theming",
+    "components": "Components",
+    "fundamental": "Fundamental"
+  },
+  "Text Field": "Text Field",
+  "Form": "Form",
+  "Calendar": "Calendar",
+  "CalendarDesc": "A date field component that allows users to enter and edit date.",
+  "CalendarEvents": "Calendar Events",
+  "CalendarEventsDesc": "add events or disable days.",
+  "Docs": "Docs",
+  "Default": "Default",
+  "RangeMode": "Range Mode",
+  "datePicker": "Date Picker",
+  "datePickerDesc":"A date picker component with range and presets."
+}

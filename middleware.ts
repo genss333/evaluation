@@ -5,7 +5,6 @@ import { Method } from "./lib/api-client";
 // --- Configuration ---
 const setupConfig = {
   locales: ["en", "th"],
-  defaultLocale: "en",
   secretKey: new TextEncoder().encode(process.env.JWT_SECRET_KEY),
   protectedPaths: ["/home", "/probation"],
 };
@@ -25,12 +24,10 @@ function isProtectedPath(pathname: string): boolean {
 // --- Middleware Handlers ---
 
 function handleLocaleRedirect(request: NextRequest): NextResponse | null {
+  const lang = request.cookies.get("lang")?.value || "en";
   const { pathname } = request.nextUrl;
   if (!pathnameHasLocale(pathname)) {
-    const newUrl = new URL(
-      `/${setupConfig.defaultLocale}${pathname}`,
-      request.url
-    );
+    const newUrl = new URL(`/${lang}${pathname}`, request.url);
     return NextResponse.redirect(newUrl);
   }
   return null;
@@ -63,9 +60,10 @@ async function refreshToken(
 async function handleSessionVerification(
   request: NextRequest
 ): Promise<NextResponse> {
+  const lang = request.cookies.get("lang")?.value || "en";
   const { pathname } = request.nextUrl;
   const accessToken = request.cookies.get("access_token")?.value;
-  const locale = pathname.split("/")[1] || setupConfig.defaultLocale;
+  const locale = pathname.split("/")[1] || lang;
   const pathnameWithoutLocale = pathname.replace(`/${locale}`, "") || "/";
 
   if (isProtectedPath(pathnameWithoutLocale)) {
