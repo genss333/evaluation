@@ -1,6 +1,15 @@
+"use client";
+import { switchLang } from "@/lib/dictionaries";
 import { Bell, Languages, UserRound } from "lucide-react";
 import { ReactNode } from "react";
 import Flex from "../layout/flex";
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 
 interface AppNavbarProps {
   lang: "en" | "th";
@@ -9,6 +18,26 @@ interface AppNavbarProps {
 const AppNavbarItem = ({ children }: { children: ReactNode }) => {
   return (
     <div className="bg-background rounded-full h-[40px] p-2">{children}</div>
+  );
+};
+
+const SwitchLang = () => {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger>
+        <AppNavbarItem>
+          <Languages className="size-5  opacity-80" />
+        </AppNavbarItem>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent sideOffset={8}>
+        <DropdownMenuItem onClick={() => switchLang("th")}>
+          Thai
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => switchLang("en")}>
+          English
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 
@@ -25,9 +54,7 @@ const AppNavbar = ({ lang }: AppNavbarProps) => {
       <AppNavbarItem>
         <UserRound className="size-5  opacity-80" />
       </AppNavbarItem>
-      <AppNavbarItem>
-        <Languages className="size-5  opacity-80" />
-      </AppNavbarItem>
+      <SwitchLang />
     </Flex>
   );
 };

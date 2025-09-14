@@ -1,7 +1,9 @@
+// REMOVED: import Cookies from "js-cookie"; (This is for client-side code only)
 import type { Metadata } from "next";
 import { Noto_Sans_Thai, Poppins } from "next/font/google";
-import "../globals.css";
-import QueryClientProviders from "../react-query-provider";
+import { cookies } from "next/headers"; // ADDED: The server-side cookie helper from Next.js
+import "./globals.css";
+import QueryClientProviders from "./react-query-provider";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -22,12 +24,12 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
-  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: Promise<{ lang: "en" | "th" }>;
 }>) {
-  const { lang } = await params;
+  const cookieStore = await cookies();
+  const lang = cookieStore.get("lang")?.value ?? "en";
+
   return (
     <html lang={lang} className={`${poppins.variable} ${notoThai.variable}`}>
       <body>

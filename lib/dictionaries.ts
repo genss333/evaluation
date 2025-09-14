@@ -1,11 +1,9 @@
 import { enUS, th } from "date-fns/locale";
-import Cookies from "js-cookie";
+import { Method } from "./api-client";
 
 const dictionaries = {
-  en: () =>
-    import("@/lib/dictionaries/en.json").then((module) => module.default),
-  th: () =>
-    import("@/lib/dictionaries/th.json").then((module) => module.default),
+  en: () => import("@/dictionaries/en.json").then((module) => module.default),
+  th: () => import("@/dictionaries/th.json").then((module) => module.default),
 };
 
 export const getDictionary = async (locale: "en" | "th") =>
@@ -26,7 +24,10 @@ export const getLocale = () => {
   }
 };
 
-export function switchLang(lang: "en" | "th") {
-  Cookies.set("lang", lang, { secure: true, sameSite: "lax", expires: 365 });
+export async function switchLang(lang: "en" | "th") {
+  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/settings/lang`, {
+    method: Method.POST,
+    body: JSON.stringify({ lang }),
+  });
   window.location.reload();
 }
