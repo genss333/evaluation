@@ -13,6 +13,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Home, Menu, UserRoundPen } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const items = [
   {
@@ -29,6 +30,9 @@ const items = [
 
 export function AppSidebar() {
   const sidbar = useSidebar();
+  const currentPath = usePathname();
+  console.log(currentPath);
+
   return (
     <Sidebar className="border-none" collapsible="icon">
       <SidebarHeader>
@@ -45,7 +49,14 @@ export function AppSidebar() {
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title} className="px-2">
-              <SidebarMenuButton asChild tooltip={item.title}>
+              <SidebarMenuButton
+                asChild
+                tooltip={item.title}
+                className={cn(
+                  currentPath === item.url &&
+                    "bg-accent group-data-[collapsible=icon]:text-primary group-data-[collapsible=icon]:bg-sidebar"
+                )}
+              >
                 <div className="group-data-[collapsible=icon]:justify-center px-2">
                   <Link href={item.url} className="flex gap-2 items-center">
                     <item.icon className="size-[20px]" />

@@ -1,7 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-// Define the languages your application supports
 const SUPPORTED_LANGS = ["en", "th"];
 
 export async function POST(request: Request) {

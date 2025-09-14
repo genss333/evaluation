@@ -58,6 +58,7 @@ async function handleSessionVerification(
         }
       } else if (accessToken && refreshToken) {
         await jwtVerify(accessToken, setupConfig.secretKey);
+        return NextResponse.next();
       }
 
       return NextResponse.redirect(loginUrl);
