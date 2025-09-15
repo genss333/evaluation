@@ -4,8 +4,8 @@ import { ProbationModel } from "@/modules/probation/data/models/probation-model"
 import { ReactNode } from "react";
 import ProbationDetail from "../shared/probation-details";
 import EmpApproveLine from "./emp-approve-line-list";
+import RollBack from "./mss-rollback";
 import ProbationGrade from "./probation-grade";
-import RollBack from "./rollback";
 
 interface MSSLayoutProps {
   data: ProbationModel;

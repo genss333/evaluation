@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
+import { RollBackDailog } from "../shared/roll-back-dailog";
 
 const HRRollBack = () => {
   const { isHrRollback, setHrRollback } = useProbationProps();
@@ -27,12 +28,14 @@ const HRRollBack = () => {
             >
               ยกเลิก
             </Button>
-            <Button
-              size={"sm"}
-              className="rounded-full text-sm font-normal min-w-[80px]"
-            >
-              ยืนยัน
-            </Button>
+            <RollBackDailog>
+              <Button
+                size={"sm"}
+                className="rounded-full text-sm font-normal min-w-[80px]"
+              >
+                ยืนยัน
+              </Button>
+            </RollBackDailog>
           </div>
         )}
       </div>
