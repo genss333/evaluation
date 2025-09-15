@@ -57,5 +57,5 @@ export type MoreProbationSchema = z.infer<typeof moreProbationZodSchema>;
 export type ProbationFormField = {
   [k: string]: string | model.ProbationFieldValue;
 } & {
-  resultProbation: "pass" | "fail";
+  resultProbation: string;
 };

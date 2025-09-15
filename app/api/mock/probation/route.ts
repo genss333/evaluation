@@ -223,6 +223,10 @@ const mssMockData: ProbationModel = {
       dateTime: null,
     },
   ],
+  resultProbation: {
+    value: "pass",
+    disable: true,
+  },
 };
 
 const essMockData: ProbationModel = {
@@ -406,7 +410,7 @@ export async function GET(request: Request) {
   if (!session) {
     return NextResponse.json({ message: "UnAuthorization" }, { status: 401 });
   }
-  if (session.role === Role.MSS) {
+  if ([Role.MSS, Role.ADMIN].includes(session.role)) {
     return NextResponse.json(mssMockData);
   }
   return NextResponse.json(essMockData);

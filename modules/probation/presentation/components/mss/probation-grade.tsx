@@ -27,7 +27,7 @@ const ProbationGroupCard = ({
   );
 };
 
-const ProbationGradeRadio = () => {
+const ProbationGradeRadio = ({ data }: ProbationGradeProps) => {
   return (
     <FormField
       name="resultProbation"
@@ -37,6 +37,7 @@ const ProbationGradeRadio = () => {
             <RadioGroup
               onValueChange={field.onChange}
               defaultValue={field.value}
+              disabled={data.resultProbation?.disable ?? false}
             >
               <FormItem>
                 <div className="grid grid-cols-3 text-sm font-medium items-center">
@@ -143,7 +144,7 @@ const ProbationGrade = ({ data }: ProbationGradeProps) => {
             )}
           />
         )}
-        <ProbationGradeRadio />
+        <ProbationGradeRadio data={data} />
       </div>
     </ProbationGroupCard>
   );

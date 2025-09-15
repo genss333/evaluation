@@ -30,4 +30,8 @@ export interface ProbationModel {
   titles: ProbationField[];
   fields: ProbationField[];
   steps: ProbationStep[];
+  resultProbation?: {
+    value: string;
+    disable: boolean;
+  };
 }

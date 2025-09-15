@@ -76,12 +76,16 @@ export const useProbationData = (data: ProbationModel | null | undefined) => {
 
 export const useFormData = (data: ProbationModel) => {
   const formData = useMemo(() => {
-    return Object.fromEntries(
-      data.fields.map((item) => [
-        item.key,
-        item.selctedValue ? item.selctedValue : item.values?.[0]?.title ?? "",
-      ])
-    );
+    const formValues: ProbationFormField = {
+      ...Object.fromEntries(
+        data.fields.map((item) => [
+          item.key,
+          item.selctedValue ? item.selctedValue : item.values?.[0]?.title ?? "",
+        ])
+      ),
+      resultProbation: data.resultProbation?.value ?? "",
+    };
+    return formValues;
   }, [data.fields]);
 
   return useForm<ProbationFormField>({
