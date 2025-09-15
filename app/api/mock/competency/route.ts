@@ -18,9 +18,12 @@ const mockCompetencies: CompetencyModel[] = [
     ],
     score: {
       score: null,
-      disable: false,
+      disable: true,
     },
-    memo: "",
+    memo: {
+      value: "",
+      disable: true,
+    },
   },
   {
     id: 2,
@@ -36,10 +39,13 @@ const mockCompetencies: CompetencyModel[] = [
     ],
     score: {
       score: null,
-      disable: false,
+      disable: true,
     },
     sumScore: "",
-    memo: "",
+    memo: {
+      value: "",
+      disable: true,
+    },
   },
   {
     id: 3,
@@ -55,10 +61,13 @@ const mockCompetencies: CompetencyModel[] = [
     ],
     score: {
       score: null,
-      disable: false,
+      disable: true,
     },
     sumScore: "78",
-    memo: "",
+    memo: {
+      value: "",
+      disable: true,
+    },
   },
 ];
 
@@ -103,7 +112,10 @@ const mockDataESS = {
       total: 100,
       targetScore: 90,
       weight: 0.4,
-      memo: "",
+      memo: {
+        value: "",
+        disable: true,
+      },
       score: {
         score: null,
         disable: false,
@@ -117,7 +129,10 @@ const mockDataESS = {
       total: 100,
       targetScore: 85,
       weight: 0.3,
-      memo: "",
+      memo: {
+        value: "",
+        disable: true,
+      },
       score: {
         score: null,
         disable: false,
@@ -131,7 +146,10 @@ const mockDataESS = {
       total: 100,
       targetScore: 80,
       weight: 0.2,
-      memo: "",
+      memo: {
+        value: "",
+        disable: true,
+      },
       score: {
         score: null,
         disable: false,

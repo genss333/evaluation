@@ -408,7 +408,10 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
                   <Input
                     type="number"
                     min={0}
-                    className="text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]"
+                    className={cn(
+                      "text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]",
+                      "disabled:bg-accent"
+                    )}
                     {...field}
                     value={field.value.score ?? ""}
                     disabled={field.value.disable ?? false}
@@ -496,9 +499,13 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
               <FormItem>
                 <FormControl>
                   <Input
-                    className="font-caption3 text-semi-black w-full h-8 rounded-[10px]"
+                    className={cn(
+                      "font-caption3 text-semi-black w-full h-8 rounded-[10px]",
+                      "disabled:bg-accent"
+                    )}
                     {...field}
                     value={field.value.value ?? ""}
+                    disabled={field.value.disable ?? false}
                   />
                 </FormControl>
               </FormItem>
