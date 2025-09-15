@@ -10,10 +10,12 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { Method } from "@/lib/api-client";
 import { cn } from "@/lib/utils";
-import { Home, Menu, UserRoundPen } from "lucide-react";
+import { Home, LogOut, Menu, UserRoundPen } from "lucide-react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { redirect, usePathname } from "next/navigation";
+import { Button } from "../ui/button";
 
 const items = [
   {
@@ -31,7 +33,16 @@ const items = [
 export function AppSidebar() {
   const sidbar = useSidebar();
   const currentPath = usePathname();
-  console.log(currentPath);
+
+  const handleLogout = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth`, {
+      method: Method.DELETE,
+      credentials: "include",
+    });
+    if (res.ok) {
+      redirect("/login");
+    }
+  };
 
   return (
     <Sidebar className="border-none" collapsible="icon">
@@ -46,7 +57,7 @@ export function AppSidebar() {
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenu>
+        <SidebarMenu className="gap-4">
           {items.map((item) => (
             <SidebarMenuItem key={item.title} className="px-2">
               <SidebarMenuButton
@@ -70,7 +81,11 @@ export function AppSidebar() {
           ))}
         </SidebarMenu>
       </SidebarContent>
-      <SidebarFooter />
+      <SidebarFooter>
+        <Button variant={"link"} size={"icon"} onClick={handleLogout}>
+          <LogOut className="size-[20px]" />
+        </Button>
+      </SidebarFooter>
     </Sidebar>
   );
 }

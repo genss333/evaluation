@@ -7,6 +7,7 @@ import { useFetchProbation } from "@/modules/probation/presentation/hooks/use-fe
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
+import Loading from "./loading";
 
 export async function generateMetadata(): Promise<Metadata> {
   const session = await getSession();
@@ -36,7 +37,7 @@ const ProbationPage = async () => {
   const cookieStore = await cookies();
 
   const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(useFetchProbation({ cookieStore}));
+  await queryClient.prefetchQuery(useFetchProbation({ cookieStore }));
   const data = queryClient.getQueryData(
     useFetchProbation({ cookieStore }).queryKey
   );
@@ -50,7 +51,7 @@ const ProbationPage = async () => {
       ) : data ? (
         <ESSLayout data={data} />
       ) : (
-        <div>No probation data available.</div>
+        <Loading />
       )}
     </HydrationBoundary>
   );

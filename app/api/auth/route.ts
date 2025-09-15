@@ -136,11 +136,31 @@ export async function PATCH() {
       maxAge: 60 * 60 * 24 * 7,
     });
 
-    return NextResponse.json({ message: "Token refreshed" }, { status: 200 });
+    return NextResponse.json({ token: newAccessToken }, { status: 200 });
   } catch (error) {
     return NextResponse.json(
       { message: "Invalid refresh token" },
       { status: 401 }
+    );
+  }
+}
+
+export async function DELETE() {
+  try {
+    const cookieStore = await cookies();
+    cookieStore.delete("access_token");
+    cookieStore.delete("refresh_token");
+    cookieStore.delete("lang");
+
+    return NextResponse.json(
+      { message: "Log out successfully" },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Logout Error:", error);
+    return NextResponse.json(
+      { message: "An internal server error occurred." },
+      { status: 500 }
     );
   }
 }

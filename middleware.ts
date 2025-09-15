@@ -50,9 +50,13 @@ async function handleSessionVerification(
   const accessToken = request.cookies.get("access_token")?.value;
   const refreshToken = request.cookies.get("refresh_token")?.value;
 
-  if (isProtectedPath(pathname)) {
-    const loginUrl = new URL(`/login`, request.url);
+  const loginUrl = new URL(`/login`, request.url);
+  const redirectResponse = NextResponse.redirect(loginUrl);
 
+  redirectResponse.cookies.delete("access_token");
+  redirectResponse.cookies.delete("refresh_token");
+
+  if (isProtectedPath(pathname)) {
     try {
       if (!accessToken && refreshToken) {
         const res = await onRefreshToken(request);
@@ -63,6 +67,7 @@ async function handleSessionVerification(
         await jwtVerify(accessToken, setupConfig.secretKey);
         return NextResponse.next();
       }
+      return redirectResponse;
     } catch (error) {
       const isJwtExpiredError =
         error instanceof Error && error.name === "JWTExpired";
@@ -73,12 +78,6 @@ async function handleSessionVerification(
           return refreshResponse;
         }
       }
-      const loginUrl = new URL(`/login`, request.url);
-      const redirectResponse = NextResponse.redirect(loginUrl);
-
-      console.log("Redirecting to login and clearing old tokens.");
-      redirectResponse.cookies.delete("access_token");
-      redirectResponse.cookies.delete("refresh_token");
 
       return redirectResponse;
     }

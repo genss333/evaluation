@@ -6,7 +6,6 @@ export interface IApiClient {
 
 export class ApiClient implements IApiClient {
   private cookieHeader?: string;
-
   constructor(cookieStore?: ReadonlyRequestCookies) {
     if (cookieStore) {
       const name = cookieStore.get("access_token")?.name;
@@ -34,7 +33,11 @@ export class ApiClient implements IApiClient {
     }
   }
 
-  async request<T>(url: string, options?: RequestInit): Promise<T> {
+  async request<T>(
+    url: string,
+    options?: RequestInit,
+    isRetry?: boolean
+  ): Promise<T> {
     try {
       const res = await fetch(url, {
         ...options,
@@ -46,13 +49,14 @@ export class ApiClient implements IApiClient {
         cache: "no-store",
       });
 
-      if (res.status === 401) {
+      if (res.status === 401 && isRetry == undefined) {
+        console.log("isRetry", isRetry);
         console.log(
           "Received 401 Unauthorized. Attempting to refresh token..."
         );
         const refreshSuccess = await this.refreshToken();
         if (refreshSuccess) {
-          return this.request<T>(url, options);
+          return this.request<T>(url, options, true);
         } else {
           throw new Error("Session expired. Please log in again.");
         }
