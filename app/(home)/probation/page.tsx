@@ -2,6 +2,7 @@ import { getSession } from "@/app/api/auth/route";
 import { getQueryClient } from "@/lib/get-query-client";
 import { Role } from "@/models/user-role";
 import ESSLayout from "@/modules/probation/presentation/components/ess/ess-layout";
+import HRLayout from "@/modules/probation/presentation/components/hr/hr-layout";
 import MSSLayout from "@/modules/probation/presentation/components/mss/mss-layout";
 import { useFetchProbation } from "@/modules/probation/presentation/hooks/use-fetch-probation";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
@@ -18,6 +19,9 @@ export async function generateMetadata(): Promise<Metadata> {
     switch (session.role) {
       case Role.MSS:
         title = "MSS Probations";
+        break;
+      case Role.ADMIN:
+        title = "HR Probations";
         break;
       case Role.ESS:
         title = "ESS Probations";
@@ -49,7 +53,7 @@ const ProbationPage = async () => {
       {session?.role && session.role === Role.MSS && data ? (
         <MSSLayout data={data} showBtnActions={true} />
       ) : session?.role === Role.ADMIN && data ? (
-        <MSSLayout data={data} showBtnActions={false} />
+        <HRLayout data={data} />
       ) : data ? (
         <ESSLayout data={data} />
       ) : (

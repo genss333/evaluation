@@ -69,7 +69,7 @@ const EmpDrawer = ({ items }: { items: model.Employee[] }) => {
 };
 
 const EmpApproveLine = ({ employees, form }: EmpApproveLineProps) => {
-  const { selectEmp } = useProbationProps();
+  const { selectEmp, isHrRollback } = useProbationProps();
 
   useEffect(() => {
     employees && selectEmp(employees[0]);
@@ -78,46 +78,50 @@ const EmpApproveLine = ({ employees, form }: EmpApproveLineProps) => {
   return (
     <div className="space-y-2.5">
       <CardSection>
-        <div className="font-semibold text-base">เลือกแบบฟอร์มการประเมิน</div>
-        <div className="flex items-center gap-4">
-          {form && form.disable ? (
-            <ProbationFieldTrigger
-              selectedValue={form.values[0]}
-              showSuffix={true}
-              disable={true}
-            />
-          ) : (
-            <Select
-              defaultValue={`${form?.selctedValue?.id ?? form?.values[0].id}`}
-            >
-              <SelectTrigger
-                size="sm"
-                className="text-sm font-normal h-8 truncate w-full"
+        <div className={cn(isHrRollback && "opacity-25")}>
+          <div className="font-semibold text-base">เลือกแบบฟอร์มการประเมิน</div>
+          <div className="flex items-center gap-4">
+            {form && form.disable ? (
+              <ProbationFieldTrigger
+                selectedValue={form.values[0]}
+                showSuffix={true}
+                disable={true}
+              />
+            ) : (
+              <Select
+                defaultValue={`${form?.selctedValue?.id ?? form?.values[0].id}`}
               >
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {form &&
-                  form.values.map((item) => (
-                    <SelectItem key={item.id} value={`${item.id}`}>
-                      {item.title}
-                    </SelectItem>
-                  ))}
-              </SelectContent>
-            </Select>
-          )}
-          <div className="xl:hidden">
-            {employees && <EmpDrawer items={employees} />}
+                <SelectTrigger
+                  size="sm"
+                  className="text-sm font-normal h-8 truncate w-full"
+                >
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {form &&
+                    form.values.map((item) => (
+                      <SelectItem key={item.id} value={`${item.id}`}>
+                        {item.title}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
+            )}
+            <div className="xl:hidden">
+              {employees && <EmpDrawer items={employees} />}
+            </div>
           </div>
         </div>
       </CardSection>
       <CardSection className="hidden xl:block">
-        <div className="font-semibold text-base text-semi-black flex items-center">
-          <div className="flex-1">รหัสประเมินและชื่อพนักงาน</div>
-          <Filter size={16} />
+        <div className={cn(isHrRollback && "opacity-25")}>
+          <div className="font-semibold text-base text-semi-black flex items-center">
+            <div className="flex-1">รหัสประเมินและชื่อพนักงาน</div>
+            <Filter size={16} />
+          </div>
+          <Separator />
+          {employees && <EmpList items={employees} />}
         </div>
-        <Separator />
-        {employees && <EmpList items={employees} />}
       </CardSection>
     </div>
   );

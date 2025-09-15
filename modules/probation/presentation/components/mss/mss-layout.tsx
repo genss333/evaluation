@@ -1,17 +1,19 @@
 "use client";
 
 import { ProbationModel } from "@/modules/probation/data/models/probation-model";
+import { ReactNode } from "react";
 import ProbationDetail from "../shared/probation-details";
 import EmpApproveLine from "./emp-approve-line-list";
 import ProbationGrade from "./probation-grade";
-import RollBack from "./roll-back";
+import RollBack from "./rollback";
 
 interface MSSLayoutProps {
   data: ProbationModel;
   showBtnActions: boolean;
+  roleBack?: ReactNode;
 }
 
-const MSSLayout = ({ data, showBtnActions }: MSSLayoutProps) => {
+const MSSLayout = ({ data, showBtnActions, roleBack }: MSSLayoutProps) => {
   return (
     <div className="space-y-2.5 xl:grid xl:grid-cols-4 xl:gap-2 px-2.5">
       <div className="col-span-1">
@@ -26,7 +28,7 @@ const MSSLayout = ({ data, showBtnActions }: MSSLayoutProps) => {
         <ProbationDetail
           data={data}
           GradeGroup={(data) => <ProbationGrade data={data} />}
-          roleBack={<RollBack />}
+          roleBack={roleBack ?? <RollBack key={"mss-rollback"} />}
           showBtnActions={showBtnActions}
         />
       </div>
