@@ -43,7 +43,7 @@ const SwitchLang = () => {
 
 const AppNavbar = ({ lang }: AppNavbarProps) => {
   return (
-    <Flex justify="between" align="center" gap={4} className="mt-4 mr-10">
+    <Flex justify="between" align="center" gap={4} className="mr-10">
       <AppNavbarItem>image</AppNavbarItem>
       <AppNavbarItem>
         <div className="relative">

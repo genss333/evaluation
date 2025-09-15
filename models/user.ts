@@ -5,5 +5,5 @@ export interface User extends JWTPayload {
   id: string;
   email: string;
   name: string;
-  role: Role.ESS | Role.MSS;
+  role: Role.ESS | Role.MSS | Role.ADMIN;
 }

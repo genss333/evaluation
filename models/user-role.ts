@@ -5,4 +5,5 @@ export interface UserRole {
 export enum Role {
   ESS = "ESS",
   MSS = "MSS",
+  ADMIN = "ADMIN",
 }

@@ -10,17 +10,24 @@ interface SessionPayload extends JWTPayload, User {}
 const usersDB: Array<User & { password: string }> = [
   {
     id: "1",
-    email: "user@gmail.com",
+    email: "user",
     password: "0000",
     name: "Test ESS",
     role: Role.ESS,
   },
   {
     id: "2",
-    email: "sup@gmail.com",
+    email: "sup",
     password: "0000",
     name: "Test MSS",
     role: Role.MSS,
+  },
+  {
+    id: "3",
+    email: "admin",
+    password: "0000",
+    name: "Test Admin",
+    role: Role.ADMIN,
   },
 ];
 
