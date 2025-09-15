@@ -192,7 +192,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
                     min={0}
                     className={cn(
                       "text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]",
-                      "disabled:bg-accent"
+                      "disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:border-none disabled:opacity-100"
                     )}
                     {...field}
                     value={field.value.score ?? ""}
@@ -322,7 +322,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
                   <Input
                     className={cn(
                       "font-caption3 text-semi-black w-full h-8 rounded-[10px]",
-                      "disabled:bg-accent"
+                      "disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:border-none disabled:opacity-100"
                     )}
                     {...field}
                     value={field.value.value ?? ""}
@@ -410,7 +410,7 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
                     min={0}
                     className={cn(
                       "text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]",
-                      "disabled:bg-accent"
+                      "disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:border-none disabled:opacity-100"
                     )}
                     {...field}
                     value={field.value.score ?? ""}
@@ -501,7 +501,7 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
                   <Input
                     className={cn(
                       "font-caption3 text-semi-black w-full h-8 rounded-[10px]",
-                      "disabled:bg-accent"
+                      "disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:border-none disabled:opacity-100"
                     )}
                     {...field}
                     value={field.value.value ?? ""}

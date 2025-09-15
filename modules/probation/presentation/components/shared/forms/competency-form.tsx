@@ -75,7 +75,7 @@ const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
                             <TextField
                               className={cn(
                                 "h-8 max-w-[120px] text-sm font-normal",
-                                "disabled:bg-accent disabled:text-button-grey"
+                                "disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:border-none disabled:opacity-100"
                               )}
                               suffixIcon={
                                 <div className="text-sm font-normal text-button-grey">
