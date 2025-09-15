@@ -147,7 +147,6 @@ const ProbationStep = ({ steps, ConditionForm }: ProbationStepProps) => {
       await queryClient.invalidateQueries({
         queryKey: [probationQueryKery],
       });
-      setHrRollback(false);
     }
   };
 
