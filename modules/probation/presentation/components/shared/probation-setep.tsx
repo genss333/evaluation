@@ -40,6 +40,7 @@ const Line = ({
   return (
     <div
       className={cn(
+        "transition-colors duration-1000",
         start && "hidden",
         active ? "bg-status-red" : "bg-[#E6E6E6]",
         "h-1 flex-1",
@@ -99,7 +100,7 @@ const Dot = ({
         justify={"center"}
         align={"center"}
         direction={"col"}
-        className="w-[14px] h-[14px] border border-[#] rounded-full "
+        className="w-[14px] h-[14px] border border-[#] rounded-full"
       />
     );
   }
@@ -144,8 +145,10 @@ const ProbationStep = ({ steps, ConditionForm }: ProbationStepProps) => {
   const handlerSetStep = async (index: number) => {
     if (isHrRollback) {
       setActiveIndex(index);
-      await queryClient.invalidateQueries({
-        queryKey: [probationQueryKery],
+      wait().then(async () => {
+        await queryClient.invalidateQueries({
+          queryKey: [probationQueryKery],
+        });
       });
     }
   };
