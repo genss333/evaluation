@@ -77,7 +77,8 @@ const MoreProbationForm = forwardRef<SubFormRef, {}>((props, ref) => {
                           <FormControl>
                             <Textarea
                               className={cn(
-                                "h-[60px] min-h-[60px] font-body3 rounded-[10px]"
+                                "h-[60px] min-h-[60px] font-body3 rounded-[10px]",
+                                "disabled:bg-accent disabled:opacity-100 disabled:text-button-grey disabled:border-none"
                               )}
                               {...field}
                               disabled={fieldItem.disable ?? false}
