@@ -21,7 +21,10 @@ export interface Kpi {
 }
 */
 
-const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
+const mockKpiDataMSS: ProbationTableModel<Kpi> & {
+  sums?: SumScore[];
+  action?: boolean;
+} = {
   title: "ผู้ประเมินเพิ่มหัวข้อการประเมินของ KPI",
   desc: "กำหนดให้ส่วนที่ 3 = 60%",
   list: [
@@ -35,13 +38,16 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       targetScore: 25,
       scoreList: [
         { id: 1, title: "พนักงาน", value: 50 },
-        { id: 2, title: "ลำดับ1", value: 50 },
+        // { id: 2, title: "ลำดับ1", value: 50 },
       ],
       score: {
-        score: null,
-        disable: false,
+        score: 10,
+        disable: true,
       },
-      memo: "ทำได้เกินเป้าหมายที่ตั้งไว้ในไตรมาสที่ 3 เนื่องจากแคมเปญการตลาดได้ผลดี",
+      memo: {
+        value: "",
+        disable: true,
+      },
       how: "จำนวน",
       standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
@@ -55,13 +61,16 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       targetScore: 20,
       scoreList: [
         { id: 1, title: "พนักงาน", value: 50 },
-        { id: 2, title: "ลำดับ1", value: 50 },
+        // { id: 2, title: "ลำดับ1", value: 50 },
       ],
       score: {
-        score: null,
-        disable: false,
+        score: 10,
+        disable: true,
       },
-      memo: "ส่งมอบล่าช้ากว่ากำหนด 2 วัน เนื่องจากมีการแก้ไข Requirement กลางสัปดาห์สุดท้าย",
+      memo: {
+        value: "",
+        disable: true,
+      },
       how: "จำนวน",
       standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
@@ -75,15 +84,18 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       targetScore: 20,
       scoreList: [
         { id: 1, title: "พนักงาน", value: 50 },
-        { id: 2, title: "ลำดับ1", value: 50 },
+        // { id: 2, title: "ลำดับ1", value: 50 },
       ],
       score: {
-        score: null,
-        disable: false,
+        score: 10,
+        disable: true,
       },
       how: "จำนวน",
       standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
-      memo: "",
+      memo: {
+        value: "",
+        disable: true,
+      },
     },
   ],
   sums: [
@@ -92,20 +104,24 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
       key: "targetScore",
       title: "คะแนนความคาดหวังรวม",
       value: 18.0,
+      disable: true,
     },
     {
       id: 2,
       key: "totalScore",
       title: "คะแนนรวม",
       value: 0.0,
+      disable: true,
     },
     {
       id: 3,
       key: "formTotal",
       title: "จากคะแนนเต็ม",
       value: 30.0,
+      disable: true,
     },
   ],
+  action: false,
 };
 
 const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
@@ -124,7 +140,10 @@ const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
         score: null,
         disable: false,
       },
-      memo: "",
+      memo: {
+        value: "",
+        disable: true,
+      },
       how: "จำนวน",
       standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
@@ -140,7 +159,10 @@ const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
         score: null,
         disable: false,
       },
-      memo: "",
+      memo: {
+        value: "",
+        disable: true,
+      },
       how: "จำนวน",
       standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
@@ -157,7 +179,10 @@ const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
         disable: false,
       },
       how: "จำนวน",
-      memo: "",
+      memo: {
+        value: "",
+        disable: true,
+      },
       standard: "80 = ผ่าน, 90 = ดี, 100 = ยอดเยี่ยม",
     },
   ],
@@ -169,7 +194,7 @@ export async function GET() {
     return NextResponse.json({ message: "UnAuthorization" }, { status: 401 });
   }
 
-  if (session.role === Role.MSS) {
+  if ([Role.MSS, Role.ADMIN].includes(session.role)) {
     return NextResponse.json(mockKpiDataMSS);
   }
   return NextResponse.json(mockKpiDataESS);

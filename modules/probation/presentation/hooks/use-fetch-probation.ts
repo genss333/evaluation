@@ -56,7 +56,9 @@ export const useFetchKpi = () => {
   const service = new KpiService<NextResponse>(api);
   const repo = new KpiRepository(service);
 
-  return queryOptions<ProbationTableModel<model.Kpi> & { sums?: SumScore[] }>({
+  return queryOptions<
+    ProbationTableModel<model.Kpi> & { sums?: SumScore[]; action?: boolean }
+  >({
     queryKey: kpiQueryKery,
     queryFn: async () => {
       const data = await repo.call();

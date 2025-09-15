@@ -4,6 +4,7 @@ import CustomDataTable from "@/components/custom/custom-data-table";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { TextField } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 import { RowSelectionState } from "@tanstack/react-table";
 import { forwardRef, useImperativeHandle, useState } from "react";
@@ -72,7 +73,10 @@ const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
                         <FormItem>
                           <FormControl>
                             <TextField
-                              className="h-8 max-w-[120px] text-sm font-normal"
+                              className={cn(
+                                "h-8 max-w-[120px] text-sm font-normal",
+                                "disabled:bg-accent disabled:text-button-grey"
+                              )}
                               suffixIcon={
                                 <div className="text-sm font-normal text-button-grey">
                                   คะแนน
@@ -80,6 +84,7 @@ const CompetencyForm = forwardRef<SubFormRef, {}>((props, ref) => {
                               }
                               {...field}
                               value={field.value ?? ""}
+                              disabled={item.disable ?? false}
                             />
                           </FormControl>
                         </FormItem>

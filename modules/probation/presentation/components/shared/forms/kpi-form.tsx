@@ -4,6 +4,7 @@ import CustomDataTable from "@/components/custom/custom-data-table";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { TextField } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 import { Kpi } from "@/modules/probation/data/models/probation-kpi-model";
 import { useQuery } from "@tanstack/react-query";
 import { RowSelectionState } from "@tanstack/react-table";
@@ -79,11 +80,15 @@ const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
             hTextLeft={[2, 3]}
             columns={columns}
             data={table ?? []}
-            actions={{
-              addRow,
-              deleteRows,
-              onSave,
-            }}
+            actions={
+              data?.action
+                ? {
+                    addRow,
+                    deleteRows,
+                    onSave,
+                  }
+                : undefined
+            }
             rowSelection={rowSelection}
             onRowSelectionChange={setRowSelection}
           />
@@ -105,7 +110,10 @@ const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
                         <FormItem>
                           <FormControl>
                             <TextField
-                              className="h-8 max-w-[120px] text-sm font-normal"
+                              className={cn(
+                                "h-8 max-w-[120px] text-sm font-normal",
+                                "disabled:bg-accent disabled:text-button-grey"
+                              )}
                               suffixIcon={
                                 <div className="text-sm font-normal text-button-grey">
                                   คะแนน
@@ -113,6 +121,7 @@ const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
                               }
                               {...field}
                               value={field.value ?? ""}
+                              disabled={item.disable ?? false}
                             />
                           </FormControl>
                         </FormItem>

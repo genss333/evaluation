@@ -191,10 +191,12 @@ export const useTableDataKpi = (table: Kpi[]) => {
                     type="number"
                     min={0}
                     className={cn(
-                      "text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]"
+                      "text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]",
+                      "disabled:bg-accent"
                     )}
                     {...field}
-                    value={field.value ?? ""}
+                    value={field.value.score ?? ""}
+                    disabled={field.value.disable ?? false}
                   />
                 </FormControl>
               </FormItem>
@@ -318,9 +320,13 @@ export const useTableDataKpi = (table: Kpi[]) => {
               <FormItem>
                 <FormControl>
                   <Input
-                    className="font-caption3 text-semi-black w-full h-8 rounded-[10px]"
+                    className={cn(
+                      "font-caption3 text-semi-black w-full h-8 rounded-[10px]",
+                      "disabled:bg-accent"
+                    )}
                     {...field}
-                    value={field.value ?? ""}
+                    value={field.value.value ?? ""}
+                    disabled={field.value.disable ?? false}
                   />
                 </FormControl>
               </FormItem>
@@ -404,6 +410,8 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
                     min={0}
                     className="text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]"
                     {...field}
+                    value={field.value.score ?? ""}
+                    disabled={field.value.disable ?? false}
                   />
                 </FormControl>
               </FormItem>
@@ -490,7 +498,7 @@ export const useTableDataCompedency = (table: CompetencyModel[]) => {
                   <Input
                     className="font-caption3 text-semi-black w-full h-8 rounded-[10px]"
                     {...field}
-                    value={field.value ?? ""}
+                    value={field.value.value ?? ""}
                   />
                 </FormControl>
               </FormItem>

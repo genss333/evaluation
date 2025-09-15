@@ -8,6 +8,7 @@ export interface SumScore {
   key: string;
   title: string;
   value: number | string;
+  disable: boolean;
 }
 
 export interface Kpi {
@@ -26,7 +27,10 @@ export interface Kpi {
   standard: string;
   score: Score;
   sumScore?: number | string;
-  memo?: string | null;
+  memo?: {
+    value: string | null;
+    disable: boolean;
+  };
   how: string;
 }
 

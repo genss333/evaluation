@@ -72,18 +72,21 @@ const mockDataMSS = {
       key: "targetScore",
       title: "คะแนนความคาดหวังรวม",
       value: 18.0,
+      disable: true,
     },
     {
       id: 2,
       key: "totalScore",
       title: "คะแนนรวม",
       value: 0.0,
+      disable: true,
     },
     {
       id: 3,
       key: "formTotal",
       title: "จากคะแนนเต็ม",
       value: 30.0,
+      disable: true,
     },
   ],
 };
@@ -143,7 +146,7 @@ export async function GET() {
     return NextResponse.json({ message: "UnAuthorization" }, { status: 401 });
   }
 
-  if (session.role == Role.MSS) {
+  if ([Role.MSS, Role.ADMIN].includes(session.role)) {
     return NextResponse.json(mockDataMSS);
   }
   return NextResponse.json(mockDataESS);
