@@ -1,10 +1,22 @@
 export interface DevplanModel {
   id: number;
-  value: string;
-  priority?: Priority | null;
+  plan: {
+    value: string;
+    disable: boolean;
+  };
+  priority?: {
+    value: Priority | null;
+    disable: boolean;
+  };
   prioritys: Priority[];
-  dateTime?: Date | null;
-  remark?: string | null;
+  dateTime?: {
+    value: Date | null;
+    disable: boolean;
+  };
+  remark?: {
+    value: string | null;
+    disable: boolean;
+  };
 }
 
 export interface Priority {

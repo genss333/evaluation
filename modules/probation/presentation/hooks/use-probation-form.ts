@@ -187,10 +187,10 @@ export const useFormDataDevplan = (
       const formValues: DevplanSchema = {
         plans: data.list.map((item) => ({
           id: item.id,
-          plan: item.value,
-          priority: item.priority?.id ?? -1,
-          dateTime: item.dateTime ?? null,
-          remark: item.remark ?? "",
+          plan: item.plan.value ?? "",
+          priority: item.priority?.value?.id ?? -1,
+          dateTime: item.dateTime?.value ?? null,
+          remark: item.remark?.value ?? "",
         })),
       };
       return formValues;

@@ -92,12 +92,14 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                           <FormItem className="w-full">
                             <FormControl>
                               <Textarea
-                                placeholder="Text"
+                                placeholder={item.plan.disable ? "" : "Text"}
                                 className={cn(
-                                  "h-8 min-h-8 font-body3 rounded-[10px]"
+                                  "h-8 min-h-8 font-body3 rounded-[10px]",
+                                  "disabled:bg-accent disabled:opacity-100 disabled:text-button-grey disabled:border-none"
                                 )}
                                 rows={1}
                                 {...field}
+                                disabled={item.plan.disable}
                               />
                             </FormControl>
                             <FormMessage className="hidden" />
@@ -115,9 +117,12 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                               defaultValue={`${field.value}`}
                             >
                               <SelectTrigger
-                                className="w-full h-8 font-body3 text-semi-black [data-placeholder]:text-semi-black rounded-[10px]"
+                                className={cn(
+                                  "w-full h-8 font-body3 text-semi-black [data-placeholder]:text-semi-black rounded-[10px]",
+                                  "disabled:bg-accent disabled:opacity-100 disabled:text-button-grey disabled:border-none"
+                                )}
                                 size="sm"
-                                {...field}
+                                disabled={item.priority?.disable}
                               >
                                 <SelectValue />
                               </SelectTrigger>
@@ -141,16 +146,18 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                       render={({ field }) => (
                         <FormItem className="flex flex-col w-full h-8 col-span-full lg:col-span-2 px-3">
                           <Popover>
-                            <PopoverTrigger asChild>
+                            <PopoverTrigger disabled={item.dateTime?.disable}>
                               <FormControl>
                                 <div
                                   className={cn(
                                     "font-body3 cursor-pointer",
-                                    "border rounded-[10px]"
+                                    "border rounded-[10px]",
+                                    item.dateTime?.disable &&
+                                      "bg-accent border-none text-button-grey"
                                   )}
                                 >
-                                  <div className="flex justify-between items-center min-h-8 rounded-[10px] mx-2">
-                                    <div className="flex-1">
+                                  <div className="flex items-center min-h-8 rounded-[10px] mx-2">
+                                    <div className="flex-1 text-left pt-1">
                                       {field.value
                                         ? DateFormat.shortDate({
                                             date: field.value,
@@ -187,9 +194,13 @@ const DevplanForm = forwardRef<SubFormRef, {}>((props, ref) => {
                         <FormItem className="w-full col-span-full lg:col-span-3 ">
                           <FormControl>
                             <Input
-                              className="h-8 font-body3 text-semi-black rounded-[10px]"
+                              className={cn(
+                                "h-8 font-body3 text-semi-black rounded-[10px]",
+                                "disabled:bg-accent disabled:opacity-100 disabled:text-button-grey disabled:border-none"
+                              )}
                               {...field}
                               value={field.value ?? ""}
+                              disabled={item.remark?.disable}
                             />
                           </FormControl>
                           <FormMessage className="hidden" />
