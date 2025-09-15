@@ -17,12 +17,14 @@ interface ProbationDetailProps {
   data: model.ProbationModel;
   roleBack?: ReactNode;
   GradeGroup: (data: model.ProbationModel) => ReactNode;
+  showBtnActions: boolean;
 }
 
 const ProbationDetail = ({
   data: initialData,
   GradeGroup,
   roleBack,
+  showBtnActions,
 }: ProbationDetailProps) => {
   const { currentEmp } = useProbationProps();
 
@@ -125,21 +127,23 @@ const ProbationDetail = ({
             devplanFormRef={devplanFormRef}
             moreFormRef={moreFormRef}
           />
-          <div className="flex justify-end gap-2 mr-4">
-            <Button
-              type="submit"
-              variant={"outline"}
-              className="rounded-full border-primary min-w-[90px] h-8 text-xs font-normal"
-            >
-              Save darft
-            </Button>
-            <Button
-              type="submit"
-              className="rounded-full min-w-[90px] h-8 text-xs font-normal"
-            >
-              Submit
-            </Button>
-          </div>
+          {showBtnActions && (
+            <div className="flex justify-end gap-2 mr-4">
+              <Button
+                type="submit"
+                variant={"outline"}
+                className="rounded-full border-primary min-w-[90px] h-8 text-xs font-normal"
+              >
+                Save darft
+              </Button>
+              <Button
+                type="submit"
+                className="rounded-full min-w-[90px] h-8 text-xs font-normal"
+              >
+                Submit
+              </Button>
+            </div>
+          )}
         </div>
       </form>
     </Form>

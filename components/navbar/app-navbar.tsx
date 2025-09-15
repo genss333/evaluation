@@ -1,9 +1,9 @@
 "use client";
-import { switchLang } from "@/lib/dictionaries";
 import { Bell, Languages, UserRound } from "lucide-react";
 import { ReactNode } from "react";
 import Flex from "../layout/flex";
 
+import { Method } from "@/lib/api-client";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,6 +22,13 @@ const AppNavbarItem = ({ children }: { children: ReactNode }) => {
 };
 
 const SwitchLang = () => {
+  async function switchLang(lang: "en" | "th") {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/settings/lang`, {
+      method: Method.POST,
+      body: JSON.stringify({ lang }),
+    });
+    window.location.reload();
+  }
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>

@@ -2,15 +2,16 @@
 
 import { ProbationModel } from "@/modules/probation/data/models/probation-model";
 import ProbationDetail from "../shared/probation-details";
-import RollBack from "./roll-back";
 import EmpApproveLine from "./emp-approve-line-list";
 import ProbationGrade from "./probation-grade";
+import RollBack from "./roll-back";
 
 interface MSSLayoutProps {
   data: ProbationModel;
+  showBtnActions: boolean;
 }
 
-const MSSLayout = ({ data }: MSSLayoutProps) => {
+const MSSLayout = ({ data, showBtnActions }: MSSLayoutProps) => {
   return (
     <div className="space-y-2.5 xl:grid xl:grid-cols-4 xl:gap-2 px-2.5">
       <div className="col-span-1">
@@ -26,6 +27,7 @@ const MSSLayout = ({ data }: MSSLayoutProps) => {
           data={data}
           GradeGroup={(data) => <ProbationGrade data={data} />}
           roleBack={<RollBack />}
+          showBtnActions={showBtnActions}
         />
       </div>
     </div>

@@ -1,5 +1,4 @@
 import { enUS, th } from "date-fns/locale";
-import { Method } from "./api-client";
 
 const dictionaries = {
   en: () => import("@/dictionaries/en.json").then((module) => module.default),
@@ -23,11 +22,3 @@ export const getLocale = () => {
       return enUS;
   }
 };
-
-export async function switchLang(lang: "en" | "th") {
-  await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/settings/lang`, {
-    method: Method.POST,
-    body: JSON.stringify({ lang }),
-  });
-  window.location.reload();
-}

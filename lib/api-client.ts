@@ -33,11 +33,7 @@ export class ApiClient implements IApiClient {
     }
   }
 
-  async request<T>(
-    url: string,
-    options?: RequestInit,
-    isRetry?: boolean
-  ): Promise<T> {
+  async request<T>(url: string, options?: RequestInit): Promise<T> {
     try {
       const res = await fetch(url, {
         ...options,
@@ -49,14 +45,14 @@ export class ApiClient implements IApiClient {
         cache: "no-store",
       });
 
-      if (res.status === 401 && isRetry == undefined) {
-        console.log("isRetry", isRetry);
+      if (res.status === 401) {
+        console.log("isRetry");
         console.log(
           "Received 401 Unauthorized. Attempting to refresh token..."
         );
         const refreshSuccess = await this.refreshToken();
         if (refreshSuccess) {
-          return this.request<T>(url, options, true);
+          return this.request<T>(url, options);
         } else {
           throw new Error("Session expired. Please log in again.");
         }

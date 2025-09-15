@@ -46,10 +46,10 @@ const ProbationPage = async () => {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      {session?.role &&
-      [Role.MSS, Role.ADMIN].includes(session.role) &&
-      data ? (
-        <MSSLayout data={data} />
+      {session?.role && session.role === Role.MSS && data ? (
+        <MSSLayout data={data} showBtnActions={true} />
+      ) : session?.role === Role.ADMIN && data ? (
+        <MSSLayout data={data} showBtnActions={false} />
       ) : data ? (
         <ESSLayout data={data} />
       ) : (
