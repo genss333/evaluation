@@ -1,5 +1,6 @@
 "use client";
 
+import Loading from "@/app/(home)/probation/loading";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
@@ -29,7 +30,7 @@ const ProbationDetail = ({
 }: ProbationDetailProps) => {
   const { currentEmp, isHrRollback } = useProbationProps();
 
-  const { data } = useQuery(
+  const { data, isFetching } = useQuery(
     useFetchProbation({
       personCode: currentEmp?.personCode,
       initialData,
@@ -66,70 +67,74 @@ const ProbationDetail = ({
       <form onSubmit={form.handleSubmit(onSubmitUI)}>
         <div className="bg-background w-full rounded-[10px] pb-4">
           <ProbationStep steps={data?.steps ?? []} ConditionForm={roleBack} />
-          <div className={cn(isHrRollback && "opacity-25")}>
-            <hr className="my-4" />
-            <div className="p-4">
-              {!data ? (
-                <div className="text-center text-md py-8 text-gray-500">
-                  ไม่พบข้อมูลการประเมิน
-                </div>
-              ) : (
-                <div className="space-y-2.5">
-                  <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-                    {countField && (
-                      <FormField
-                        name={countField.key}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <ProbationField
-                                field={field}
-                                title={countField.title}
-                                values={countField.values}
-                                showSuffix={countField.values.length > 1}
-                                disable={countField.disable}
-                                colSpan={[2, 3]}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                    )}
+          {isFetching ? (
+            <Loading />
+          ) : (
+            <div className={cn(isHrRollback && "opacity-25")}>
+              <hr className="my-4" />
+              <div className="p-4">
+                {!data ? (
+                  <div className="text-center text-md py-8 text-gray-500">
+                    ไม่พบข้อมูลการประเมิน
                   </div>
-                  <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-3">
-                    {employeeInfoFields?.map((item) => (
-                      <FormField
-                        key={item.key}
-                        name={item.key}
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormControl>
-                              <ProbationField
-                                field={field}
-                                title={item.title}
-                                selectedValue={item.selctedValue}
-                                values={item.values}
-                                showSuffix={item.values.length > 1}
-                                disable={item.disable}
-                                colSpan={[2, 3]}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                    ))}
+                ) : (
+                  <div className="space-y-2.5">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                      {countField && (
+                        <FormField
+                          name={countField.key}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <ProbationField
+                                  field={field}
+                                  title={countField.title}
+                                  values={countField.values}
+                                  showSuffix={countField.values.length > 1}
+                                  disable={countField.disable}
+                                  colSpan={[2, 3]}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      )}
+                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4 mt-3">
+                      {employeeInfoFields?.map((item) => (
+                        <FormField
+                          key={item.key}
+                          name={item.key}
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormControl>
+                                <ProbationField
+                                  field={field}
+                                  title={item.title}
+                                  selectedValue={item.selctedValue}
+                                  values={item.values}
+                                  showSuffix={item.values.length > 1}
+                                  disable={item.disable}
+                                  colSpan={[2, 3]}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                    </div>
+                    {GradeGroup(data ?? initialData)}
                   </div>
-                  {GradeGroup(data ?? initialData)}
-                </div>
-              )}
+                )}
+              </div>
+              <ProbationTabs
+                kpiFormRef={kpiFormRef}
+                compFormRef={compFormRef}
+                devplanFormRef={devplanFormRef}
+                moreFormRef={moreFormRef}
+              />
             </div>
-            <ProbationTabs
-              kpiFormRef={kpiFormRef}
-              compFormRef={compFormRef}
-              devplanFormRef={devplanFormRef}
-              moreFormRef={moreFormRef}
-            />
-          </div>
+          )}
           {showBtnActions && (
             <div className="flex justify-end gap-2 mr-4">
               <Button

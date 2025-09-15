@@ -17,6 +17,7 @@ const ESSLayout = ({ data }: ESSLayoutProps) => {
       <ProbationDetail
         data={data}
         GradeGroup={(data) => <ProbationESSGrade data={data} />}
+        showBtnActions
       />
     </Flex>
   );
