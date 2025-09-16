@@ -8,7 +8,6 @@ import { getQueryClient } from "@/lib/get-query-client";
 import { Fragment, ReactNode, useEffect, useState } from "react";
 import * as model from "../../../data/models/probation-model";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
-import { probationQueryKery } from "../../hooks/use-fetch-probation";
 interface TitleStepProps {
   title: string;
   desc: string;
@@ -145,11 +144,6 @@ const ProbationStep = ({ steps, ConditionForm }: ProbationStepProps) => {
   const handlerSetStep = async (index: number) => {
     if (isHrRollback) {
       setActiveIndex(index);
-      wait().then(async () => {
-        await queryClient.invalidateQueries({
-          queryKey: [probationQueryKery],
-        });
-      });
     }
   };
 
