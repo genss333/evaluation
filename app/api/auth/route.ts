@@ -72,7 +72,7 @@ export async function POST(req: NextRequest) {
 
     const accessToken = await createToken(userPayload, "15m");
 
-    const refreshToken = await createToken({ id: userPayload.id }, "7d");
+    const refreshToken = await createToken(userPayload, "7d");
 
     const cookieStore = await cookies();
 
@@ -125,7 +125,7 @@ export async function PATCH() {
 
     const newAccessToken = await createToken(userPayload, "15m");
 
-    const newRefreshToken = await createToken({ id: userPayload.id }, "7d");
+    const newRefreshToken = await createToken(userPayload, "7d");
 
     cookieStore.set("access_token", newAccessToken, {
       httpOnly: true,
