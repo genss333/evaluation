@@ -16,9 +16,7 @@ interface AppNavbarProps {
 }
 
 const AppNavbarItem = ({ children }: { children: ReactNode }) => {
-  return (
-    <div className="bg-background rounded-full h-[40px] p-2">{children}</div>
-  );
+  return <div className="bg-background rounded-full p-2">{children}</div>;
 };
 
 const SwitchLang = () => {
