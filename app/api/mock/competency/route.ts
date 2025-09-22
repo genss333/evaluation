@@ -1,9 +1,9 @@
 import { Role } from "@/models/user-role";
-import { CompetencyModel } from "@/modules/probation/data/models/probation-competency-model";
+import { Competency } from "@/modules/probation/domain/entities/probation-competency";
 import { NextResponse } from "next/server";
 import { getSession } from "../../auth/route";
 
-const mockCompetencies: CompetencyModel[] = [
+const mockCompetencies: Competency[] = [
   {
     id: 1,
     runNumber: 1,

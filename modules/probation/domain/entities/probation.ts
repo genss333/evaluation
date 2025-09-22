@@ -25,7 +25,7 @@ export interface Employee {
   percent: number;
 }
 
-export interface ProbationModel {
+export interface Probation {
   employee?: Employee[] | null;
   titles: ProbationField[];
   fields: ProbationField[];

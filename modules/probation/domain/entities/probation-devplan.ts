@@ -1,4 +1,4 @@
-export interface DevplanModel {
+export interface Devplan {
   id: number;
   plan: {
     value: string;

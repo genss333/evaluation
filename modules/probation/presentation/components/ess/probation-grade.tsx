@@ -3,13 +3,13 @@
 import Flex from "@/components/layout/flex";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { ProbationModel } from "@/modules/probation/data/models/probation-model";
+import { Probation } from "@/modules/probation/domain/entities/probation";
 import { ReactNode } from "react";
 import { useProbationData } from "../../hooks/use-probation-form";
 import ProbationField from "../shared/probation-field";
 
 interface ProbationGradeProps {
-  data: ProbationModel;
+  data: Probation;
 }
 
 const ProbationGroupCard = ({

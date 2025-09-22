@@ -1,4 +1,4 @@
-export interface MoreProbationModel {
+export interface MoreProbation {
   id: number;
   title: string;
   value: {

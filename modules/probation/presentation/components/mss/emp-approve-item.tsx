@@ -3,7 +3,7 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { getQueryClient } from "@/lib/get-query-client";
 import { cn } from "@/lib/utils";
-import * as model from "../../../data/models/probation-model";
+import * as model from "../../../domain/entities/probation";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
 import { probationQueryKery } from "../../hooks/use-fetch-probation";
 

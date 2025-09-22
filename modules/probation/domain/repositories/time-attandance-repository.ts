@@ -1,22 +1,20 @@
 import { NextResponse } from "next/server";
-import { ProbationTableModel } from "../../data/models/probation-table-model";
-import { TimeAttandanceModel } from "../../data/models/time-attandance-model";
 import { ITimeAttService } from "../../data/services/time-att-service";
+import { ProbationTable } from "../entities/probation-table";
+import { TimeAttandance } from "../entities/time-attandance";
 
 export interface ITimeAttandanceRepository<T> {
   call: () => Promise<T>;
 }
 
 export class TimeAttandanceRepository
-  implements
-    ITimeAttandanceRepository<ProbationTableModel<TimeAttandanceModel>>
+  implements ITimeAttandanceRepository<ProbationTable<TimeAttandance>>
 {
   constructor(private readonly service: ITimeAttService<NextResponse>) {}
-  async call(): Promise<ProbationTableModel<TimeAttandanceModel>> {
+  async call(): Promise<ProbationTable<TimeAttandance>> {
     try {
       const response = await this.service.call();
-      const data: ProbationTableModel<TimeAttandanceModel> =
-        await response.json();
+      const data: ProbationTable<TimeAttandance> = await response.json();
 
       return data;
     } catch (error) {

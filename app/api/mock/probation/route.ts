@@ -1,5 +1,5 @@
 import { Role } from "@/models/user-role";
-import { ProbationModel } from "@/modules/probation/data/models/probation-model";
+import { Probation } from "@/modules/probation/domain/entities/probation";
 import { NextResponse } from "next/server";
 import { getSession } from "../../auth/route";
 
@@ -23,7 +23,7 @@ export interface ProbationStep {
   dateTime?: Date | null;
 }
 
-export interface ProbationModel {
+export interface Probation {
   titles: ProbationTitle[];
   count: ProbationTitle;
   code: ProbationTitle;
@@ -41,7 +41,7 @@ export interface ProbationModel {
 }
 */
 
-const mssMockData: ProbationModel = {
+const mssMockData: Probation = {
   employee: [
     {
       personCode: "TG0001",
@@ -229,7 +229,7 @@ const mssMockData: ProbationModel = {
   },
 };
 
-const essMockData: ProbationModel = {
+const essMockData: Probation = {
   titles: [
     {
       key: "evaluationTopics",

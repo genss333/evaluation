@@ -1,8 +1,8 @@
 import {
-  DevplanModel,
+  Devplan,
   Priority,
-} from "@/modules/probation/data/models/probation-devplan-model";
-import { ProbationTableModel } from "@/modules/probation/data/models/probation-table-model";
+} from "@/modules/probation/domain/entities/probation-devplan";
+import { ProbationTable } from "@/modules/probation/domain/entities/probation-table";
 import { NextResponse } from "next/server";
 
 // --- Mock Data Generation ---
@@ -15,7 +15,7 @@ const availablePriorities: Priority[] = [
 ];
 
 // 2. Create a list of development plan items
-const devplanList: DevplanModel[] = [
+const devplanList: Devplan[] = [
   {
     id: 101,
     plan: {
@@ -39,7 +39,7 @@ const devplanList: DevplanModel[] = [
 ];
 
 // 3. Structure the final response using the generic table model
-const mockData: ProbationTableModel<DevplanModel> = {
+const mockData: ProbationTable<Devplan> = {
   title: "Q4 2025 Development Plan",
   desc: "Key development goals and areas for improvement during the probationary period.",
   list: devplanList,

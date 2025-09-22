@@ -1,37 +1,12 @@
+import { Method } from "@/lib/api-client";
 import { User } from "@/models/user";
-import { Role } from "@/models/user-role";
 import { JWTPayload, jwtVerify, SignJWT } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
-const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY); // ควรเก็บ Secret Key ใน .env
+const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
 interface SessionPayload extends JWTPayload, User {}
 
-const usersDB: Array<User & { password: string }> = [
-  {
-    id: "1",
-    email: "user",
-    password: "0000",
-    name: "Test ESS",
-    role: Role.ESS,
-  },
-  {
-    id: "2",
-    email: "sup",
-    password: "0000",
-    name: "Test MSS",
-    role: Role.MSS,
-  },
-  {
-    id: "3",
-    email: "admin",
-    password: "0000",
-    name: "Test Admin",
-    role: Role.ADMIN,
-  },
-];
-
-// create JWT
 async function createToken(payload: JWTPayload, expiresIn: string) {
   return await new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
@@ -57,18 +32,23 @@ export async function getSession(): Promise<SessionPayload | null> {
 
 export async function POST(req: NextRequest) {
   try {
-    const { email, password } = await req.json();
+    const { username, password } = await req.json();
 
-    // fake auth
-    const user = usersDB.find((dbUser) => dbUser.email === email);
-    if (!user || user.password !== password) {
-      return NextResponse.json(
-        { message: "Invalid email or password" },
-        { status: 401 }
-      );
+    const response = await fetch(
+      `https://11eadf33787bab.lhr.life/api/auth/login`,
+      {
+        method: Method.POST,
+        body: JSON.stringify({ username, password }),
+      }
+    );
+
+    if (!response.ok) {
+      return NextResponse.json({ message: "" }, { status: response.status });
     }
 
-    const { password: _, ...userPayload } = user;
+    const user: User = await response.json();
+
+    const { ...userPayload } = user;
 
     const accessToken = await createToken(userPayload, "15m");
 
@@ -94,7 +74,6 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ message: "Login successful" }, { status: 200 });
   } catch (error) {
-    console.error(error);
     return NextResponse.json(
       { message: "Internal Server Error" },
       { status: 500 }

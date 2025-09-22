@@ -1,6 +1,6 @@
-import { Kpi } from "./probation-kpi-model";
+import { Kpi } from "./probation-kpi";
 
-export interface CompetencyModel
+export interface Competency
   extends Pick<
     Kpi,
     | "id"
@@ -17,4 +17,4 @@ export interface CompetencyModel
   sum?: number;
 }
 
-export type CompetencyKey = keyof CompetencyModel;
+export type CompetencyKey = keyof Competency;

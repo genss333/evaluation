@@ -1,7 +1,7 @@
-import * as model from "@/modules/probation/data/models/probation-model";
+import * as model from "@/modules/probation/domain/entities/probation";
 import z from "zod";
-import { CompetencyModel } from "../../data/models/probation-competency-model";
-import { Kpi } from "../../data/models/probation-kpi-model";
+import { Competency } from "../../domain/entities/probation-competency";
+import { Kpi } from "../../domain/entities/probation-kpi";
 
 export interface SubFormRef {
   submit: () => void;
@@ -18,7 +18,7 @@ export type KPISchema = {
 };
 
 export type CompedencySchema = {
-  comps: CompetencyModel[];
+  comps: Competency[];
   compsSums?: {
     field: {
       key: string;
@@ -27,7 +27,7 @@ export type CompedencySchema = {
   }[];
 };
 
-export const devplanModelSchema = z.object({
+export const DevplanSchema = z.object({
   id: z.number().int(),
   plan: z.string().min(1),
   priority: z.number().int(),
@@ -36,7 +36,7 @@ export const devplanModelSchema = z.object({
 });
 
 export const devplanSchema = z.object({
-  plans: z.array(devplanModelSchema),
+  plans: z.array(DevplanSchema),
 });
 
 export type DevplanSchema = z.infer<typeof devplanSchema>;

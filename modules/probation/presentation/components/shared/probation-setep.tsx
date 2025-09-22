@@ -6,7 +6,7 @@ import { GetCurrentStep } from "@/modules/probation/domain/usecases/get-current-
 
 import { getQueryClient } from "@/lib/get-query-client";
 import { Fragment, ReactNode, useEffect, useState } from "react";
-import * as model from "../../../data/models/probation-model";
+import * as model from "../../../domain/entities/probation";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
 interface TitleStepProps {
   title: string;

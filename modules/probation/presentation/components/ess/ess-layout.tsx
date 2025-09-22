@@ -1,13 +1,13 @@
 "use client";
 
 import Flex from "@/components/layout/flex";
-import { ProbationModel } from "@/modules/probation/data/models/probation-model";
+import { Probation } from "@/modules/probation/domain/entities/probation";
 import ProbationDetail from "../shared/probation-details";
 import ProbationESSGrade from "./probation-grade";
 import ProbationTitle from "./probation-title";
 
 interface ESSLayoutProps {
-  data: ProbationModel;
+  data: Probation;
 }
 
 const ESSLayout = ({ data }: ESSLayoutProps) => {

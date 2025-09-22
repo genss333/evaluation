@@ -4,7 +4,7 @@ import Loading from "@/app/(home)/probation/loading";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import * as model from "@/modules/probation/data/models/probation-model";
+import * as model from "@/modules/probation/domain/entities/probation";
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode, useRef } from "react";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
@@ -16,9 +16,9 @@ import ProbationStep from "./probation-setep";
 import ProbationTabs from "./probation-tabs";
 
 interface ProbationDetailProps {
-  data: model.ProbationModel;
+  data: model.Probation;
   roleBack?: ReactNode;
-  GradeGroup: (data: model.ProbationModel) => ReactNode;
+  GradeGroup: (data: model.Probation) => ReactNode;
   showBtnActions: boolean;
 }
 

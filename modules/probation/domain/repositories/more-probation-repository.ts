@@ -1,21 +1,20 @@
 import { NextResponse } from "next/server";
-import { MoreProbationModel } from "../../data/models/more-probation-model";
-import { ProbationTableModel } from "../../data/models/probation-table-model";
 import { IMoreProbationService } from "../../data/services/more-probation-service";
+import { MoreProbation } from "../entities/more-probation";
+import { ProbationTable } from "../entities/probation-table";
 
 export interface IMoreProbationRepository<T> {
   call: () => Promise<T>;
 }
 
 export class MoreProbationRepository
-  implements IMoreProbationRepository<ProbationTableModel<MoreProbationModel>>
+  implements IMoreProbationRepository<ProbationTable<MoreProbation>>
 {
   constructor(private readonly service: IMoreProbationService<NextResponse>) {}
-  async call(): Promise<ProbationTableModel<MoreProbationModel>> {
+  async call(): Promise<ProbationTable<MoreProbation>> {
     try {
       const response = await this.service.call();
-      const data: ProbationTableModel<MoreProbationModel> =
-        await response.json();
+      const data: ProbationTable<MoreProbation> = await response.json();
 
       return data;
     } catch (error) {

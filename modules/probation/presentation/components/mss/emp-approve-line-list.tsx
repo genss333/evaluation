@@ -18,7 +18,7 @@ import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { Filter, ListFilter } from "lucide-react";
 import { ReactNode, useEffect } from "react";
-import * as model from "../../../data/models/probation-model";
+import * as model from "../../../domain/entities/probation";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
 import { ProbationFieldTrigger } from "../shared/probation-field";
 import { EmpList } from "./emp-approve-item";

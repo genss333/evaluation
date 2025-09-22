@@ -2,8 +2,8 @@ import { Role } from "@/models/user-role";
 import {
   Kpi,
   SumScore,
-} from "@/modules/probation/data/models/probation-kpi-model";
-import { ProbationTableModel } from "@/modules/probation/data/models/probation-table-model";
+} from "@/modules/probation/domain/entities/probation-kpi";
+import { ProbationTable } from "@/modules/probation/domain/entities/probation-table";
 import { NextResponse } from "next/server";
 import { getSession } from "../../auth/route";
 
@@ -21,7 +21,7 @@ export interface Kpi {
 }
 */
 
-const mockKpiDataMSS: ProbationTableModel<Kpi> & {
+const mockKpiDataMSS: ProbationTable<Kpi> & {
   sums?: SumScore[];
   action?: boolean;
 } = {
@@ -124,7 +124,7 @@ const mockKpiDataMSS: ProbationTableModel<Kpi> & {
   action: false,
 };
 
-const mockKpiDataESS: ProbationTableModel<Kpi> & { sums?: SumScore[] } = {
+const mockKpiDataESS: ProbationTable<Kpi> & { sums?: SumScore[] } = {
   title: "ผู้ประเมินเพิ่มหัวข้อการประเมินของ KPI",
   desc: "กำหนดให้ส่วนที่ 3 = 60%",
   list: [

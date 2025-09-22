@@ -1,9 +1,9 @@
-import { ProbationModel } from "@/modules/probation/data/models/probation-model";
+import { Probation } from "@/modules/probation/domain/entities/probation";
 import MSSLayout from "../mss/mss-layout";
 import HRRollBack from "./hr-rollback";
 
 interface HRLayoutProps {
-  data: ProbationModel;
+  data: Probation;
 }
 
 const HRLayout = ({ data }: HRLayoutProps) => {

@@ -5,7 +5,7 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { TextField } from "@/components/ui/input";
 import { TabsContent } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
-import { Kpi } from "@/modules/probation/data/models/probation-kpi-model";
+import { Kpi } from "@/modules/probation/domain/entities/probation-kpi";
 import { useQuery } from "@tanstack/react-query";
 import { RowSelectionState } from "@tanstack/react-table";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";

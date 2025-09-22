@@ -1,20 +1,20 @@
 import { NextResponse } from "next/server";
-import { CompetencyModel } from "../../data/models/probation-competency-model";
-import { ProbationTableModel } from "../../data/models/probation-table-model";
 import { ICompetencyService } from "../../data/services/competency-service";
+import { Competency } from "../entities/probation-competency";
+import { ProbationTable } from "../entities/probation-table";
 
 export interface ICometencyRepository<T> {
   call: () => Promise<T>;
 }
 
 export class CometencyRepository
-  implements ICometencyRepository<ProbationTableModel<CompetencyModel>>
+  implements ICometencyRepository<ProbationTable<Competency>>
 {
   constructor(private readonly service: ICompetencyService<NextResponse>) {}
-  async call(): Promise<ProbationTableModel<CompetencyModel>> {
+  async call(): Promise<ProbationTable<Competency>> {
     try {
       const response = await this.service.call();
-      const data: ProbationTableModel<CompetencyModel> = await response.json();
+      const data: ProbationTable<Competency> = await response.json();
       return data;
     } catch (error) {
       throw error;

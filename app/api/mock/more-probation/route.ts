@@ -1,8 +1,8 @@
-import { MoreProbationModel } from "@/modules/probation/data/models/more-probation-model";
-import { ProbationTableModel } from "@/modules/probation/data/models/probation-table-model";
+import { MoreProbation } from "@/modules/probation/domain/entities/more-probation";
+import { ProbationTable } from "@/modules/probation/domain/entities/probation-table";
 import { NextResponse } from "next/server";
 
-const mockData: ProbationTableModel<MoreProbationModel> = {
+const mockData: ProbationTable<MoreProbation> = {
   title: "",
   desc: "",
   list: [

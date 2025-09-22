@@ -1,4 +1,4 @@
-import { ProbationStep } from "@/modules/probation/data/models/probation-model";
+import { ProbationStep } from "@/modules/probation/domain/entities/probation";
 import { GetCurrentStep } from "@/modules/probation/domain/usecases/get-current-step";
 
 export const mockDataSteps: ProbationStep[] = [

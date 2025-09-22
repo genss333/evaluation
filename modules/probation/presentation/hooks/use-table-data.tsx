@@ -3,8 +3,8 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { CompetencyModel } from "../../data/models/probation-competency-model";
-import { Kpi } from "../../data/models/probation-kpi-model";
+import { Competency } from "../../domain/entities/probation-competency";
+import { Kpi } from "../../domain/entities/probation-kpi";
 
 export const useTableDataKpi = (table: Kpi[]) => {
   return useMemo(() => {
@@ -342,9 +342,9 @@ export const useTableDataKpi = (table: Kpi[]) => {
   }, [table]);
 };
 
-export const useTableDataCompedency = (table: CompetencyModel[]) => {
+export const useTableDataCompedency = (table: Competency[]) => {
   return useMemo(() => {
-    let columns: ColumnDef<CompetencyModel>[] = [
+    let columns: ColumnDef<Competency>[] = [
       {
         accessorKey: "runnumber",
         header: "ลำดับ",

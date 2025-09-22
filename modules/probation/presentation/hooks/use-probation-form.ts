@@ -1,12 +1,12 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { MoreProbationModel } from "../../data/models/more-probation-model";
-import { CompetencyModel } from "../../data/models/probation-competency-model";
-import { DevplanModel } from "../../data/models/probation-devplan-model";
-import { Kpi, SumScore } from "../../data/models/probation-kpi-model";
-import { ProbationModel } from "../../data/models/probation-model";
-import { ProbationTableModel } from "../../data/models/probation-table-model";
+import { MoreProbation } from "../../domain/entities/more-probation";
+import { Probation } from "../../domain/entities/probation";
+import { Competency } from "../../domain/entities/probation-competency";
+import { Devplan } from "../../domain/entities/probation-devplan";
+import { Kpi, SumScore } from "../../domain/entities/probation-kpi";
+import { ProbationTable } from "../../domain/entities/probation-table";
 import {
   CompedencySchema,
   devplanSchema,
@@ -17,7 +17,7 @@ import {
   ProbationFormField,
 } from "../schema/probation-form";
 
-export const useProbationData = (data: ProbationModel | null | undefined) => {
+export const useProbationData = (data: Probation | null | undefined) => {
   const processedData = useMemo(() => {
     if (!data || !data.fields) {
       return {
@@ -74,7 +74,7 @@ export const useProbationData = (data: ProbationModel | null | undefined) => {
   return processedData;
 };
 
-export const useFormData = (data: ProbationModel) => {
+export const useFormData = (data: Probation) => {
   const formData = useMemo(() => {
     const formValues: ProbationFormField = {
       ...Object.fromEntries(
@@ -95,7 +95,7 @@ export const useFormData = (data: ProbationModel) => {
 
 export const useFormDataKpi = (
   data:
-    | (ProbationTableModel<Kpi> & {
+    | (ProbationTable<Kpi> & {
         sums?: SumScore[];
       })
     | undefined
@@ -136,7 +136,7 @@ export const useFormDataKpi = (
 
 export const useFormDataCompedency = (
   data:
-    | (ProbationTableModel<CompetencyModel> & {
+    | (ProbationTable<Competency> & {
         sums?: SumScore[];
       })
     | undefined
@@ -176,7 +176,7 @@ export const useFormDataCompedency = (
 };
 
 export const useFormDataDevplan = (
-  data: ProbationTableModel<DevplanModel> | undefined
+  data: ProbationTable<Devplan> | undefined
 ) => {
   const form = useForm<DevplanSchema>({
     resolver: zodResolver(devplanSchema),
@@ -207,7 +207,7 @@ export const useFormDataDevplan = (
 };
 
 export const useFormDataMoreProbation = (
-  data: ProbationTableModel<MoreProbationModel> | undefined
+  data: ProbationTable<MoreProbation> | undefined
 ) => {
   const form = useForm<MoreProbationSchema>({
     resolver: zodResolver(moreProbationZodSchema),

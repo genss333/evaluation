@@ -1,4 +1,4 @@
-import * as model from "@/modules/probation/data/models/probation-model";
+import * as model from "@/modules/probation/domain/entities/probation";
 import { produce } from "immer";
 import { StateCreator } from "zustand";
 

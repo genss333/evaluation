@@ -1,4 +1,4 @@
-import { ProbationStep } from "../../data/models/probation-model";
+import { ProbationStep } from "../entities/probation";
 
 export class GetCurrentStep {
   call(steps: ProbationStep[]) {

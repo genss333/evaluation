@@ -9,7 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import * as model from "@/modules/probation/data/models/probation-model";
+import * as model from "@/modules/probation/domain/entities/probation";
 import { ChevronDownIcon } from "lucide-react";
 
 interface ProbationTitleProps {

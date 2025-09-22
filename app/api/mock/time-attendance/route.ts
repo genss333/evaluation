@@ -1,4 +1,4 @@
-import { ProbationTimeModel } from "@/modules/probation/data/models/time-attandance-model";
+import { ProbationTimeModel } from "@/modules/probation/domain/entities/time-attandance";
 import { NextResponse } from "next/server";
 
 export const mockProbationTimeObject: ProbationTimeModel = {

@@ -1,9 +1,19 @@
-import { JWTPayload } from "jose";
-import { Role } from "./user-role";
+export interface User {
+  token: string;
+  user: UserClass;
+}
 
-export interface User extends JWTPayload {
-  id: string;
-  email: string;
+export interface UserClass {
+  id: number;
   name: string;
-  role: Role.ESS | Role.MSS | Role.ADMIN;
+  email: string;
+  role: string;
+  company: null;
+  personcode: string;
+  position: string;
+  department: string;
+  urlimage: string;
+  start_date: Date;
+  confirm_date: Date;
+  years_of_work: number;
 }

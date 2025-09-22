@@ -1,22 +1,20 @@
 import { NextResponse } from "next/server";
-import { ProbationTableModel } from "../../data/models/probation-table-model";
 import { IDevplanService } from "../../data/services/devplan-service";
-import { DevplanModel } from "../../data/models/probation-devplan-model";
+import { Devplan } from "../entities/probation-devplan";
+import { ProbationTable } from "../entities/probation-table";
 
 export interface IDevplanRepository<T> {
   call: () => Promise<T>;
 }
 
 export class DevplanRepository
-  implements
-    IDevplanRepository<ProbationTableModel<DevplanModel>>
+  implements IDevplanRepository<ProbationTable<Devplan>>
 {
   constructor(private readonly service: IDevplanService<NextResponse>) {}
-  async call(): Promise<ProbationTableModel<DevplanModel>> {
+  async call(): Promise<ProbationTable<Devplan>> {
     try {
       const response = await this.service.call();
-      const data: ProbationTableModel<DevplanModel> =
-        await response.json();
+      const data: ProbationTable<Devplan> = await response.json();
 
       return data;
     } catch (error) {

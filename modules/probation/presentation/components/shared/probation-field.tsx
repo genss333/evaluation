@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/lib/utils";
-import * as model from "@/modules/probation/data/models/probation-model";
+import * as model from "@/modules/probation/domain/entities/probation";
 import { ChevronDown } from "lucide-react";
 import React, { ReactNode } from "react";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";

@@ -1,21 +1,21 @@
 import { ApiClient } from "@/lib/api-client";
-import * as model from "@/modules/probation/data/models/probation-kpi-model";
-import { SumScore } from "@/modules/probation/data/models/probation-kpi-model";
+import * as model from "@/modules/probation/domain/entities/probation-kpi";
+import { SumScore } from "@/modules/probation/domain/entities/probation-kpi";
 import { queryOptions } from "@tanstack/react-query";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextResponse } from "next/server";
-import { MoreProbationModel } from "../../data/models/more-probation-model";
-import { CompetencyModel } from "../../data/models/probation-competency-model";
-import { DevplanModel } from "../../data/models/probation-devplan-model";
-import { ProbationModel } from "../../data/models/probation-model";
-import { ProbationTableModel } from "../../data/models/probation-table-model";
-import { TimeAttandanceModel } from "../../data/models/time-attandance-model";
 import { CompetencyService } from "../../data/services/competency-service";
 import { DevplanService } from "../../data/services/devplan-service";
 import { KpiService } from "../../data/services/kpi-service";
 import { MoreProbationService } from "../../data/services/more-probation-service";
 import { ProbationDetailService } from "../../data/services/probation-detail-service";
 import { TimeAttService } from "../../data/services/time-att-service";
+import { MoreProbation } from "../../domain/entities/more-probation";
+import { Probation } from "../../domain/entities/probation";
+import { Competency } from "../../domain/entities/probation-competency";
+import { Devplan } from "../../domain/entities/probation-devplan";
+import { ProbationTable } from "../../domain/entities/probation-table";
+import { TimeAttandance } from "../../domain/entities/time-attandance";
 import { CometencyRepository } from "../../domain/repositories/competency-repository";
 import { DevplanRepository } from "../../domain/repositories/devplan-repository";
 import { KpiRepository } from "../../domain/repositories/kpi-repository";
@@ -36,15 +36,15 @@ export const useFetchProbation = ({
   personCode,
 }: {
   cookieStore?: ReadonlyRequestCookies;
-  initialData?: ProbationModel;
+  initialData?: Probation;
   personCode?: string;
   isSelectemp?: boolean;
 }) => {
   const api = new ApiClient(cookieStore);
   const service = new ProbationDetailService<NextResponse>(api);
-  const repo = new ProbationDetailRepository<ProbationModel>(service);
+  const repo = new ProbationDetailRepository<Probation>(service);
 
-  return queryOptions<ProbationModel>({
+  return queryOptions<Probation>({
     queryKey: [probationQueryKery],
     initialData,
     queryFn: () => repo.call(personCode),
@@ -57,7 +57,7 @@ export const useFetchKpi = () => {
   const repo = new KpiRepository(service);
 
   return queryOptions<
-    ProbationTableModel<model.Kpi> & { sums?: SumScore[]; action?: boolean }
+    ProbationTable<model.Kpi> & { sums?: SumScore[]; action?: boolean }
   >({
     queryKey: kpiQueryKery,
     queryFn: async () => {
@@ -72,9 +72,7 @@ export const useFetchCompetency = () => {
   const service = new CompetencyService<NextResponse>(api);
   const repo = new CometencyRepository(service);
 
-  return queryOptions<
-    ProbationTableModel<CompetencyModel> & { sums?: SumScore[] }
-  >({
+  return queryOptions<ProbationTable<Competency> & { sums?: SumScore[] }>({
     queryKey: competencyQueryKery,
     queryFn: async () => {
       const data = await repo.call();
@@ -88,7 +86,7 @@ export const useFetchProbationTime = () => {
   const service = new TimeAttService<NextResponse>(api);
   const repo = new TimeAttandanceRepository(service);
 
-  return queryOptions<ProbationTableModel<TimeAttandanceModel>>({
+  return queryOptions<ProbationTable<TimeAttandance>>({
     queryKey: timeAttQueryKery,
     queryFn: async () => {
       const data = await repo.call();
@@ -102,7 +100,7 @@ export const useFetchDevplan = () => {
   const service = new DevplanService<NextResponse>(api);
   const repo = new DevplanRepository(service);
 
-  return queryOptions<ProbationTableModel<DevplanModel>>({
+  return queryOptions<ProbationTable<Devplan>>({
     queryKey: devplanQueryKery,
     queryFn: async () => {
       const data = await repo.call();
@@ -116,7 +114,7 @@ export const useFetchMoreProbation = () => {
   const service = new MoreProbationService<NextResponse>(api);
   const repo = new MoreProbationRepository(service);
 
-  return queryOptions<ProbationTableModel<MoreProbationModel>>({
+  return queryOptions<ProbationTable<MoreProbation>>({
     queryKey: moreQueryKery,
     queryFn: async () => {
       const data = await repo.call();

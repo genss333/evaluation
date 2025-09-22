@@ -1,6 +1,6 @@
 "use client";
 
-import { ProbationModel } from "@/modules/probation/data/models/probation-model";
+import { Probation } from "@/modules/probation/domain/entities/probation";
 import { ReactNode } from "react";
 import ProbationDetail from "../shared/probation-details";
 import EmpApproveLine from "./emp-approve-line-list";
@@ -8,7 +8,7 @@ import RollBack from "./mss-rollback";
 import ProbationGrade from "./probation-grade";
 
 interface MSSLayoutProps {
-  data: ProbationModel;
+  data: Probation;
   showBtnActions: boolean;
   roleBack?: ReactNode;
 }
