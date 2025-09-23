@@ -35,10 +35,13 @@ export function AppSidebar() {
   const currentPath = usePathname();
 
   const handleLogout = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth`, {
-      method: Method.DELETE,
-      credentials: "include",
-    });
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/auth`,
+      {
+        method: Method.DELETE,
+        credentials: "include",
+      }
+    );
     if (res.ok) {
       redirect("/login");
     }

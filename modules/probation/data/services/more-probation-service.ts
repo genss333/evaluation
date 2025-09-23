@@ -10,7 +10,7 @@ export class MoreProbationService<T> implements IMoreProbationService<T> {
   async call(): Promise<T> {
     try {
       const response = await this.api.request(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/mock/more-probation`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/mock/more-probation`,
         { method: Method.GET }
       );
       return response as T;

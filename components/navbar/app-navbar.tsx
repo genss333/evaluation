@@ -21,7 +21,7 @@ const AppNavbarItem = ({ children }: { children: ReactNode }) => {
 
 const SwitchLang = () => {
   async function switchLang(lang: "en" | "th") {
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/settings/lang`, {
+    await fetch(`${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/settings/lang`, {
       method: Method.POST,
       body: JSON.stringify({ lang }),
     });

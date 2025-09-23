@@ -34,16 +34,28 @@ export async function POST(req: NextRequest) {
   try {
     const { username, password } = await req.json();
 
-    const response = await fetch(
-      `https://11eadf33787bab.lhr.life/api/auth/login`,
-      {
-        method: Method.POST,
-        body: JSON.stringify({ username, password }),
-      }
-    );
+    if (!username || !password) {
+      return NextResponse.json(
+        { message: "username and password is required!" },
+        { status: 400 }
+      );
+    }
+
+    const response = await fetch(`http://10.51.192.161:8080/api/auth/login`, {
+      method: Method.POST,
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
     if (!response.ok) {
-      return NextResponse.json({ message: "" }, { status: response.status });
+      const errorMsg = await response.text();
+      return NextResponse.json(
+        { message: `api error ${errorMsg}` },
+        { status: response.status }
+      );
     }
 
     const user: User = await response.json();

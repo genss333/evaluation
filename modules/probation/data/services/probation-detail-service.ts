@@ -10,7 +10,7 @@ export class ProbationDetailService<T> implements IProbationDetailService<T> {
   async call(personCode?: string): Promise<T> {
     try {
       const response = await this.api.request(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/mock/probation?personCode=${personCode}`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/mock/probation?personCode=${personCode}`,
         {
           method: Method.GET,
           credentials: "include",
