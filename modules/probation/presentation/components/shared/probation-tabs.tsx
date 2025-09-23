@@ -1,5 +1,8 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Kpi } from "@/modules/probation/domain/entities/eval-form-data";
+import {
+  Competency,
+  Kpi,
+} from "@/modules/probation/domain/entities/eval-form-data";
 import { RefObject } from "react";
 import { SubFormRef } from "../../schema/probation-form";
 import CompetencyForm from "./forms/competency-form";
@@ -10,7 +13,7 @@ import TimeAttandanceForm from "./forms/time-attandance-form";
 
 interface ProbationTabsProps {
   kpiFormRef: { ref: RefObject<SubFormRef | null>; data: Kpi[] };
-  compFormRef: RefObject<SubFormRef | null>;
+  compFormRef: { ref: RefObject<SubFormRef | null>; data: Competency[] };
   devplanFormRef: RefObject<SubFormRef | null>;
   moreFormRef: RefObject<SubFormRef | null>;
 }
@@ -31,7 +34,7 @@ const ProbationTabs = ({
         <TabsTrigger value="more">การประเมินเพิ่มเติม</TabsTrigger>
       </TabsList>
       <KpiForm ref={kpiFormRef.ref} data={kpiFormRef.data} />
-      <CompetencyForm ref={compFormRef} />
+      <CompetencyForm ref={compFormRef.ref} data={compFormRef.data} />
       <TimeAttandanceForm />
       <DevplanForm ref={devplanFormRef} />
       <MoreProbationForm ref={moreFormRef} />

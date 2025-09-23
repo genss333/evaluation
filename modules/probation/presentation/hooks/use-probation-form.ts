@@ -1,10 +1,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { Kpi } from "../../domain/entities/eval-form-data";
+import { Competency, Kpi } from "../../domain/entities/eval-form-data";
 import { MoreProbation } from "../../domain/entities/more-probation";
 import { Probation } from "../../domain/entities/probation";
-import { Competency } from "../../domain/entities/probation-competency";
 import { Devplan } from "../../domain/entities/probation-devplan";
 import { ProbationTable } from "../../domain/entities/probation-table";
 import {
@@ -16,7 +15,6 @@ import {
   moreProbationZodSchema,
   ProbationFormField,
 } from "../schema/probation-form";
-import { SumScore } from "../../domain/entities/probation-kpi";
 
 export const useProbationData = (data: Probation | null | undefined) => {
   const processedData = useMemo(() => {
@@ -120,13 +118,7 @@ export const useFormDataKpi = (data: Kpi[]) => {
   return form;
 };
 
-export const useFormDataCompedency = (
-  data:
-    | (ProbationTable<Competency> & {
-        sums?: SumScore[];
-      })
-    | undefined
-) => {
+export const useFormDataCompedency = (data: Competency[]) => {
   const form = useForm<CompedencySchema>({
     defaultValues: {
       comps: [],
@@ -135,22 +127,14 @@ export const useFormDataCompedency = (
   });
 
   const formData = useMemo(() => {
-    if (data?.list) {
+    if (data) {
       const formValues: CompedencySchema = {
-        comps: data.list.map((item) => item),
-        compsSums: data.sums
-          ? data.sums.map((item) => ({
-              field: {
-                key: item.key,
-                value: item.value ?? "",
-              },
-            }))
-          : [],
+        comps: data.map((item) => item),
       };
       return formValues;
     }
     return undefined;
-  }, [data?.list, data?.sums]);
+  }, [data]);
 
   useEffect(() => {
     if (formData) {

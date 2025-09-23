@@ -3,8 +3,7 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
-import { Kpi } from "../../domain/entities/eval-form-data";
-import { Competency } from "../../domain/entities/probation-competency";
+import { Competency, Kpi } from "../../domain/entities/eval-form-data";
 
 export const useTableDataKpi = (table: Kpi[]) => {
   return useMemo(() => {
@@ -375,7 +374,7 @@ export const useTableDataCompedency = (table: Competency[]) => {
         minSize: 55,
         cell: ({ row }) => (
           <div className="text-center font-caption3 text-semi-black">
-            {row.original.total}
+            {row.original.max_score}
           </div>
         ),
       },
@@ -411,8 +410,7 @@ export const useTableDataCompedency = (table: Competency[]) => {
                       "disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:border-none disabled:opacity-100"
                     )}
                     {...field}
-                    value={field.value.score ?? ""}
-                    disabled={field.value.disable ?? false}
+                    value={field.value ?? ""}
                   />
                 </FormControl>
               </FormItem>
@@ -427,7 +425,7 @@ export const useTableDataCompedency = (table: Competency[]) => {
         minSize: 70,
         cell: ({ row }) => (
           <div className="text-center font-caption3 text-semi-black">
-            {row.original.targetScore}
+            {row.original.expected_score}
           </div>
         ),
       },
@@ -443,56 +441,56 @@ export const useTableDataCompedency = (table: Competency[]) => {
           minSize: 70,
           cell: ({ row }) => (
             <div className="text-center font-caption3 text-semi-black">
-              {row.original.sum}
+              {row.original.full_total}
             </div>
           ),
         })
     );
 
-    const hasScoreList = table.some((item) => item.scoreList?.length);
-    if (hasScoreList) {
-      table.some((item) =>
-        item.scoreList?.map((score, index) => {
-          columns.splice(columns.length - 2, 0, {
-            accessorKey: `scoreList.${score.id}`,
-            header: `${score.title}`,
-            size: 80,
-            minSize: 80,
-            maxSize: 80,
-            cell: ({ row }) => (
-              <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-                {`${row.original.scoreList?.[index]?.value ?? ""}`}
-              </div>
-            ),
-          });
-        })
-      );
-    }
+    // const hasScoreList = table.some((item) => item.scoreList?.length);
+    // if (hasScoreList) {
+    //   table.some((item) =>
+    //     item.scoreList?.map((score, index) => {
+    //       columns.splice(columns.length - 2, 0, {
+    //         accessorKey: `scoreList.${score.id}`,
+    //         header: `${score.title}`,
+    //         size: 80,
+    //         minSize: 80,
+    //         maxSize: 80,
+    //         cell: ({ row }) => (
+    //           <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+    //             {`${row.original.scoreList?.[index]?.value ?? ""}`}
+    //           </div>
+    //         ),
+    //       });
+    //     })
+    //   );
+    // }
 
-    const hasSumScore = table.some((item) => item.sumScore);
-    if (hasSumScore) {
-      columns.splice(columns.length - 1, 0, {
-        accessorKey: "sumScore",
-        header: `คะแนนรวม`,
-        size: 80,
-        minSize: 80,
-        maxSize: 80,
-        cell: ({ row }) => (
-          <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-            {`${row.original.sumScore ?? ""}`}
-          </div>
-        ),
-      });
-    }
+    // const hasSumScore = table.some((item) => item.sumScore);
+    // if (hasSumScore) {
+    //   columns.splice(columns.length - 1, 0, {
+    //     accessorKey: "sumScore",
+    //     header: `คะแนนรวม`,
+    //     size: 80,
+    //     minSize: 80,
+    //     maxSize: 80,
+    //     cell: ({ row }) => (
+    //       <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+    //         {`${row.original.sumScore ?? ""}`}
+    //       </div>
+    //     ),
+    //   });
+    // }
 
-    const hasMemoColumn = table.some((item) => item.memo != undefined);
+    const hasMemoColumn = table.some((item) => item.note != undefined);
     if (hasMemoColumn) {
       columns.splice(columns.length, 0, {
         accessorKey: "memo",
         header: "หมายเหตุ / Memo",
         cell: ({ row }) => (
           <FormField
-            name={`comps.${row.index}.memo`}
+            name={`comps.${row.index}.note`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -502,8 +500,7 @@ export const useTableDataCompedency = (table: Competency[]) => {
                       "disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:border-none disabled:opacity-100"
                     )}
                     {...field}
-                    value={field.value.value ?? ""}
-                    disabled={field.value.disable ?? false}
+                    value={field.value ?? ""}
                   />
                 </FormControl>
               </FormItem>

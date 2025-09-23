@@ -144,7 +144,10 @@ const ProbationDetail = ({
                   ref: kpiFormRef,
                   data: evalFormData.data?.kpis ?? [],
                 }}
-                compFormRef={compFormRef}
+                compFormRef={{
+                  ref: compFormRef,
+                  data: evalFormData.data?.competencies ?? [],
+                }}
                 devplanFormRef={devplanFormRef}
                 moreFormRef={moreFormRef}
               />
