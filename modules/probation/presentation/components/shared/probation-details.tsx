@@ -8,7 +8,7 @@ import * as model from "@/modules/probation/domain/entities/probation";
 import { useQuery } from "@tanstack/react-query";
 import { ReactNode, useRef } from "react";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
-import { useFetchProbation } from "../../hooks/use-fetch-probation";
+import { probationQueryOptions } from "../../hooks/use-fetch-probation";
 import { useFormData, useProbationData } from "../../hooks/use-probation-form";
 import { ProbationFormField, SubFormRef } from "../../schema/probation-form";
 import ProbationField from "./probation-field";
@@ -31,7 +31,7 @@ const ProbationDetail = ({
   const { currentEmp, isHrRollback } = useProbationProps();
 
   const { data, isFetching } = useQuery(
-    useFetchProbation({
+    probationQueryOptions({
       personCode: currentEmp?.personCode,
       initialData,
     })

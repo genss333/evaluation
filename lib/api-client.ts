@@ -8,9 +8,8 @@ export class ApiClient implements IApiClient {
   private cookieHeader?: string;
   constructor(cookieStore?: ReadonlyRequestCookies) {
     if (cookieStore) {
-      const name = cookieStore.get("access_token")?.name;
       const value = cookieStore.get("access_token")?.value;
-      this.cookieHeader = `${name}=${value}`;
+      this.cookieHeader = value;
     }
   }
 
@@ -39,24 +38,24 @@ export class ApiClient implements IApiClient {
         ...options,
         headers: {
           "Content-Type": "application/json",
-          ...(this.cookieHeader && { Cookie: this.cookieHeader }),
+          ...(this.cookieHeader ? { Authorization: this.cookieHeader } : {}),
           ...(options?.headers ?? {}),
         },
         cache: "no-store",
       });
 
-      if (res.status === 401) {
-        console.log("isRetry");
-        console.log(
-          "Received 401 Unauthorized. Attempting to refresh token..."
-        );
-        const refreshSuccess = await this.refreshToken();
-        if (refreshSuccess) {
-          return this.request<T>(url, options);
-        } else {
-          throw new Error("Session expired. Please log in again.");
-        }
-      }
+      // if (res.status === 401) {
+      //   console.log("isRetry");
+      //   console.log(
+      //     "Received 401 Unauthorized. Attempting to refresh token..."
+      //   );
+      //   const refreshSuccess = await this.refreshToken();
+      //   if (refreshSuccess) {
+      //     return this.request<T>(url, options);
+      //   } else {
+      //     throw new Error("Session expired. Please log in again.");
+      //   }
+      // }
 
       if (!res.ok) {
         const errorBody = await res.text();

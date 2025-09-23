@@ -4,7 +4,7 @@ import { Role } from "@/models/user-role";
 import ESSLayout from "@/modules/probation/presentation/components/ess/ess-layout";
 import HRLayout from "@/modules/probation/presentation/components/hr/hr-layout";
 import MSSLayout from "@/modules/probation/presentation/components/mss/mss-layout";
-import { useFetchProbation } from "@/modules/probation/presentation/hooks/use-fetch-probation";
+import { probationQueryOptions } from "@/modules/probation/presentation/hooks/use-fetch-probation";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   let title = "";
 
   if (session) {
-    switch (session.role) {
+    switch (session.user.role) {
       case Role.MSS:
         title = "MSS Probations";
         break;
@@ -39,20 +39,21 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const ProbationPage = async () => {
   const cookieStore = await cookies();
-
-  const queryClient = getQueryClient();
-  await queryClient.prefetchQuery(useFetchProbation({ cookieStore }));
-  const data = queryClient.getQueryData(
-    useFetchProbation({ cookieStore }).queryKey
-  );
-
   const session = await getSession();
+  const queryClient = getQueryClient();
+
+  const query = probationQueryOptions({ cookieStore });
+  await queryClient.prefetchQuery(query);
+  const data = queryClient.getQueryData(query.queryKey);
+
+  console.log(queryClient.getQueryData(["probation"]));
+  console.log(queryClient.getQueryCache().findAll());
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      {session?.role && session.role === Role.MSS && data ? (
+      {session?.user.role && session.user.role == Role.MSS && data ? (
         <MSSLayout data={data} showBtnActions={true} />
-      ) : session?.role === Role.ADMIN && data ? (
+      ) : session?.user.role == Role.ADMIN && data ? (
         <HRLayout data={data} />
       ) : data ? (
         <ESSLayout data={data} />

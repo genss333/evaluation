@@ -1,5 +1,8 @@
 import { ApiClient } from "@/lib/api-client";
-import { Kpi, SumScore } from "@/modules/probation/domain/entities/probation-kpi";
+import {
+  Kpi,
+  SumScore,
+} from "@/modules/probation/domain/entities/probation-kpi";
 import { queryOptions } from "@tanstack/react-query";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextResponse } from "next/server";
@@ -29,7 +32,7 @@ export const timeAttQueryKery = ["probation-time"];
 export const devplanQueryKery = ["probation-devplan"];
 export const moreQueryKery = ["probation-more"];
 
-export const useFetchProbation = ({
+export const probationQueryOptions = ({
   cookieStore,
   initialData,
   personCode,
@@ -41,7 +44,7 @@ export const useFetchProbation = ({
 }) => {
   const api = new ApiClient(cookieStore);
   const service = new ProbationDetailService<NextResponse>(api);
-  const repo = new ProbationDetailRepository<Probation>(service);
+  const repo = new ProbationDetailRepository(service);
 
   return queryOptions<Probation>({
     queryKey: [probationQueryKery],
