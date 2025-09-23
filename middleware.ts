@@ -6,7 +6,7 @@ import { Method } from "./lib/api-client";
 const setupConfig = {
   locales: ["en", "th"],
   secretKey: new TextEncoder().encode(process.env.JWT_SECRET_KEY),
-  protectedPaths: ["/home", "/probation"],
+  protectedPaths: ["/home", "/probation", "/api"],
 };
 
 function isProtectedPath(pathname: string): boolean {

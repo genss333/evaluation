@@ -1,5 +1,6 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
+  Additional,
   Competency,
   Kpi,
 } from "@/modules/probation/domain/entities/eval-form-data";
@@ -15,7 +16,7 @@ interface ProbationTabsProps {
   kpiFormRef: { ref: RefObject<SubFormRef | null>; data: Kpi[] };
   compFormRef: { ref: RefObject<SubFormRef | null>; data: Competency[] };
   devplanFormRef: RefObject<SubFormRef | null>;
-  moreFormRef: RefObject<SubFormRef | null>;
+  moreFormRef: { ref: RefObject<SubFormRef | null>; data: Additional };
 }
 
 const ProbationTabs = ({
@@ -37,7 +38,7 @@ const ProbationTabs = ({
       <CompetencyForm ref={compFormRef.ref} data={compFormRef.data} />
       <TimeAttandanceForm />
       <DevplanForm ref={devplanFormRef} />
-      <MoreProbationForm ref={moreFormRef} />
+      <MoreProbationForm ref={moreFormRef.ref} data={moreFormRef.data} />
     </Tabs>
   );
 };

@@ -18,21 +18,21 @@ const TimeAttandanceForm = () => {
     <TabsContent value="time">
       <div className="flex flex-col gap-4">
         <div className="flex flex-col gap-2">
-          <div className="font-title text-semi-black">{data?.title}</div>
-          <div className="font-body2 text-status-red">{data?.desc}</div>
+          <div className="font-title text-semi-black">ประวัติการขาดลามาสาย</div>
+          <div className="font-body2 text-status-red">desc</div>
         </div>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-3 p-4">
-        {data?.list &&
-          data.list.map((item) => (
-            <div key={item.id} className="pr-4">
+        {data?.time_attendance &&
+          data.time_attendance.map((item, index) => (
+            <div key={index} className="pr-4">
               <ProbationField
-                title={item.title}
+                title={item.name}
                 showSuffix={false}
-                disable={item.disable}
+                disable={true}
                 values={[
                   {
-                    id: item.id,
+                    id: index,
                     title: item.value,
                   },
                 ]}

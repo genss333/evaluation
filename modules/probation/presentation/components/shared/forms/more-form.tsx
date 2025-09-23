@@ -9,93 +9,88 @@ import {
 import { TabsContent } from "@/components/ui/tabs";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { useQuery } from "@tanstack/react-query";
+import { Additional } from "@/modules/probation/domain/entities/eval-form-data";
 import { forwardRef, useImperativeHandle } from "react";
-import { useFetchMoreProbation } from "../../../hooks/use-fetch-probation";
+import { useFieldArray } from "react-hook-form";
 import { useFormDataMoreProbation } from "../../../hooks/use-probation-form";
 import {
   MoreProbationSchema,
   SubFormRef,
 } from "../../../schema/probation-form";
 
-const MoreProbationForm = forwardRef<SubFormRef, {}>((props, ref) => {
-  const { data, isLoading } = useQuery(useFetchMoreProbation());
+const title = (index: number) => {
+  const list = [
+    "จุดแข็งของผู้ถูกประเมิน",
+    "เรื่องที่จะประเมินผลงานในครั้งต่อไป",
+    "ข้อที่ต้องปรับปรุงในส่วน Competency",
+    "ข้อที่ต้องปรับปรุงในส่วน KPI",
+    "หมายเหตุอื่นๆ",
+  ];
 
-  const form = useFormDataMoreProbation(data);
+  return list[index];
+};
 
-  const onSubmit = (values: MoreProbationSchema) => {
-    console.log("Form data submitted from more:", values);
-  };
+const MoreProbationForm = forwardRef<SubFormRef, { data: Additional }>(
+  ({ data }, ref) => {
+    const form = useFormDataMoreProbation(data);
 
-  useImperativeHandle(ref, () => ({
-    submit: () => {
-      form.handleSubmit(onSubmit)();
-    },
-  }));
+    const { fields } = useFieldArray({
+      control: form.control,
+      name: "mores",
+    });
 
-  if (isLoading) {
+    const onSubmit = (values: MoreProbationSchema) => {
+      console.log("Form data submitted from more:", values);
+    };
+
+    useImperativeHandle(ref, () => ({
+      submit: () => {
+        form.handleSubmit(onSubmit)();
+      },
+    }));
+
     return (
       <TabsContent value="more">
-        <div>Loading More Probations data...</div>
+        <Form {...form}>
+          <div className="space-y-4">
+            {fields.map((field, index) => (
+              <div
+                key={field.id}
+                className="grid grid-cols-[240px_1fr] gap-4 items-center px-2"
+              >
+                <div className="text-start font-body3">
+                  {index + 1}.{title(index)}
+                </div>
+
+                <div className="flex w-full gap-2 relative">
+                  <FormField
+                    control={form.control}
+                    name={`mores.${index}.value`}
+                    render={({ field: renderField }) => (
+                      <FormItem className="w-full">
+                        <FormControl>
+                          <Textarea
+                            className={cn(
+                              "h-[60px] min-h-[60px] font-body3 rounded-[10px]",
+                              "disabled:bg-accent disabled:opacity-100 disabled:text-button-grey disabled:border-none"
+                            )}
+                            {...renderField}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Form>
       </TabsContent>
     );
   }
-  return (
-    <TabsContent value="more">
-      <Form {...form}>
-        {data?.list &&
-          data.list.map((item, index) => (
-            <div
-              key={item.id}
-              className="grid grid-cols-[240px_1fr] gap-4 items-center px-2 mt-2"
-            >
-              <div className="text-start font-body3">
-                {index + 1}.{item.title}
-              </div>
+);
 
-              <div className="flex w-full gap-2 relative">
-                {item.value.map((fieldItem, fieldIndex) => (
-                  <div key={fieldItem.id} className="w-full">
-                    {index == 0 && (
-                      <div
-                        className={cn(
-                          "absloute left-1/2 translate-x-1/3",
-                          item.value.length < 2 && "hidden"
-                        )}
-                      >
-                        <div className="text-sm font-medium mb-2">
-                          {fieldIndex > 0
-                            ? `ผู้ประเมินลำดับที่ ${fieldIndex}`
-                            : "พนักงานประเมินตนเอง"}
-                        </div>
-                      </div>
-                    )}
-                    <FormField
-                      name={`${item.id}[${fieldIndex}].${fieldItem.id}`}
-                      render={({ field }) => (
-                        <FormItem className="w-full">
-                          <FormControl>
-                            <Textarea
-                              className={cn(
-                                "h-[60px] min-h-[60px] font-body3 rounded-[10px]",
-                                "disabled:bg-accent disabled:opacity-100 disabled:text-button-grey disabled:border-none"
-                              )}
-                              {...field}
-                              disabled={fieldItem.disable ?? false}
-                            />
-                          </FormControl>
-                          <FormMessage className="hidden" />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-      </Form>
-    </TabsContent>
-  );
-});
+MoreProbationForm.displayName = "MoreProbationForm";
 
 export default MoreProbationForm;

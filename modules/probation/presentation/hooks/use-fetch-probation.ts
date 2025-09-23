@@ -1,29 +1,20 @@
 import { ApiClient } from "@/lib/api-client";
-import {
-  Kpi,
-  SumScore,
-} from "@/modules/probation/domain/entities/probation-kpi";
 import { queryOptions } from "@tanstack/react-query";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextResponse } from "next/server";
-import { CompetencyService } from "../../data/services/competency-service";
 import { DevplanService } from "../../data/services/devplan-service";
 import { FormDataService } from "../../data/services/form-data-service";
-import { KpiService } from "../../data/services/kpi-service";
 import { MoreProbationService } from "../../data/services/more-probation-service";
 import { ProbationDetailService } from "../../data/services/probation-detail-service";
 import { TimeAttService } from "../../data/services/time-att-service";
 import { EvalFormData } from "../../domain/entities/eval-form-data";
 import { MoreProbation } from "../../domain/entities/more-probation";
 import { Probation } from "../../domain/entities/probation";
-import { Competency } from "../../domain/entities/probation-competency";
 import { Devplan } from "../../domain/entities/probation-devplan";
 import { ProbationTable } from "../../domain/entities/probation-table";
 import { TimeAttandance } from "../../domain/entities/time-attandance";
-import { CometencyRepository } from "../../domain/repositories/competency-repository";
 import { DevplanRepository } from "../../domain/repositories/devplan-repository";
 import { FormDataRepository } from "../../domain/repositories/formdata-repository";
-import { KpiRepository } from "../../domain/repositories/kpi-repository";
 import { MoreProbationRepository } from "../../domain/repositories/more-probation-repository";
 import { ProbationDetailRepository } from "../../domain/repositories/probation-detail-repository";
 import { TimeAttandanceRepository } from "../../domain/repositories/time-attandance-repository";
@@ -70,42 +61,12 @@ export const evalFormDataQueryOptions = ({ formId }: { formId: number }) => {
   });
 };
 
-export const useFetchKpi = () => {
-  const api = new ApiClient();
-  const service = new KpiService<NextResponse>(api);
-  const repo = new KpiRepository(service);
-
-  return queryOptions<
-    ProbationTable<Kpi> & { sums?: SumScore[]; action?: boolean }
-  >({
-    queryKey: kpiQueryKery,
-    queryFn: async () => {
-      const data = await repo.call();
-      return data;
-    },
-  });
-};
-
-export const useFetchCompetency = () => {
-  const api = new ApiClient();
-  const service = new CompetencyService<NextResponse>(api);
-  const repo = new CometencyRepository(service);
-
-  return queryOptions<ProbationTable<Competency> & { sums?: SumScore[] }>({
-    queryKey: competencyQueryKery,
-    queryFn: async () => {
-      const data = await repo.call();
-      return data;
-    },
-  });
-};
-
 export const useFetchProbationTime = () => {
   const api = new ApiClient();
   const service = new TimeAttService<NextResponse>(api);
   const repo = new TimeAttandanceRepository(service);
 
-  return queryOptions<ProbationTable<TimeAttandance>>({
+  return queryOptions<TimeAttandance>({
     queryKey: timeAttQueryKery,
     queryFn: async () => {
       const data = await repo.call();

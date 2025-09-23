@@ -9,7 +9,7 @@ export class FormDataService<T> implements IFormDataService<T> {
   async call(formId: number): Promise<T> {
     try {
       const response = await this.api.request(
-        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/eval/forms?formID=${formId}`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/eval?formID=${formId}`,
         {
           method: Method.GET,
           credentials: "include",

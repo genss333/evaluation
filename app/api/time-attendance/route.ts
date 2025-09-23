@@ -22,20 +22,17 @@ export async function GET(request: Request) {
     }
 
     const externalApiResponse = await fetch(
-      `http://10.51.192.161:8080/api/eval/forms/${formID}/getdataform`,
+      `http://10.51.192.161:8080/api/users/timeattendance`,
       {
         method: Method.GET,
         headers: {
           Accept: "application/json",
-          // The Authorization header must be in the format "Bearer <token>"
           Authorization: `Bearer ${token}`,
         },
       }
     );
 
-    // 4. Check if the external API call was successful
     if (!externalApiResponse.ok) {
-      // Forward the error from the external API to the client
       return NextResponse.json(
         {
           message: `Error from external API: ${await externalApiResponse.text()}`,

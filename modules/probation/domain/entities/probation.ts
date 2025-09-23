@@ -1,4 +1,4 @@
-import { EvalForm } from "../../data/models/eval_form";
+import { EvalForm } from "../../data/models/eval-form";
 
 export interface ProbationFieldValue {
   id: number;

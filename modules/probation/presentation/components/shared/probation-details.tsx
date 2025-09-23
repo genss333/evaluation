@@ -17,6 +17,7 @@ import { ProbationFormField, SubFormRef } from "../../schema/probation-form";
 import ProbationField from "./probation-field";
 import ProbationStep from "./probation-setep";
 import ProbationTabs from "./probation-tabs";
+import { Additional } from "@/modules/probation/domain/entities/eval-form-data";
 
 interface ProbationDetailProps {
   data: entity.Probation;
@@ -149,7 +150,10 @@ const ProbationDetail = ({
                   data: evalFormData.data?.competencies ?? [],
                 }}
                 devplanFormRef={devplanFormRef}
-                moreFormRef={moreFormRef}
+                moreFormRef={{
+                  ref: moreFormRef,
+                  data: evalFormData.data?.additional ?? {} as Additional
+                }}
               />
             </div>
           )}

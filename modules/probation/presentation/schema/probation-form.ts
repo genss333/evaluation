@@ -52,7 +52,9 @@ export const moreProbationZodSchema = z.record(
   )
 );
 
-export type MoreProbationSchema = z.infer<typeof moreProbationZodSchema>;
+export type MoreProbationSchema = {
+  mores: { key: string; value: string }[];
+};
 
 export type ProbationFormField = {
   [k: string]: string | model.ProbationFieldValue;

@@ -1,18 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
-import { Competency, Kpi } from "../../domain/entities/eval-form-data";
-import { MoreProbation } from "../../domain/entities/more-probation";
+import {
+  Additional,
+  Competency,
+  Kpi,
+} from "../../domain/entities/eval-form-data";
 import { Probation } from "../../domain/entities/probation";
 import { Devplan } from "../../domain/entities/probation-devplan";
 import { ProbationTable } from "../../domain/entities/probation-table";
 import {
   CompedencySchema,
-  devplanSchema,
   DevplanSchema,
+  devplanSchema,
   KPISchema,
   MoreProbationSchema,
-  moreProbationZodSchema,
   ProbationFormField,
 } from "../schema/probation-form";
 
@@ -176,28 +178,19 @@ export const useFormDataDevplan = (
   return form;
 };
 
-export const useFormDataMoreProbation = (
-  data: ProbationTable<MoreProbation> | undefined
-) => {
-  const form = useForm<MoreProbationSchema>({
-    resolver: zodResolver(moreProbationZodSchema),
-  });
+export const useFormDataMoreProbation = (data: Additional) => {
+  const form = useForm<MoreProbationSchema>();
 
   const formData = useMemo(() => {
-    if (data) {
-      const formvalues: MoreProbationSchema = Object.fromEntries(
-        data.list.map((item) => [
-          item.id,
-          item.value.map((v) => ({
-            [String(v.id)]: v.value,
-            disable: v.disable ?? false,
-          })),
-        ])
-      );
+    if (!data) return undefined;
 
-      return formvalues;
-    }
-  }, [data?.list]);
+    const moresData = Object.entries(data).map(([key, value]) => ({
+      key,
+      value,
+    }));
+
+    return { mores: moresData };
+  }, [data]);
 
   useEffect(() => {
     if (formData) {

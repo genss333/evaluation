@@ -5,7 +5,7 @@ export interface EvalForm {
   kpis: Kpi[];
   competencies: Competency[];
   time_attendance: TimeAttendance;
-  development_plan: any[];
+  development_plan: Devplan[];
   additional: Additional;
   summary: Summary;
 }
@@ -63,4 +63,12 @@ export interface Summary {
 export interface TimeAttendance {
   full_score: number;
   score: number;
+}
+
+export interface Devplan {
+  idx: number;
+  content: string;
+  priority: string;
+  timing: Date;
+  remarks: string;
 }

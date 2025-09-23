@@ -10,8 +10,8 @@ export class TimeAttService<T> implements ITimeAttService<T> {
   async call(): Promise<T> {
     try {
       const response = await this.api.request(
-        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/mock/time-attendance`,
-        { method: Method.GET }
+        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/time-attendance`,
+        { method: Method.GET, credentials: "include" }
       );
       return response as T;
     } catch (error) {
