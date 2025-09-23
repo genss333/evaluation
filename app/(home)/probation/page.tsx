@@ -46,9 +46,6 @@ const ProbationPage = async () => {
   await queryClient.prefetchQuery(query);
   const data = queryClient.getQueryData(query.queryKey);
 
-  console.log(queryClient.getQueryData(["probation"]));
-  console.log(queryClient.getQueryCache().findAll());
-
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       {session?.user.role && session.user.role == Role.MSS && data ? (

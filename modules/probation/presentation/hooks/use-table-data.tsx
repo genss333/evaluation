@@ -3,8 +3,8 @@ import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
+import { Kpi } from "../../domain/entities/eval-form-data";
 import { Competency } from "../../domain/entities/probation-competency";
-import { Kpi } from "../../domain/entities/probation-kpi";
 
 export const useTableDataKpi = (table: Kpi[]) => {
   return useMemo(() => {
@@ -84,7 +84,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
         minSize: 55,
         cell: ({ row }) => (
           <FormField
-            name={`kpis.${row.index}.total`}
+            name={`kpis.${row.index}.max_score`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -99,7 +99,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
                   ) : (
                     <div className="text-center">
                       <div className="font-caption3 text-semi-black">
-                        {field.value ?? row.original.total}
+                        {field.value ?? row.original.max_score}
                       </div>
                     </div>
                   )}
@@ -132,7 +132,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
                   ) : (
                     <div className="text-center">
                       <div className="font-caption3 text-semi-black">
-                        {field.value ?? row.original.total}
+                        {field.value ?? row.original.weight}
                       </div>
                     </div>
                   )}
@@ -150,7 +150,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
         maxSize: 80,
         cell: ({ row }) => (
           <FormField
-            name={`kpis.${row.index}.targetScore`}
+            name={`kpis.${row.index}.expected_score`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -165,7 +165,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
                   ) : (
                     <div className="text-center">
                       <div className="font-caption3 text-semi-black">
-                        {field.value ?? row.original.targetScore}
+                        {field.value ?? row.original.expected_score}
                       </div>
                     </div>
                   )}
@@ -188,15 +188,14 @@ export const useTableDataKpi = (table: Kpi[]) => {
               <FormItem>
                 <FormControl>
                   <Input
-                    type="number"
                     min={0}
+                    type="number"
                     className={cn(
                       "text-center font-caption3 text-semi-black w-full h-8 rounded-[10px]",
                       "disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:border-none disabled:opacity-100"
                     )}
                     {...field}
-                    value={field.value.score ?? ""}
-                    disabled={field.value.disable ?? false}
+                    value={field.value ?? ""}
                   />
                 </FormControl>
               </FormItem>
@@ -212,7 +211,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
         maxSize: 120,
         cell: ({ row }) => (
           <FormField
-            name={`kpis.${row.index}.how`}
+            name={`kpis.${row.index}.measure`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -225,7 +224,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
                   ) : (
                     <div className="text-center">
                       <div className="font-caption3 text-semi-black">
-                        {field.value ?? row.original.how}
+                        {field.value ?? row.original.measure}
                       </div>
                     </div>
                   )}
@@ -243,7 +242,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
         maxSize: 280,
         cell: ({ row }) => (
           <FormField
-            name={`kpis.${row.index}.standard`}
+            name={`kpis.${row.index}.criteria`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -256,7 +255,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
                   ) : (
                     <div className="text-center">
                       <div className="font-caption3 text-semi-black">
-                        {field.value ?? row.original.standard}
+                        {field.value ?? row.original.criteria}
                       </div>
                     </div>
                   )}
@@ -268,43 +267,43 @@ export const useTableDataKpi = (table: Kpi[]) => {
       },
     ];
 
-    const firstItem = table.find((item) => item.scoreList?.length);
-    if (firstItem) {
-      table.some((item) =>
-        item.scoreList?.map((score, index) => {
-          columns.splice(columns.length - 3, 0, {
-            accessorKey: `scoreList.${score.id}`,
-            header: `${score.title}`,
-            size: 80,
-            minSize: 80,
-            maxSize: 80,
-            cell: ({ row }) => (
-              <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-                {`${row.original.scoreList?.[index]?.value ?? ""}`}
-              </div>
-            ),
-          });
-        })
-      );
-    }
+    // const firstItem = table.find((item) => item.scoreList?.length);
+    // if (firstItem) {
+    //   table.some((item) =>
+    //     item.scoreList?.map((score, index) => {
+    //       columns.splice(columns.length - 3, 0, {
+    //         accessorKey: `scoreList.${score.id}`,
+    //         header: `${score.title}`,
+    //         size: 80,
+    //         minSize: 80,
+    //         maxSize: 80,
+    //         cell: ({ row }) => (
+    //           <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+    //             {`${row.original.scoreList?.[index]?.value ?? ""}`}
+    //           </div>
+    //         ),
+    //       });
+    //     })
+    //   );
+    // }
 
-    const hasSumScore = table.some((item) => item.sumScore);
-    if (hasSumScore) {
-      columns.splice(columns.length - 2, 0, {
-        accessorKey: "sumScore",
-        header: `คะแนนรวม`,
-        size: 80,
-        minSize: 80,
-        maxSize: 80,
-        cell: ({ row }) => (
-          <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
-            {`${row.original.sumScore ?? ""}`}
-          </div>
-        ),
-      });
-    }
+    // const hasSumScore = table.some((item) => item.sumScore);
+    // if (hasSumScore) {
+    //   columns.splice(columns.length - 2, 0, {
+    //     accessorKey: "sumScore",
+    //     header: `คะแนนรวม`,
+    //     size: 80,
+    //     minSize: 80,
+    //     maxSize: 80,
+    //     cell: ({ row }) => (
+    //       <div className="text-center font-caption3 text-[#9C9C9C] bg-[#F0F0F0] h-8 flex justify-center items-center rounded-[10px]">
+    //         {`${row.original.sumScore ?? ""}`}
+    //       </div>
+    //     ),
+    //   });
+    // }
 
-    const hasMemoColumn = table.some((item) => item.memo != undefined);
+    const hasMemoColumn = table.some((item) => item.note != undefined);
 
     if (hasMemoColumn) {
       columns.splice(columns.length, 0, {
@@ -315,7 +314,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
         maxSize: 200,
         cell: ({ row }) => (
           <FormField
-            name={`kpis.${row.index}.memo`}
+            name={`kpis.${row.index}.note`}
             render={({ field }) => (
               <FormItem>
                 <FormControl>
@@ -325,8 +324,7 @@ export const useTableDataKpi = (table: Kpi[]) => {
                       "disabled:bg-[#F0F0F0] disabled:text-button-grey disabled:border-none disabled:opacity-100"
                     )}
                     {...field}
-                    value={field.value.value ?? ""}
-                    disabled={field.value.disable ?? false}
+                    value={field.value ?? ""}
                   />
                 </FormControl>
               </FormItem>

@@ -1,18 +1,18 @@
 import { IApiClient, Method } from "@/lib/api-client";
 
-export interface IProbationDetailService<T> {
-  call: (personCode?: string) => Promise<T>;
+export interface IFormDataService<T> {
+  call(formId: number): Promise<T>;
 }
 
-export class ProbationDetailService<T> implements IProbationDetailService<T> {
+export class FormDataService<T> implements IFormDataService<T> {
   constructor(private readonly api: IApiClient) {}
-
-  async call(personCode?: string): Promise<T> {
+  async call(formId: number): Promise<T> {
     try {
       const response = await this.api.request(
-        `${process.env.NEXT_PUBLIC_API_URL}/eval/forms`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/eval/forms?formID=${formId}`,
         {
           method: Method.GET,
+          credentials: "include",
         }
       );
       return response as T;

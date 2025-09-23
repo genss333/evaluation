@@ -150,31 +150,33 @@ const ProbationStep = ({ steps, ConditionForm }: ProbationStepProps) => {
   return (
     <Fragment>
       {ConditionForm}
-      <Flex direction="row" align="center" className="w-full pt-16 px-16">
-        {steps?.map((item, index) => (
-          <Fragment key={index}>
-            <div className="flex flex-col justify-center items-center relative">
-              <div className="absolute bottom-full mb-2 whitespace-nowrap text-sm">
-                <TitleStep title={item.title ?? ""} desc={item.desc ?? ""} />
+      {(steps?.length ?? 0) > 0 && (
+        <Flex direction="row" align="center" className="w-full pt-16 px-16">
+          {steps?.map((item, index) => (
+            <Fragment key={index}>
+              <div className="flex flex-col justify-center items-center relative">
+                <div className="absolute bottom-full mb-2 whitespace-nowrap text-sm">
+                  <TitleStep title={item.title ?? ""} desc={item.desc ?? ""} />
+                </div>
+                <div
+                  className={cn(isHrRollback && "hover:cursor-pointer")}
+                  onClick={() => handlerSetStep(index)}
+                >
+                  <Dot
+                    start={index === 0}
+                    active={index <= (activeIndex ?? -1)}
+                    index={index}
+                    activeIndex={activeIndex ?? -1}
+                  />
+                </div>
               </div>
-              <div
-                className={cn(isHrRollback && "hover:cursor-pointer")}
-                onClick={() => handlerSetStep(index)}
-              >
-                <Dot
-                  start={index === 0}
-                  active={index <= (activeIndex ?? -1)}
-                  index={index}
-                  activeIndex={activeIndex ?? -1}
-                />
-              </div>
-            </div>
-            {index !== steps.length - 1 && (
-              <Line active={index < (activeIndex ?? -1)} className="grow" />
-            )}
-          </Fragment>
-        ))}
-      </Flex>
+              {index !== steps.length - 1 && (
+                <Line active={index < (activeIndex ?? -1)} className="grow" />
+              )}
+            </Fragment>
+          ))}
+        </Flex>
+      )}
     </Fragment>
   );
 };

@@ -1,21 +1,16 @@
 "use client";
 
 import CustomDataTable from "@/components/custom/custom-data-table";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { TextField } from "@/components/ui/input";
+import { Form } from "@/components/ui/form";
 import { TabsContent } from "@/components/ui/tabs";
-import { cn } from "@/lib/utils";
-import { Kpi } from "@/modules/probation/domain/entities/probation-kpi";
-import { useQuery } from "@tanstack/react-query";
+import { Kpi } from "@/modules/probation/domain/entities/eval-form-data";
 import { RowSelectionState } from "@tanstack/react-table";
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
-import { useFetchKpi } from "../../../hooks/use-fetch-probation";
 import { useFormDataKpi } from "../../../hooks/use-probation-form";
 import { useTableDataKpi } from "../../../hooks/use-table-data";
 import { KPISchema, SubFormRef } from "../../../schema/probation-form";
 
-const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
-  const { data, isLoading } = useQuery(useFetchKpi());
+const KpiForm = forwardRef<SubFormRef, { data: Kpi[] }>(({ data }, ref) => {
   const [table, setTable] = useState<Array<Kpi & { isNew: boolean }>>([]);
   const form = useFormDataKpi(data);
 
@@ -57,42 +52,32 @@ const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
   const onSave = () => {};
 
   useEffect(() => {
-    setTable((data?.list ?? []) as Array<Kpi & { isNew: boolean }>);
-  }, [data?.list]);
-
-  if (isLoading) {
-    return (
-      <TabsContent value="kpi">
-        <div>Loading KPI data...</div>
-      </TabsContent>
-    );
-  }
+    setTable((data ?? []) as Array<Kpi & { isNew: boolean }>);
+  }, [data]);
 
   return (
     <TabsContent value="kpi">
       <Form {...form}>
         <div className="flex flex-col gap-2.5">
           <div className="flex flex-col gap-2">
-            <div className="font-title text-semi-black">{data?.title}</div>
-            <div className="font-body2 text-status-red">{data?.desc}</div>
+            <div className="font-title text-semi-black">
+              ผู้ประเมินเพิ่มหัวข้อการประเมินของ KPI
+            </div>
+            <div className="font-body2 text-status-red">desc</div>
           </div>
           <CustomDataTable
             hTextLeft={[2, 3]}
             columns={columns}
             data={table ?? []}
-            actions={
-              data?.action
-                ? {
-                    addRow,
-                    deleteRows,
-                    onSave,
-                  }
-                : undefined
-            }
+            actions={{
+              addRow,
+              deleteRows,
+              onSave,
+            }}
             rowSelection={rowSelection}
             onRowSelectionChange={setRowSelection}
           />
-          {data?.sums && (
+          {/* {data?.sums && (
             <div className="border rounded-[10px] p-2.5 space-y-2.5">
               <div className="text-sm font-semibold">คะแนนรวมของ KPI</div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -131,7 +116,7 @@ const KpiForm = forwardRef<SubFormRef, {}>((props, ref) => {
                 ))}
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </Form>
     </TabsContent>

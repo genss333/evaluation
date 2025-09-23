@@ -8,10 +8,12 @@ import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adap
 import { NextResponse } from "next/server";
 import { CompetencyService } from "../../data/services/competency-service";
 import { DevplanService } from "../../data/services/devplan-service";
+import { FormDataService } from "../../data/services/form-data-service";
 import { KpiService } from "../../data/services/kpi-service";
 import { MoreProbationService } from "../../data/services/more-probation-service";
 import { ProbationDetailService } from "../../data/services/probation-detail-service";
 import { TimeAttService } from "../../data/services/time-att-service";
+import { EvalFormData } from "../../domain/entities/eval-form-data";
 import { MoreProbation } from "../../domain/entities/more-probation";
 import { Probation } from "../../domain/entities/probation";
 import { Competency } from "../../domain/entities/probation-competency";
@@ -20,6 +22,7 @@ import { ProbationTable } from "../../domain/entities/probation-table";
 import { TimeAttandance } from "../../domain/entities/time-attandance";
 import { CometencyRepository } from "../../domain/repositories/competency-repository";
 import { DevplanRepository } from "../../domain/repositories/devplan-repository";
+import { FormDataRepository } from "../../domain/repositories/formdata-repository";
 import { KpiRepository } from "../../domain/repositories/kpi-repository";
 import { MoreProbationRepository } from "../../domain/repositories/more-probation-repository";
 import { ProbationDetailRepository } from "../../domain/repositories/probation-detail-repository";
@@ -42,7 +45,7 @@ export const probationQueryOptions = ({
   personCode?: string;
   isSelectemp?: boolean;
 }) => {
-  const api = new ApiClient(cookieStore);
+  const api = new ApiClient({ cookieStore });
   const service = new ProbationDetailService<NextResponse>(api);
   const repo = new ProbationDetailRepository(service);
 
@@ -50,6 +53,20 @@ export const probationQueryOptions = ({
     queryKey: [probationQueryKery],
     initialData,
     queryFn: () => repo.call(personCode),
+  });
+};
+
+export const evalFormDataQueryOptions = ({ formId }: { formId: number }) => {
+  const api = new ApiClient();
+  const service = new FormDataService<NextResponse>(api);
+  const repo = new FormDataRepository(service);
+
+  return queryOptions<EvalFormData>({
+    queryKey: ["evalForm"],
+    queryFn: async () => {
+      const data = await repo.call(formId);
+      return data;
+    },
   });
 };
 

@@ -1,29 +1,26 @@
 import { Method } from "@/lib/api-client";
 import { User } from "@/models/user";
-import { JWTPayload, jwtVerify, SignJWT } from "jose";
+import { jwtVerify } from "jose";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 const secretKey = new TextEncoder().encode(process.env.JWT_SECRET_KEY);
-interface SessionPayload extends JWTPayload, User {}
-
-async function createToken(payload: JWTPayload, expiresIn: string) {
-  return await new SignJWT(payload)
-    .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime(expiresIn)
-    .sign(secretKey);
-}
+interface SessionPayload extends User {}
 
 export async function getSession(): Promise<SessionPayload | null> {
   const cookieStore = await cookies();
   const token = cookieStore.get("access_token")?.value;
+  const user = cookieStore.get("user")?.value;
   if (!token) {
     return null;
   }
 
   try {
-    const { payload } = await jwtVerify<SessionPayload>(token, secretKey);
+    await jwtVerify<SessionPayload>(token, secretKey);
+    if (!user) {
+      return null;
+    }
+    const payload: User = JSON.parse(user);
     return payload;
   } catch (error) {
     throw error;
@@ -58,17 +55,11 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const user: User = await response.json();
-
-    const { ...userPayload } = user;
-
-    const accessToken = await createToken(userPayload, "15m");
-
-    const refreshToken = await createToken(userPayload, "7d");
+    const { token, refresh_token, user } = await response.json();
 
     const cookieStore = await cookies();
 
-    cookieStore.set("access_token", accessToken, {
+    cookieStore.set("access_token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -76,7 +67,20 @@ export async function POST(req: NextRequest) {
       maxAge: 60 * 20,
     });
 
-    cookieStore.set("refresh_token", refreshToken, {
+    const userPayload: User = {
+      token,
+      user,
+    };
+
+    cookieStore.set("user", JSON.stringify(userPayload), {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 20,
+    });
+
+    cookieStore.set("refresh_token", refresh_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "strict",
@@ -93,55 +97,51 @@ export async function POST(req: NextRequest) {
   }
 }
 
-export async function PATCH() {
-  const cookieStore = await cookies();
-  const refreshToken = cookieStore.get("refresh_token");
+// export async function PATCH() {
+//   const cookieStore = await cookies();
+//   const refreshToken = cookieStore.get("refresh_token");
 
-  if (!refreshToken) {
-    return NextResponse.json(
-      { message: "Refresh token not found" },
-      { status: 401 }
-    );
-  }
+//   if (!refreshToken) {
+//     return NextResponse.json(
+//       { message: "Refresh token not found" },
+//       { status: 401 }
+//     );
+//   }
 
-  try {
-    const { payload } = await jwtVerify(refreshToken.value, secretKey);
+//   try {
+//     const { payload } = await jwtVerify(refreshToken.value, secretKey);
 
-    const userPayload = {
-      id: payload.id,
-      email: payload.email,
-      name: payload.name,
-      role: payload.role,
-    };
+//     const userPayload = {
+//       id: payload.id,
+//       email: payload.email,
+//       name: payload.name,
+//       role: payload.role,
+//     };
 
-    const newAccessToken = await createToken(userPayload, "15m");
+//     cookieStore.set("access_token", newAccessToken, {
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === "production",
+//       sameSite: "strict",
+//       path: "/",
+//       maxAge: 60 * 20,
+//     });
 
-    const newRefreshToken = await createToken(userPayload, "7d");
+//     cookieStore.set("refresh_token", newRefreshToken, {
+//       httpOnly: true,
+//       secure: process.env.NODE_ENV === "production",
+//       sameSite: "strict",
+//       path: "/",
+//       maxAge: 60 * 60 * 24 * 7,
+//     });
 
-    cookieStore.set("access_token", newAccessToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
-      maxAge: 60 * 20,
-    });
-
-    cookieStore.set("refresh_token", newRefreshToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
-      path: "/",
-      maxAge: 60 * 60 * 24 * 7,
-    });
-
-    return NextResponse.json({ token: newAccessToken }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Invalid refresh token" },
-      { status: 401 }
-    );
-  }
-}
+//     return NextResponse.json({ token: newAccessToken }, { status: 200 });
+//   } catch (error) {
+//     return NextResponse.json(
+//       { message: "Invalid refresh token" },
+//       { status: 401 }
+//     );
+//   }
+// }
 
 export async function DELETE() {
   try {

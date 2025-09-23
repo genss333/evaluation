@@ -4,11 +4,14 @@ import Loading from "@/app/(home)/probation/loading";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import * as model from "@/modules/probation/domain/entities/probation";
-import { useQuery } from "@tanstack/react-query";
+import * as entity from "@/modules/probation/domain/entities/probation";
+import { useQueries } from "@tanstack/react-query";
 import { ReactNode, useRef } from "react";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
-import { probationQueryOptions } from "../../hooks/use-fetch-probation";
+import {
+  evalFormDataQueryOptions,
+  probationQueryOptions,
+} from "../../hooks/use-fetch-probation";
 import { useFormData, useProbationData } from "../../hooks/use-probation-form";
 import { ProbationFormField, SubFormRef } from "../../schema/probation-form";
 import ProbationField from "./probation-field";
@@ -16,9 +19,9 @@ import ProbationStep from "./probation-setep";
 import ProbationTabs from "./probation-tabs";
 
 interface ProbationDetailProps {
-  data: model.Probation;
+  data: entity.Probation;
   roleBack?: ReactNode;
-  GradeGroup: (data: model.Probation) => ReactNode;
+  GradeGroup: (data: entity.Probation) => ReactNode;
   showBtnActions: boolean;
 }
 
@@ -30,18 +33,25 @@ const ProbationDetail = ({
 }: ProbationDetailProps) => {
   const { currentEmp, isHrRollback } = useProbationProps();
 
-  const { data, isFetching } = useQuery(
-    probationQueryOptions({
-      personCode: currentEmp?.personCode,
-      initialData,
-    })
-  );
+  const results = useQueries({
+    queries: [
+      probationQueryOptions({
+        personCode: currentEmp?.personCode,
+        initialData,
+      }),
+      evalFormDataQueryOptions({
+        formId: initialData?.titles?.[0]?.values?.[0]?.id,
+      }),
+    ],
+  });
+
+  const [probationQuery, evalFormData] = results;
 
   const { countField, employeeInfoFields } = useProbationData(
-    data ?? initialData
+    probationQuery.data ?? initialData
   );
 
-  const form = useFormData(data ?? initialData);
+  const form = useFormData(probationQuery.data ?? initialData);
 
   const kpiFormRef = useRef<SubFormRef>(null);
   const compFormRef = useRef<SubFormRef>(null);
@@ -66,14 +76,16 @@ const ProbationDetail = ({
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmitUI)}>
         <div className="bg-background w-full rounded-[10px] pb-4">
-          <ProbationStep steps={data?.steps ?? []} ConditionForm={roleBack} />
-          {isFetching ? (
+          <ProbationStep
+            steps={probationQuery.data?.steps ?? []}
+            ConditionForm={roleBack}
+          />
+          {probationQuery.isFetching ? (
             <Loading />
           ) : (
             <div className={cn(isHrRollback && "opacity-25")}>
-              <hr className="my-4" />
               <div className="p-4">
-                {!data ? (
+                {!probationQuery.data ? (
                   <div className="text-center text-md py-8 text-gray-500">
                     ไม่พบข้อมูลการประเมิน
                   </div>
@@ -123,12 +135,15 @@ const ProbationDetail = ({
                         />
                       ))}
                     </div>
-                    {GradeGroup(data ?? initialData)}
+                    {GradeGroup(probationQuery.data ?? initialData)}
                   </div>
                 )}
               </div>
               <ProbationTabs
-                kpiFormRef={kpiFormRef}
+                kpiFormRef={{
+                  ref: kpiFormRef,
+                  data: evalFormData.data?.kpis ?? [],
+                }}
                 compFormRef={compFormRef}
                 devplanFormRef={devplanFormRef}
                 moreFormRef={moreFormRef}

@@ -1,11 +1,11 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useMemo } from "react";
 import { useForm } from "react-hook-form";
+import { Kpi } from "../../domain/entities/eval-form-data";
 import { MoreProbation } from "../../domain/entities/more-probation";
 import { Probation } from "../../domain/entities/probation";
 import { Competency } from "../../domain/entities/probation-competency";
 import { Devplan } from "../../domain/entities/probation-devplan";
-import { Kpi, SumScore } from "../../domain/entities/probation-kpi";
 import { ProbationTable } from "../../domain/entities/probation-table";
 import {
   CompedencySchema,
@@ -16,6 +16,7 @@ import {
   moreProbationZodSchema,
   ProbationFormField,
 } from "../schema/probation-form";
+import { SumScore } from "../../domain/entities/probation-kpi";
 
 export const useProbationData = (data: Probation | null | undefined) => {
   const processedData = useMemo(() => {
@@ -93,37 +94,22 @@ export const useFormData = (data: Probation) => {
   });
 };
 
-export const useFormDataKpi = (
-  data:
-    | (ProbationTable<Kpi> & {
-        sums?: SumScore[];
-      })
-    | undefined
-) => {
+export const useFormDataKpi = (data: Kpi[]) => {
   const form = useForm<KPISchema>({
     defaultValues: {
       kpis: [],
-      kpiSums: [],
     },
   });
 
   const formData = useMemo(() => {
-    if (data?.list) {
+    if (data) {
       const formValues: KPISchema = {
-        kpis: data.list.map((item) => item),
-        kpiSums: data.sums
-          ? data.sums.map((item) => ({
-              field: {
-                key: item.key,
-                value: item.value ?? "",
-              },
-            }))
-          : [],
+        kpis: data.map((item) => item),
       };
       return formValues;
     }
     return undefined;
-  }, [data?.list, data?.sums]);
+  }, [data]);
 
   useEffect(() => {
     if (formData) {
