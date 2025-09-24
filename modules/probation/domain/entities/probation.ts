@@ -1,7 +1,7 @@
 import { EvalForm } from "../../data/models/eval-form";
 
 export interface ProbationFieldValue {
-  id: number;
+  id: number | string;
   title: string;
 }
 
