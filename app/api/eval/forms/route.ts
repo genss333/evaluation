@@ -1,5 +1,6 @@
 import { Method } from "@/lib/api-client";
 import { User } from "@/models/user";
+import { EvalForm } from "@/modules/probation/data/models/eval-form";
 import { NextResponse } from "next/server";
 import { mapEvalFormToProbation } from "./process";
 
@@ -41,8 +42,29 @@ export async function GET(request: Request) {
       );
     }
 
-    const data = await externalApiResponse.json();
-    const result = mapEvalFormToProbation(data, userModel);
+    const apiResponse = await externalApiResponse.json();
+    const evalForm: EvalForm = apiResponse.data[0];
+    const formId = evalForm.id;
+
+    const externalStepsApiResponse = await fetch(
+      `http://10.51.192.161:8080/api/eval/forms/${formId}/steps`,
+      {
+        method: Method.GET,
+        headers: {
+          Accept: "application/json",
+          Authorization: `Bearer ${authorization}`,
+        },
+      }
+    );
+
+    const stepsData = await externalStepsApiResponse.json();
+
+    const result = mapEvalFormToProbation(
+      apiResponse,
+      stepsData.data,
+      userModel
+    );
+
     return NextResponse.json(result);
   } catch (err) {
     console.error("Route Handler Error:", err);

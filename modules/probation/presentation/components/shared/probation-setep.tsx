@@ -4,7 +4,6 @@ import Flex from "@/components/layout/flex";
 import { cn } from "@/lib/utils";
 import { GetCurrentStep } from "@/modules/probation/domain/usecases/get-current-step";
 
-import { getQueryClient } from "@/lib/get-query-client";
 import { Fragment, ReactNode, useEffect, useState } from "react";
 import * as model from "../../../domain/entities/probation";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
@@ -123,8 +122,6 @@ const Dot = ({
 const ProbationStep = ({ steps, ConditionForm }: ProbationStepProps) => {
   const { isHrRollback, setHrRollback } = useProbationProps();
   const [activeIndex, setActiveIndex] = useState<number>();
-  const queryClient = getQueryClient();
-  const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 
   useEffect(() => {
     function findActiveIndex() {

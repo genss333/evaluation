@@ -19,3 +19,10 @@ export interface EvalForm {
   annual_lv_end: Date;
   remark: string;
 }
+
+export interface Steps {
+  id: number;
+  evaluator_name: string;
+  status: 0 | 1 | 2;
+  eval_date: Date;
+}

@@ -1,10 +1,14 @@
 import { DateFormat } from "@/extensions/date-format";
 import { User } from "@/models/user";
-import { EvalForm } from "@/modules/probation/data/models/eval-form";
-import { Probation } from "@/modules/probation/domain/entities/probation";
+import { EvalForm, Steps } from "@/modules/probation/data/models/eval-form";
+import {
+  Probation,
+  ProbationStep,
+} from "@/modules/probation/domain/entities/probation";
 
 export function mapEvalFormToProbation(
   apiResponse: any,
+  steps: Steps[],
   user: User
 ): Probation {
   const evalForm: EvalForm = apiResponse.data[0];
@@ -147,13 +151,60 @@ export function mapEvalFormToProbation(
       },
     ],
 
-    steps: [],
+    steps: [
+      {
+        title: "ตั้งค่า KPI",
+        desc: `${`สิ้นสุด ${DateFormat.shortDate({
+          date: evalForm.eval_end,
+        })}`}`,
+        dateTime: evalForm.eval_end,
+        status: "A",
+      },
+      ...steps.map((item, index) => mapStepToProbationStep(item, index)),
+      {
+        title: "เสร็จสิ้น",
+        dateTime: evalForm.eval_end,
+        status: mapStepsStatus(steps[steps.length - 1]),
+      },
+    ],
 
     resultProbation: {
       value: evalForm.remark ?? "",
       disable: false,
     },
   };
+}
+
+export function mapStepToProbationStep(
+  step: Steps,
+  index: number
+): ProbationStep {
+  let domainStatus: ProbationStep["status"];
+
+  domainStatus = mapStepsStatus(step);
+
+  const probationStep: ProbationStep = {
+    title: index === 0 ? "ประเมินตนเอง" : `ผู้ประเมินลำดับที่ ${index + 1}`,
+    desc: step.evaluator_name,
+    status: domainStatus,
+    dateTime: step.eval_date,
+  };
+
+  return probationStep;
+}
+
+function mapStepsStatus(step: Steps) {
+  switch (step.status) {
+    case 0:
+      return "1";
+    case 1:
+      return "P";
+    case 2:
+      return "A";
+    default:
+      const exhaustiveCheck: never = step.status;
+      throw new Error(`Unknown status value: ${exhaustiveCheck}`);
+  }
 }
 
 function calculateMonthYearDuration(
