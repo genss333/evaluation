@@ -17,9 +17,7 @@ export class ProbationDetailRepository
       const response = await this.service.call();
       const data = await response.json();
 
-      const result = entities.mapEvalFormToProbation(data);
-
-      return result;
+      return data;
     } catch (error) {
       throw error;
     }

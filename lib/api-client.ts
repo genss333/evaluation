@@ -6,15 +6,17 @@ export interface IApiClient {
 
 export class ApiClient implements IApiClient {
   private cookieHeader?: string;
+  private readonly user?: string;
   constructor({
     cookieStore,
   }: {
     cookieStore?: ReadonlyRequestCookies;
-    token?: string;
   } = {}) {
     if (cookieStore) {
       const value = cookieStore.get("access_token")?.value;
+      const userValue = cookieStore.get("user")?.value;
       this.cookieHeader = value;
+      this.user = userValue;
     }
   }
 
@@ -43,7 +45,12 @@ export class ApiClient implements IApiClient {
         ...options,
         headers: {
           "Content-Type": "application/json",
-          ...(this.cookieHeader ? { Authorization: this.cookieHeader } : {}),
+          ...(this.cookieHeader
+            ? {
+                Authorization: this.cookieHeader,
+                user: this.user ?? "",
+              }
+            : {}),
           ...(options?.headers ?? {}),
         },
         cache: "no-store",

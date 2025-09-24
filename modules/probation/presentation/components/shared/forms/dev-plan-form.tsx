@@ -81,7 +81,7 @@ const DevplanForm = forwardRef<SubFormRef, { data: Devplan[] }>(
               list.map((item, index) => (
                 <div
                   key={item.idx}
-                  className="col-span-11 grid grid-cols-11 gap-x-4 gap-y-2 items-center border-b py-2"
+                  className="col-span-11 grid grid-cols-11 gap-x-4 gap-y-2 items-center py-2"
                 >
                   {/* Plan */}
                   <div className="flex gap-x-2 items-start col-span-11 lg:col-span-4">
