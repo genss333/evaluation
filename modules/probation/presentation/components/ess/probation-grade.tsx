@@ -30,7 +30,7 @@ const ProbationGroupCard = ({
 const ProbationESSGrade = ({ data }: ProbationGradeProps) => {
   const { scoreGroupFields, totalScoreField } = useProbationData(data);
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
+    <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-4 gap-y-2">
       <ProbationGroupCard>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-2.5 p-4">
           {scoreGroupFields?.map((item) => (
@@ -53,7 +53,7 @@ const ProbationESSGrade = ({ data }: ProbationGradeProps) => {
                           %
                         </div>
                       }
-                      colSpan={[1, 2]}
+                      colSpan={[2, 2]}
                     />
                   </FormControl>
                 </FormItem>
@@ -80,7 +80,7 @@ const ProbationESSGrade = ({ data }: ProbationGradeProps) => {
                           คะแนน
                         </div>
                       }
-                      colSpan={[1, 2]}
+                      colSpan={[2, 2]}
                     />
                   </FormControl>
                 </FormItem>
@@ -103,7 +103,7 @@ const ProbationESSGrade = ({ data }: ProbationGradeProps) => {
                     suffixText={`ช่วงคะแนนประเมิน ${data.summary.grade_min} - ${data.summary.grade_max}`}
                     values={[{ id: 1, title: data.summary.grade }]}
                     disable={true}
-                    showSuffix
+                    showSuffix={false}
                     colSpan={[1, 3]}
                   />
                 </FormControl>

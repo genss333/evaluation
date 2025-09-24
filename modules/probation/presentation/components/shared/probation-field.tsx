@@ -89,7 +89,10 @@ const ProbationField = ({
         {title}
       </div>
 
-      <div style={{ gridColumn: `span ${valueColSpan}` }}>
+      <div
+        className="flex items-center gap-2"
+        style={{ gridColumn: `span ${valueColSpan}` }}
+      >
         {disable ? (
           <ProbationFieldTrigger
             selectedValue={selectedValue ?? values[0]}
@@ -130,16 +133,12 @@ const ProbationField = ({
             </SelectContent>
           </Select>
         )}
+        {suffixText && (
+          <div className="font-body3 text-semi-black shrink-0">
+            {suffixText}
+          </div>
+        )}
       </div>
-
-      {suffixText && (
-        <div
-          className="font-body3 text-semi-black"
-          style={{ gridColumn: `span ${secondaryTitleColSpan}` }}
-        >
-          {suffixText}
-        </div>
-      )}
     </div>
   );
 };
