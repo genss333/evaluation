@@ -31,7 +31,6 @@ export const useProbationData = (data: Probation | null | undefined) => {
 
     const countField = data.fields.find((f) => f.key === "count");
     const totalScoreField = data.fields.find((f) => f.key === "totalScore");
-    const gradeField = data.fields.find((f) => f.key === "grade");
 
     const employeeInfoKeys = [
       "code",
@@ -67,16 +66,15 @@ export const useProbationData = (data: Probation | null | undefined) => {
       employeeInfoFields,
       scoreGroupFields,
       totalScoreField,
-      gradeField,
     };
   }, [data]);
 
   return processedData;
 };
 
-export const useFormData = (data: Probation) => {
+export const useFormData = (data: Probation, grade: string) => {
   const formData = useMemo(() => {
-    const formValues: ProbationFormField = {
+    let formValues: ProbationFormField = {
       ...Object.fromEntries(
         data.fields.map((item) => [
           item.key,
@@ -84,7 +82,9 @@ export const useFormData = (data: Probation) => {
         ])
       ),
       resultProbation: data.resultProbation?.value ?? "",
+      grade: grade,
     };
+
     return formValues;
   }, [data.fields]);
 

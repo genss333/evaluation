@@ -4,7 +4,10 @@ import Loading from "@/app/(home)/probation/loading";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { Additional } from "@/modules/probation/domain/entities/eval-form-data";
+import {
+  Additional,
+  EvalFormData,
+} from "@/modules/probation/domain/entities/eval-form-data";
 import * as entity from "@/modules/probation/domain/entities/probation";
 import { useQueries } from "@tanstack/react-query";
 import { ReactNode, useEffect, useRef } from "react";
@@ -22,7 +25,7 @@ import ProbationTabs from "./probation-tabs";
 interface ProbationDetailProps {
   data: entity.Probation;
   roleBack?: ReactNode;
-  GradeGroup: (data: entity.Probation) => ReactNode;
+  GradeGroup: (data: entity.Probation & EvalFormData) => ReactNode;
   showBtnActions: boolean;
 }
 
@@ -52,7 +55,10 @@ const ProbationDetail = ({
     probationQuery.data ?? initialData
   );
 
-  const form = useFormData(probationQuery.data ?? initialData);
+  const form = useFormData(
+    probationQuery.data ?? initialData,
+    evalFormData.data?.summary.grade ?? ""
+  );
 
   const kpiFormRef = useRef<SubFormRef>(null);
   const compFormRef = useRef<SubFormRef>(null);
@@ -140,7 +146,11 @@ const ProbationDetail = ({
                         />
                       ))}
                     </div>
-                    {GradeGroup(probationQuery.data ?? initialData)}
+                    {evalFormData.data &&
+                      GradeGroup({
+                        ...(probationQuery.data ?? initialData),
+                        ...evalFormData.data,
+                      })}
                   </div>
                 )}
               </div>

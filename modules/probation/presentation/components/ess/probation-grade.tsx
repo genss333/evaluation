@@ -3,13 +3,14 @@
 import Flex from "@/components/layout/flex";
 import { FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import { EvalFormData } from "@/modules/probation/domain/entities/eval-form-data";
 import { Probation } from "@/modules/probation/domain/entities/probation";
 import { ReactNode } from "react";
 import { useProbationData } from "../../hooks/use-probation-form";
 import ProbationField from "../shared/probation-field";
 
 interface ProbationGradeProps {
-  data: Probation;
+  data: Probation & EvalFormData;
 }
 
 const ProbationGroupCard = ({
@@ -27,8 +28,7 @@ const ProbationGroupCard = ({
 };
 
 const ProbationESSGrade = ({ data }: ProbationGradeProps) => {
-  const { gradeField, scoreGroupFields, totalScoreField } =
-    useProbationData(data);
+  const { scoreGroupFields, totalScoreField } = useProbationData(data);
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-2">
       <ProbationGroupCard>
@@ -92,26 +92,24 @@ const ProbationESSGrade = ({ data }: ProbationGradeProps) => {
       <ProbationGroupCard>
         <Flex direction={"col"} justify={"between"} className="h-full p-3">
           <div className="font-title">เกรดรวม</div>
-          {gradeField && (
-            <FormField
-              name={gradeField.key}
-              render={({ field }) => (
-                <FormItem>
-                  <FormControl>
-                    <ProbationField
-                      field={field}
-                      title={gradeField.title}
-                      suffixText={gradeField.suffixText}
-                      values={gradeField.values}
-                      disable={gradeField.disable}
-                      showSuffix={gradeField.values.length > 1}
-                      colSpan={[]}
-                    />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          )}
+          <FormField
+            name="grade"
+            render={({ field }) => (
+              <FormItem>
+                <FormControl>
+                  <ProbationField
+                    field={field}
+                    title={"เกรด"}
+                    suffixText={`ช่วงคะแนนประเมิน ${data.summary.grade_min} - ${data.summary.grade_max}`}
+                    values={[{ id: 1, title: data.summary.grade }]}
+                    disable={true}
+                    showSuffix
+                    colSpan={[1, 3]}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
         </Flex>
       </ProbationGroupCard>
     </div>

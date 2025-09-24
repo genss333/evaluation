@@ -60,4 +60,5 @@ export type ProbationFormField = {
   [k: string]: string | model.ProbationFieldValue;
 } & {
   resultProbation: string;
+  grade: string;
 };
