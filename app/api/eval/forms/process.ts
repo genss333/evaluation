@@ -40,13 +40,27 @@ export function mapEvalFormToProbation(
       {
         key: "years",
         title: "ปีประเมิน",
-        values: [{ id: 1, title: "" }],
+        values: [
+          {
+            id: 1,
+            title: DateFormat.year({
+              date: evalForm.eval_start,
+            }),
+          },
+        ],
         disable: true,
       },
       {
         key: "month",
         title: "เดือนประเมิน",
-        values: [{ id: 1, title: "" }],
+        values: [
+          {
+            id: 1,
+            title: DateFormat.month({
+              date: evalForm.eval_start,
+            }),
+          },
+        ],
         disable: true,
       },
       {
@@ -92,7 +106,12 @@ export function mapEvalFormToProbation(
       {
         key: "workAge",
         title: "อายุงาน",
-        values: [{ id: 1, title: "" }],
+        values: [
+          {
+            id: 1,
+            title: `${calculateMonthYearDuration(user.user.start_date)}`,
+          },
+        ],
         disable: true,
       },
       {
@@ -135,4 +154,28 @@ export function mapEvalFormToProbation(
       disable: false,
     },
   };
+}
+
+function calculateMonthYearDuration(
+  startDate: string | Date,
+  endDate: string | Date = new Date()
+): string {
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+
+  if (months < 0) {
+    years--;
+    months += 12;
+  }
+
+  if (years === 0) {
+    return `${months} เดือน`;
+  } else if (months === 0) {
+    return `${years} ปี`;
+  }
+
+  return `${years} ปี ${months} เดือน `;
 }

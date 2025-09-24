@@ -51,6 +51,20 @@ export class DateFormat {
     return dateObj.formatInBuddhistCalendar({ formattedDate, locale });
   }
 
+  static year({ date, locale }: IDateFormat) {
+    const dateObj = this.toDate(date);
+    if (!dateObj) return "--";
+    const formattedDate = "y";
+    return dateObj.formatInBuddhistCalendar({ formattedDate, locale });
+  }
+
+  static month({ date, locale }: IDateFormat) {
+    const dateObj = this.toDate(date);
+    if (!dateObj) return "--";
+    const formattedDate = "MMMM";
+    return dateObj.formatInBuddhistCalendar({ formattedDate, locale });
+  }
+
   static custom({ date, locale, formattedDate }: IDateFormat) {
     const dateObj = this.toDate(date);
     if (!dateObj) return "--/--/----";
