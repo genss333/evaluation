@@ -30,8 +30,8 @@ export type CompedencySchema = {
 export const DevplanSchema = z.object({
   id: z.number().int(),
   plan: z.string().min(1),
-  priority: z.number().int(),
-  dateTime: z.date().nullable().optional(),
+  priority: z.string().min(1),
+  dateTime: z.date().nullable(),
   remark: z.string().min(1),
 });
 

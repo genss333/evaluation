@@ -2,20 +2,13 @@ import { ApiClient } from "@/lib/api-client";
 import { queryOptions } from "@tanstack/react-query";
 import { ReadonlyRequestCookies } from "next/dist/server/web/spec-extension/adapters/request-cookies";
 import { NextResponse } from "next/server";
-import { DevplanService } from "../../data/services/devplan-service";
 import { FormDataService } from "../../data/services/form-data-service";
-import { MoreProbationService } from "../../data/services/more-probation-service";
 import { ProbationDetailService } from "../../data/services/probation-detail-service";
 import { TimeAttService } from "../../data/services/time-att-service";
 import { EvalFormData } from "../../domain/entities/eval-form-data";
-import { MoreProbation } from "../../domain/entities/more-probation";
 import { Probation } from "../../domain/entities/probation";
-import { Devplan } from "../../domain/entities/probation-devplan";
-import { ProbationTable } from "../../domain/entities/probation-table";
 import { TimeAttandance } from "../../domain/entities/time-attandance";
-import { DevplanRepository } from "../../domain/repositories/devplan-repository";
 import { FormDataRepository } from "../../domain/repositories/formdata-repository";
-import { MoreProbationRepository } from "../../domain/repositories/more-probation-repository";
 import { ProbationDetailRepository } from "../../domain/repositories/probation-detail-repository";
 import { TimeAttandanceRepository } from "../../domain/repositories/time-attandance-repository";
 
@@ -68,34 +61,6 @@ export const useFetchProbationTime = () => {
 
   return queryOptions<TimeAttandance>({
     queryKey: timeAttQueryKery,
-    queryFn: async () => {
-      const data = await repo.call();
-      return data;
-    },
-  });
-};
-
-export const useFetchDevplan = () => {
-  const api = new ApiClient();
-  const service = new DevplanService<NextResponse>(api);
-  const repo = new DevplanRepository(service);
-
-  return queryOptions<ProbationTable<Devplan>>({
-    queryKey: devplanQueryKery,
-    queryFn: async () => {
-      const data = await repo.call();
-      return data;
-    },
-  });
-};
-
-export const useFetchMoreProbation = () => {
-  const api = new ApiClient();
-  const service = new MoreProbationService<NextResponse>(api);
-  const repo = new MoreProbationRepository(service);
-
-  return queryOptions<ProbationTable<MoreProbation>>({
-    queryKey: moreQueryKery,
     queryFn: async () => {
       const data = await repo.call();
       return data;

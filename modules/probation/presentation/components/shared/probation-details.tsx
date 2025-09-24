@@ -4,6 +4,7 @@ import Loading from "@/app/(home)/probation/loading";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
+import { Additional } from "@/modules/probation/domain/entities/eval-form-data";
 import * as entity from "@/modules/probation/domain/entities/probation";
 import { useQueries } from "@tanstack/react-query";
 import { ReactNode, useRef } from "react";
@@ -17,7 +18,6 @@ import { ProbationFormField, SubFormRef } from "../../schema/probation-form";
 import ProbationField from "./probation-field";
 import ProbationStep from "./probation-setep";
 import ProbationTabs from "./probation-tabs";
-import { Additional } from "@/modules/probation/domain/entities/eval-form-data";
 
 interface ProbationDetailProps {
   data: entity.Probation;
@@ -149,10 +149,13 @@ const ProbationDetail = ({
                   ref: compFormRef,
                   data: evalFormData.data?.competencies ?? [],
                 }}
-                devplanFormRef={devplanFormRef}
+                devplanFormRef={{
+                  ref: devplanFormRef,
+                  data: evalFormData.data?.development_plan ?? [],
+                }}
                 moreFormRef={{
                   ref: moreFormRef,
-                  data: evalFormData.data?.additional ?? {} as Additional
+                  data: evalFormData.data?.additional ?? ({} as Additional),
                 }}
               />
             </div>

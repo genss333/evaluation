@@ -4,11 +4,10 @@ import { useForm } from "react-hook-form";
 import {
   Additional,
   Competency,
+  Devplan,
   Kpi,
 } from "../../domain/entities/eval-form-data";
 import { Probation } from "../../domain/entities/probation";
-import { Devplan } from "../../domain/entities/probation-devplan";
-import { ProbationTable } from "../../domain/entities/probation-table";
 import {
   CompedencySchema,
   DevplanSchema,
@@ -147,9 +146,7 @@ export const useFormDataCompedency = (data: Competency[]) => {
   return form;
 };
 
-export const useFormDataDevplan = (
-  data: ProbationTable<Devplan> | undefined
-) => {
+export const useFormDataDevplan = (data: Devplan[]) => {
   const form = useForm<DevplanSchema>({
     resolver: zodResolver(devplanSchema),
   });
@@ -157,23 +154,23 @@ export const useFormDataDevplan = (
   const formData = useMemo(() => {
     if (data) {
       const formValues: DevplanSchema = {
-        plans: data.list.map((item) => ({
-          id: item.id,
-          plan: item.plan.value ?? "",
-          priority: item.priority?.value?.id ?? -1,
-          dateTime: item.dateTime?.value ?? null,
-          remark: item.remark?.value ?? "",
+        plans: data.map((item) => ({
+          id: item.idx,
+          plan: item.content,
+          priority: item.priority,
+          dateTime: item.timing ?? null,
+          remark: item.remarks,
         })),
       };
       return formValues;
     }
-  }, [data?.list]);
+  }, [data]);
 
   useEffect(() => {
     if (formData) {
       form.reset(formData);
     }
-  }, [formData, form]);
+  }, [formData, form.reset]);
 
   return form;
 };

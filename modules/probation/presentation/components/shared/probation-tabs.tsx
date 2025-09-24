@@ -2,6 +2,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Additional,
   Competency,
+  Devplan,
   Kpi,
 } from "@/modules/probation/domain/entities/eval-form-data";
 import { RefObject } from "react";
@@ -15,7 +16,7 @@ import TimeAttandanceForm from "./forms/time-attandance-form";
 interface ProbationTabsProps {
   kpiFormRef: { ref: RefObject<SubFormRef | null>; data: Kpi[] };
   compFormRef: { ref: RefObject<SubFormRef | null>; data: Competency[] };
-  devplanFormRef: RefObject<SubFormRef | null>;
+  devplanFormRef: { ref: RefObject<SubFormRef | null>; data: Devplan[] };
   moreFormRef: { ref: RefObject<SubFormRef | null>; data: Additional };
 }
 
@@ -37,7 +38,7 @@ const ProbationTabs = ({
       <KpiForm ref={kpiFormRef.ref} data={kpiFormRef.data} />
       <CompetencyForm ref={compFormRef.ref} data={compFormRef.data} />
       <TimeAttandanceForm />
-      <DevplanForm ref={devplanFormRef} />
+      <DevplanForm ref={devplanFormRef.ref} data={devplanFormRef.data} />
       <MoreProbationForm ref={moreFormRef.ref} data={moreFormRef.data} />
     </Tabs>
   );
