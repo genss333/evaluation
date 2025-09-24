@@ -8,7 +8,6 @@ export class ApiClient implements IApiClient {
   private cookieHeader?: string;
   constructor({
     cookieStore,
-    token,
   }: {
     cookieStore?: ReadonlyRequestCookies;
     token?: string;
@@ -16,10 +15,6 @@ export class ApiClient implements IApiClient {
     if (cookieStore) {
       const value = cookieStore.get("access_token")?.value;
       this.cookieHeader = value;
-    } else {
-      if (token) {
-        this.cookieHeader = token;
-      }
     }
   }
 
