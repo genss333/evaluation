@@ -54,7 +54,7 @@ export const evalFormDataQueryOptions = ({ formId }: { formId: number }) => {
   });
 };
 
-export const useFetchProbationTime = () => {
+export const useFetchProbationTime = ({ formID }: { formID: number }) => {
   const api = new ApiClient();
   const service = new TimeAttService<NextResponse>(api);
   const repo = new TimeAttandanceRepository(service);
@@ -62,7 +62,7 @@ export const useFetchProbationTime = () => {
   return queryOptions<TimeAttandance>({
     queryKey: timeAttQueryKery,
     queryFn: async () => {
-      const data = await repo.call();
+      const data = await repo.call(formID);
       return data;
     },
   });

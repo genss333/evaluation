@@ -7,12 +7,16 @@ import {
   CreateSelctEmployee,
   CreateSelctEmployeeSlice,
 } from "../slices/select-employee";
+import { CreateSelectForm, createSelectFormSlice } from "../slices/select-form";
 
-type ProbationStore = CreateSelctEmployee & CreateHrRollbackState;
+type ProbationStore = CreateSelctEmployee &
+  CreateHrRollbackState &
+  CreateSelectForm;
 
 const useProbationStore = create<ProbationStore>()((...a) => ({
   ...CreateSelctEmployeeSlice(...a),
   ...CreateHrRollbackSlice(...a),
+  ...createSelectFormSlice(...a),
 }));
 
 export const useProbationProps = () => ({
@@ -22,4 +26,6 @@ export const useProbationProps = () => ({
   setEmployees: useProbationStore((state) => state.setEmployees),
   isHrRollback: useProbationStore((state) => state.isHrRollback),
   setHrRollback: useProbationStore((state) => state.setHrRollback),
+  formId: useProbationStore((state) => state.formId),
+  setFormId: useProbationStore((state) => state.setFormId),
 });

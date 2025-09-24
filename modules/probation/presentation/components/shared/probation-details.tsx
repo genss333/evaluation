@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { Additional } from "@/modules/probation/domain/entities/eval-form-data";
 import * as entity from "@/modules/probation/domain/entities/probation";
 import { useQueries } from "@tanstack/react-query";
-import { ReactNode, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { useProbationProps } from "../../hooks/store/use-probation-store";
 import {
   evalFormDataQueryOptions,
@@ -32,8 +32,8 @@ const ProbationDetail = ({
   roleBack,
   showBtnActions,
 }: ProbationDetailProps) => {
-  const { currentEmp, isHrRollback } = useProbationProps();
-
+  const { currentEmp, isHrRollback, setFormId } = useProbationProps();
+  const formId = initialData?.titles?.[0]?.values?.[0]?.id;
   const results = useQueries({
     queries: [
       probationQueryOptions({
@@ -41,7 +41,7 @@ const ProbationDetail = ({
         initialData,
       }),
       evalFormDataQueryOptions({
-        formId: initialData?.titles?.[0]?.values?.[0]?.id,
+        formId: formId,
       }),
     ],
   });
@@ -72,6 +72,10 @@ const ProbationDetail = ({
     devplanFormRef.current?.submit();
     moreFormRef.current?.submit();
   };
+
+  useEffect(() => {
+    setFormId(formId);
+  }, [formId]);
 
   return (
     <Form {...form}>

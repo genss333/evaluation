@@ -1,11 +1,13 @@
 "use client";
 import { TabsContent } from "@/components/ui/tabs";
 import { useQuery } from "@tanstack/react-query";
+import { useProbationProps } from "../../../hooks/store/use-probation-store";
 import { useFetchProbationTime } from "../../../hooks/use-fetch-probation";
 import ProbationField from "../probation-field";
 
 const TimeAttandanceForm = () => {
-  const { data, isLoading } = useQuery(useFetchProbationTime());
+  const { formId: formID } = useProbationProps();
+  const { data, isLoading } = useQuery(useFetchProbationTime({ formID }));
 
   if (isLoading) {
     return (

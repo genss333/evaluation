@@ -1,16 +1,16 @@
 import { IApiClient, Method } from "@/lib/api-client";
 
 export interface ITimeAttService<T> {
-  call: () => Promise<T>;
+  call: (formID: number) => Promise<T>;
 }
 
 export class TimeAttService<T> implements ITimeAttService<T> {
   constructor(private readonly api: IApiClient) {}
 
-  async call(): Promise<T> {
+  async call(formID: number): Promise<T> {
     try {
       const response = await this.api.request(
-        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/time-attendance`,
+        `${process.env.NEXT_PUBLIC_LOCAL_API_URL}/api/time-attendance?formID=${formID}`,
         { method: Method.GET, credentials: "include" }
       );
       return response as T;

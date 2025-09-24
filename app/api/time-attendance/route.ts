@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     }
 
     const externalApiResponse = await fetch(
-      `http://10.51.192.161:8080/api/users/timeattendance`,
+      `http://10.51.192.161:8080/api/users/timeattendance/v2`,
       {
         method: Method.GET,
         headers: {
