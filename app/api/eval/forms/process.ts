@@ -102,7 +102,7 @@ export function mapEvalFormToProbation(
         values: [
           {
             id: 1,
-            title: DateFormat.shortDate({ date: user.user.start_date }),
+            title: DateFormat.shortDate({ date: user.user.confirm_date }),
           },
         ],
         disable: true,
@@ -113,7 +113,7 @@ export function mapEvalFormToProbation(
         values: [
           {
             id: 1,
-            title: `${calculateMonthYearDuration(user.user.start_date)}`,
+            title: `${calculateMonthYearDuration(user.user.confirm_date)}`,
           },
         ],
         disable: true,
