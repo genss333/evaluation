@@ -127,7 +127,7 @@ export function mapEvalFormToProbation(
       {
         key: "workTime",
         title: "Time Attendance",
-        values: [{ id: 1, title: `` }],
+        values: [{ id: 1, title: `${evalForm.ta_weight}` }],
         disable: true,
       },
       {
@@ -139,16 +139,16 @@ export function mapEvalFormToProbation(
       {
         key: "totalScore",
         title: "รวมทั้งหมด",
-        values: [{ id: 1, title: "" }],
+        values: [{ id: 1, title: `${evalForm.total_weight}` }],
         disable: true,
       },
-      {
-        key: "grade",
-        title: "เกรด",
-        suffixText: "ช่วงคะแนนประเมิน 0.00 - 50.00",
-        values: [{ id: 1, title: "" }],
-        disable: true,
-      },
+      // {
+      //   key: "grade",
+      //   title: "เกรด",
+      //   suffixText: "ช่วงคะแนนประเมิน 0.00 - 50.00",
+      //   values: [{ id: 1, title: "" }],
+      //   disable: true,
+      // },
     ],
 
     steps: [

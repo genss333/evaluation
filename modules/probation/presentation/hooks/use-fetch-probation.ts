@@ -40,7 +40,7 @@ export const probationQueryOptions = ({
   });
 };
 
-export const evalFormDataQueryOptions = ({ formId }: { formId: number }) => {
+export const evalFormDataQueryOptions = ({ formId }: { formId: number | string }) => {
   const api = new ApiClient();
   const service = new FormDataService<NextResponse>(api);
   const repo = new FormDataRepository(service);

@@ -2,11 +2,11 @@ import { produce } from "immer";
 import { StateCreator } from "zustand";
 
 export interface SelectFormState {
-  formId: number;
+  formId: number | string;
 }
 
 export interface SelectFormActionState {
-  setFormId: (value: number) => void;
+  setFormId: (value: number | string) => void;
 }
 
 export type CreateSelectForm = SelectFormState & SelectFormActionState;
